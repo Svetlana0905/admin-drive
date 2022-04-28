@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/admin-drive/static/css/main.0b3b0c43.css",
-    "main.js": "/admin-drive/static/js/main.f0ff5164.js",
+    "main.css": "/admin-drive/static/css/main.7b4392a5.css",
+    "main.js": "/admin-drive/static/js/main.6190b7a8.js",
     "static/media/Roboto-Light.svg": "/admin-drive/static/media/Roboto-Light.1363cafd43cabc417d70.svg",
     "static/media/Roboto-Bold.svg": "/admin-drive/static/media/Roboto-Bold.8d27a0ed275c802bc4fc.svg",
     "static/media/Roboto-Medium.svg": "/admin-drive/static/media/Roboto-Medium.8d5ff17749640d550b7f.svg",
@@ -27,11 +27,12 @@
     "static/media/HelveticaBold.eot": "/admin-drive/static/media/HelveticaBold.906e9ff553e7a5909524.eot",
     "static/media/HelveticaBold.ttf": "/admin-drive/static/media/HelveticaBold.d2d4622394c0e88a8c69.ttf",
     "index.html": "/admin-drive/index.html",
-    "main.0b3b0c43.css.map": "/admin-drive/static/css/main.0b3b0c43.css.map",
-    "main.f0ff5164.js.map": "/admin-drive/static/js/main.f0ff5164.js.map"
+    "static/media/logo_icon.svg": "/admin-drive/static/media/logo_icon.bc4f3ee8fbfa2ba0ccc054519f06dc93.svg",
+    "main.7b4392a5.css.map": "/admin-drive/static/css/main.7b4392a5.css.map",
+    "main.6190b7a8.js.map": "/admin-drive/static/js/main.6190b7a8.js.map"
   },
   "entrypoints": [
-    "static/css/main.0b3b0c43.css",
-    "static/js/main.f0ff5164.js"
+    "static/css/main.7b4392a5.css",
+    "static/js/main.6190b7a8.js"
   ]
 }
