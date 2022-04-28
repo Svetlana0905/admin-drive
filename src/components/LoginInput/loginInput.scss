@@ -4,16 +4,24 @@
   flex-direction: column;
   position: relative;
   &:not(:last-child) {
-    margin-bottom: 15px;
+    margin-bottom: 45px;
+    @media (min-width: 425px) {
+      margin-bottom: 15px;
+    }
   }
   &__span {
     margin-bottom: 8px;
     font-family: 'Helvetica';
     font-weight: 400;
-    font-size: 10.5px;
+    font-size: 14px;
     line-height: 12px;
     letter-spacing: -0.18421px;
     color: $text;
+    @media (min-width: 425px) {
+      font-size: 10.5px;
+      line-height: 12px;
+      letter-spacing: -0.18421px;
+    }
   }
 }
 .ant-space-item {
@@ -23,35 +31,56 @@
 
 .ant-input-affix-wrapper,
 .ant-input {
-  padding: 7px 11px;
+  padding: 11px 15px;
   border-radius: 3px;
   font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
-  font-size: 11px;
-  line-height: 13px;
+  font-size: 16px;
+  line-height: 16px;
   letter-spacing: -0.192982px;
   color: $logo;
+  @media (min-width: 425px) {
+    padding: 7px 11px;
+    border-radius: 3px;
+    font-family: 'Helvetica';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    letter-spacing: -0.192982px;
+  }
 }
 .ant-input::placeholder {
   font-family: 'Helvetica';
   font-style: normal;
   font-weight: 400;
-  font-size: 11px;
-  line-height: 13px;
+  font-size: 16px;
+  line-height: 16px;
   letter-spacing: -0.192982px;
   color: $logo;
+  @media (min-width: 425px) {
+    font-size: 11px;
+    line-height: 13px;
+    letter-spacing: -0.192982px;
+  }
 }
 .error {
   &__visible {
     position: absolute;
     font-weight: 400;
-    font-size: 10px;
-    line-height: 11px;
+    font-size: 14px;
+    line-height: 14px;
     letter-spacing: -0.18421px;
     color: $red;
     visibility: visible;
-    bottom: -12px;
+    bottom: -20px;
+    @media (min-width: 425px) {
+      font-size: 10px;
+      line-height: 11px;
+      letter-spacing: -0.18421px;
+      bottom: -12px;
+    }
   }
   &__hidden {
     display: none;
