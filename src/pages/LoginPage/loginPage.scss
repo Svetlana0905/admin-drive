@@ -1,0 +1,43 @@
+@import '../../style//app.scss';
+.login {
+  width: 100%;
+  padding-top: 14%;
+  margin: 0 auto;
+  // @media (min-width: 1440px) {
+  //   gap: 300px;
+  // }
+  &__column {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 376px;
+  padding: 22px 18px 22px 16px;
+  background: $white;
+  box-shadow: 0px 1px 0px rgba(90, 97, 105, 0.11),
+    0px 2px 4px rgba(90, 97, 105, 0.12), 0px 5px 5px rgba(90, 97, 105, 0.06),
+    0px 3.5px 35px rgba(90, 97, 105, 0.1);
+  border-radius: 9px;
+  &__subtitle {
+    margin-bottom: 38px;
+    margin-left: -6px;
+    letter-spacing: -0.4375000596046448px;
+  }
+  &__button-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__text {
+    color: $blue;
+    line-height: 12px;
+    font-size: 10.5px;
+    line-height: 12px;
+    letter-spacing: -0.18421px;
+  }
+}
