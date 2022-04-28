@@ -4,10 +4,44 @@ import {
   InputLogin,
   InputPassword
 } from '../../components/LoginInput/LoginInput'
-
 import { BigButton } from '../../components/Button/Button'
+// import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 export const LoginPage = () => {
+  const [mail, setMail] = useState('')
+  const [password, setPassword] = useState('')
+  const [mailError, setMailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [invalidErrorMail, setInvalidMail] = useState('')
+  const [invalidErrorPassword, setInvalidPassword] = useState('')
+  // const logIn = useNavigate('/admin', { replace: true })
+  // useEffect(() => {
+  //   console.log(mail, password)
+  // })
+
+  const logInHandler = (e) => {
+    e.preventDefault()
+    if (!mail) {
+      setMailError('Введите почту')
+      setInvalidMail('error')
+    }
+    if (!password) {
+      setPasswordError('Введите пароль')
+      setInvalidPassword('error')
+    }
+    if (mail) {
+      setInvalidMail('')
+    }
+    if (password) {
+      setInvalidPassword('')
+    }
+    if (password && mail) {
+      console.log(mail, password)
+      setInvalidPassword('')
+      setInvalidMail('')
+    }
+  }
   return (
     <section className="login">
       <div className="login__column">
@@ -18,21 +52,25 @@ export const LoginPage = () => {
         <form className="form">
           <p className="form__subtitle subtitle">Вход</p>
           <InputLogin
-            size="large"
+            value={mail}
+            onChange={setMail}
             label="Почта"
             placeholder="Введите адрес эл.почты"
             type="text"
-            status={'error'}
+            status={invalidErrorMail}
+            textError={mailError}
           />
           <InputPassword
-            size="small"
+            value={password}
+            onChange={setPassword}
             label="Пароль"
             placeholder="Введите пароль"
-            status={''}
+            status={invalidErrorPassword}
+            textError={passwordError}
           />
           <div className="form__button-block">
             <span className="form__text text">Запросить доступ</span>
-            <BigButton text={'Войти'} />
+            <BigButton text={'Войти'} onClick={logInHandler} />
           </div>
         </form>
       </div>

@@ -3,7 +3,14 @@ import './loginInput.scss'
 import { Input, Space } from 'antd'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 
-export const InputLogin = ({ label, placeholder, value, status }) => {
+export const InputLogin = ({
+  label,
+  placeholder,
+  value,
+  status,
+  onChange,
+  textError
+}) => {
   // console.log(status)
   return (
     <label className="form__label label">
@@ -13,15 +20,23 @@ export const InputLogin = ({ label, placeholder, value, status }) => {
         type="text"
         value={value}
         status={status}
+        onChange={(e) => onChange(e.target.value)}
       />
       <span className={status === 'error' ? 'error__visible' : 'error__hidden'}>
-        Error
+        {textError}
       </span>
     </label>
   )
 }
 
-export const InputPassword = ({ placeholder, label, value, status }) => {
+export const InputPassword = ({
+  placeholder,
+  label,
+  value,
+  status,
+  onChange,
+  textError
+}) => {
   // console.log(status)
   return (
     <label className="form__label label">
@@ -29,6 +44,7 @@ export const InputPassword = ({ placeholder, label, value, status }) => {
       <Space>
         <Input.Password
           value={value}
+          onChange={(e) => onChange(e.target.value)}
           status={status}
           placeholder={placeholder}
           iconRender={(visible) =>
@@ -37,7 +53,7 @@ export const InputPassword = ({ placeholder, label, value, status }) => {
         />
       </Space>
       <span className={status === 'error' ? 'error__visible' : 'error__hidden'}>
-        Error
+        {textError}
       </span>
     </label>
   )
