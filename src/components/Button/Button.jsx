@@ -1,5 +1,3 @@
-import 'antd/dist/antd.css'
-import { Button } from 'antd'
 import './button.scss'
 
 export const BigButton = ({ text, onClick }) => {
@@ -8,7 +6,4 @@ export const BigButton = ({ text, onClick }) => {
       {text}
     </button>
   )
-}
-export const LinkButton = ({ text }) => {
-  return <Button type="link">{text}</Button>
 }

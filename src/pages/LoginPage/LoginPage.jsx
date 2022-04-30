@@ -1,10 +1,12 @@
 import './loginPage.scss'
+import 'antd/dist/antd.css'
+import { Button } from 'antd'
 import logoIcon from '../../assets/icons/logo_icon.svg'
 import {
   InputLogin,
   InputPassword
 } from '../../components/LoginInput/LoginInput'
-import { BigButton, LinkButton } from '../../components/Button/Button'
+import { BigButton } from '../../components/Button/Button'
 import { useNavigate } from 'react-router-dom'
 import { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -77,8 +79,8 @@ export const LoginPage = () => {
             textError={passwordError}
           />
           <div className="form__button-block">
-            {/* <span className="form__text text">Запросить доступ</span> */}
-            <LinkButton type="link" text="Запросить доступ" />
+            <Button type="link">Запросить доступ</Button>
+
             <BigButton text={'Войти'} onClick={logInHandler} />
           </div>
         </form>
