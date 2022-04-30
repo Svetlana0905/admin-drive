@@ -4,21 +4,34 @@ import {
   InputLogin,
   InputPassword
 } from '../../components/LoginInput/LoginInput'
-import { BigButton } from '../../components/Button/Button'
-// import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { BigButton, LinkButton } from '../../components/Button/Button'
+import { useNavigate } from 'react-router-dom'
+import { useState, useRef, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { postAuth } from '../../redux/authSlice'
 
 export const LoginPage = () => {
+  const dispatch = useDispatch()
+  const statusAuth = useSelector((state) => state.authSlice.status)
+  const tok = useSelector((state) => state.authSlice.res)
+  const navigate = useNavigate()
+  const userRef = useRef()
   const [mail, setMail] = useState('')
   const [password, setPassword] = useState('')
   const [mailError, setMailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [invalidErrorMail, setInvalidMail] = useState('')
   const [invalidErrorPassword, setInvalidPassword] = useState('')
-  // const logIn = useNavigate('/admin', { replace: true })
-  // useEffect(() => {
-  //   console.log(mail, password)
-  // })
+
+  useEffect(() => {
+    console.log(tok)
+    console.log(statusAuth)
+    if (statusAuth === 'resolved') navigate('admin', { replace: true })
+  }, [statusAuth, navigate, tok])
+
+  useEffect(() => {
+    userRef.current.focus()
+  }, [])
 
   const logInHandler = (e) => {
     e.preventDefault()
@@ -30,16 +43,10 @@ export const LoginPage = () => {
       setPasswordError('Введите пароль')
       setInvalidPassword('error')
     }
-    if (mail) {
-      setInvalidMail('')
-    }
-    if (password) {
-      setInvalidPassword('')
-    }
     if (password && mail) {
-      console.log(mail, password)
       setInvalidPassword('')
       setInvalidMail('')
+      dispatch(postAuth({ mail, password }))
     }
   }
   return (
@@ -59,6 +66,7 @@ export const LoginPage = () => {
             type="text"
             status={invalidErrorMail}
             textError={mailError}
+            innerRef={userRef}
           />
           <InputPassword
             value={password}
@@ -69,7 +77,8 @@ export const LoginPage = () => {
             textError={passwordError}
           />
           <div className="form__button-block">
-            <span className="form__text text">Запросить доступ</span>
+            {/* <span className="form__text text">Запросить доступ</span> */}
+            <LinkButton type="link" text="Запросить доступ" />
             <BigButton text={'Войти'} onClick={logInHandler} />
           </div>
         </form>

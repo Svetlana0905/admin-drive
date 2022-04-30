@@ -3,6 +3,8 @@ import authReduser from './authSlice'
 
 export const store = configureStore({
   reducer: {
-    auth: authReduser
+    authSlice: authReduser
   }
+  // middleware: (getDefaultMiddlware) =>
+  //   getDefaultMiddlware().concat(authSlice.middleware)
 })

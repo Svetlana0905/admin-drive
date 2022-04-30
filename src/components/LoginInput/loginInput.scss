@@ -50,6 +50,10 @@
     font-size: 11px;
     line-height: 13px;
     letter-spacing: -0.192982px;
+    &:focus {
+      border-color: $green;
+      box-shadow: 0 0 0 2px #77e93e3d;
+    }
   }
 }
 .ant-input::placeholder {
@@ -88,6 +92,10 @@
     display: none;
     visibility: hidden;
   }
+}
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  border-color: $green;
+  box-shadow: 0 0 0 2px #77e93e3d;
 }
 .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input {
   border: 0.5px solid #c4183c;

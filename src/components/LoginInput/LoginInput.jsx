@@ -9,7 +9,8 @@ export const InputLogin = ({
   value,
   status,
   onChange,
-  textError
+  textError,
+  innerRef
 }) => {
   // console.log(status)
   return (
@@ -20,6 +21,7 @@ export const InputLogin = ({
         type="text"
         value={value}
         status={status}
+        ref={innerRef}
         onChange={(e) => onChange(e.target.value)}
       />
       <span className={status === 'error' ? 'error__visible' : 'error__hidden'}>

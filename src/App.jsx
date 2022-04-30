@@ -7,8 +7,8 @@ import { Routes, Route } from 'react-router-dom'
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
-      <Route path="/admin" element={<Layout />}>
+      <Route index element={<LoginPage />} />
+      <Route path="admin/" element={<Layout />}>
         <Route index element={<MainPage />} />
       </Route>
     </Routes>
