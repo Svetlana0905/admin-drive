@@ -79,7 +79,9 @@ export const LoginPage = () => {
             textError={passwordError}
           />
           <div className="form__button-block">
-            <Button type="link">Запросить доступ</Button>
+            <div className="form__button-link">
+              <Button type="link">Запросить доступ</Button>
+            </div>
 
             <BigButton text={'Войти'} onClick={logInHandler} />
           </div>
