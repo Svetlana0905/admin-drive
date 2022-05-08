@@ -3,7 +3,7 @@ import 'antd/dist/antd.css'
 import { Button } from 'antd'
 import logoIcon from '../../assets/icons/logo_icon.svg'
 import {
-  InputLogin,
+  InputStandart,
   InputPassword
 } from '../../components/LoginInput/LoginInput'
 import { BigButton } from '../../components/Button/Button'
@@ -26,9 +26,9 @@ export const LoginPage = () => {
   const [invalidErrorPassword, setInvalidPassword] = useState('')
 
   useEffect(() => {
-    console.log(tok)
-    console.log(statusAuth)
-    if (statusAuth === 'resolved') navigate('admin', { replace: true })
+    // console.log(tok)
+    // console.log(statusAuth)
+    if (statusAuth === 'resolved') navigate('admin/car', { replace: true })
   }, [statusAuth, navigate, tok])
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const LoginPage = () => {
         </div>
         <form className="form">
           <p className="form__subtitle subtitle">Вход</p>
-          <InputLogin
+          <InputStandart
             value={mail}
             onChange={setMail}
             label="Почта"

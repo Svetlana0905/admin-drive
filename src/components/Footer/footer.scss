@@ -1,0 +1,30 @@
+@import '../../style//app.scss';
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 68px;
+  padding: 0 16px;
+  background: $white;
+  box-shadow: 0px -0.5px 0px #d7dae3;
+  &__copyright {
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: right;
+    color: $copyright;
+  }
+  &__links {
+    display: flex;
+    gap: 16px;
+  }
+  &__link {
+    font-family: 'Helvetica';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: $blue;
+  }
+}

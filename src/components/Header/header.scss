@@ -1,0 +1,77 @@
+@import '../../style//app.scss';
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 68px;
+  padding: 14px 22.5px 14px 28px;
+  background: $white;
+  box-shadow: 0px 2.5px 9.5px rgba(90, 97, 105, 0.12);
+  &__admin-block {
+    display: flex;
+    align-items: center;
+    &:first-child {
+      margin-right: 22.5px;
+    }
+  }
+}
+.notification {
+  display: flex;
+  align-items: center;
+  width: 69.5px;
+  height: 67.5px;
+  box-shadow: 0.5px 0px 0px #cacedb, -0.5px 0px 0px #cacedb;
+  &__pic {
+    transform: translate(116%, 0%);
+  }
+  &__count {
+    position: relative;
+    top: 8px;
+    left: 15px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: 600;
+    font-size: 9px;
+    line-height: 14px;
+    background: $red;
+    color: $white;
+  }
+}
+.avatar {
+  display: block;
+  margin-left: 22.5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.ant-select {
+  font-family: 'Helvetica';
+  font-size: 15px;
+  line-height: 17px;
+  letter-spacing: -0.471429px;
+  color: $dark100;
+}
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  font-family: 'Helvetica';
+  font-size: 15px;
+  line-height: 17px;
+  letter-spacing: -0.471429px;
+  color: $blue;
+}
+.ant-select-arrow .anticon {
+  display: none;
+}
+.ant-select-arrow {
+  content: '';
+  margin-top: 0px;
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 5px;
+  border-left: 4.5px solid transparent;
+  border-right: 4.5px solid transparent;
+  border-top: 4.5px solid $dark50;
+}

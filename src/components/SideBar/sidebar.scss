@@ -1,0 +1,67 @@
+@import '../../style//app.scss';
+.sidebar {
+  width: 356px;
+  display: flex;
+  flex-direction: column;
+  background: $white;
+  z-index: 5;
+  box-shadow: 0px 1px 75px rgba(90, 97, 105, 0.11),
+    0px 2px 4px rgba(90, 97, 105, 0.12), 0px 7.5px 11px rgba(90, 97, 105, 0.1),
+    0px 3.5px 17.5px rgba(165, 182, 201, 0.1);
+}
+.logo {
+  &__block-small {
+    display: flex;
+    left: 49px;
+    padding: 24px 0 24px 49px;
+    gap: 7px;
+    box-shadow: inset 0px -1px 0px #e1e5eb;
+  }
+  &__small-pic {
+    width: 21px;
+    height: 21px;
+  }
+  &__small-title {
+    font-family: 'Helvetica';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    align-items: center;
+    color: $logo;
+  }
+}
+.nav-link {
+  width: 100%;
+  padding: 19px 0 20px 27px;
+  box-shadow: inset 0px -1px 0px #e1e5eb;
+  font-family: 'Helvetica';
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 17px;
+  letter-spacing: -0.234375px;
+  color: $logo;
+  transition: all ease-in-out 0.4s;
+  &:hover {
+    color: $green;
+  }
+  &__active-nav {
+    color: $blue;
+    background: $activeLink;
+    box-shadow: inset 0px -1px 0px #e1e5eb, inset 4px 0px 0px $blue;
+  }
+}
+.text-link {
+  padding-left: 13px;
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.234375px;
+}
+.nav-link__active-nav .nav-link__img * {
+  fill: $blue;
+}
+.nav-link:hover .nav-link__img * {
+  fill: $green;
+}
