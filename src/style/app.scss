@@ -10,10 +10,21 @@ body {
 #root {
   width: 100%;
   height: 100%;
+  background: $bg;
 }
 .body {
   position: relative;
   height: 100%;
+}
+.logo__block {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  margin-bottom: 15px;
+  color: $logo;
+  font-family: 'Helvetica';
+  font-size: 24px;
+  line-height: 28px;
 }
 .main {
   width: 100%;
@@ -21,18 +32,25 @@ body {
   display: flex;
 }
 .subtitle {
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
+  text-align: center;
+  font-family: 'Helvetica';
+  font-size: 17.5px;
 }
 .text {
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 16px;
-  @media (min-width: 768px) {
-    font-size: 14px;
-    line-height: 16px;
-  }
+  font-size: 10.5px;
+  line-height: 14px;
+  font-weight: normal;
+  // @media (min-width: 768px) {
+  //   font-size: 14px;
+  //   line-height: 16px;
+  // }
+}
+.small-text {
+  font-family: 'Helvetica';
+  font-weight: normal;
+  font-size: 10.5px;
+  line-height: 12px;
+  letter-spacing: -0.18421px;
 }
 .text-bold {
   font-weight: 500;
