@@ -39,8 +39,11 @@
   color: $blue;
 }
 .search-block {
-  display: flex;
-  gap: 9px;
+  display: none;
+  @media (min-width: 500px) {
+    display: flex;
+    gap: 9px;
+  }
   &__input-search {
     font-family: 'Helvetica';
     font-weight: 400;

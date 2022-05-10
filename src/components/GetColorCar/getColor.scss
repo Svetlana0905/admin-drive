@@ -3,6 +3,10 @@
   &__inner {
     display: flex;
     gap: 8px;
+    padding-bottom: 15px;
+    @media (min-width: 425px) {
+      padding-bottom: 0;
+    }
   }
   &__checkbox-block {
     display: flex;
@@ -11,31 +15,44 @@
   }
   &__btn {
     position: relative;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     margin-top: 19px;
     background: $white;
     border: 1px solid #becad6;
     box-sizing: border-box;
     border-radius: 4px;
+    @media (min-width: 425px) {
+      width: 30px;
+      height: 30px;
+      margin-top: 19px;
+    }
     &::after {
       content: '';
-      top: 6px;
-      left: 13px;
+      top: 12px;
+      left: 19px;
       position: absolute;
       width: 2px;
       height: 16px;
       background-color: $border;
       transform: rotate(90deg);
+      @media (min-width: 425px) {
+        top: 6px;
+        left: 13px;
+      }
     }
     &::before {
       content: '';
-      top: 6px;
-      left: 13px;
+      top: 12px;
+      left: 19px;
       position: absolute;
       width: 2px;
       height: 16px;
       background-color: $border;
+      @media (min-width: 425px) {
+        top: 6px;
+        left: 13px;
+      }
     }
     &:hover {
       border-color: #40a9ff;

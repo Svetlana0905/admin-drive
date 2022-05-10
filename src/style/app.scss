@@ -20,20 +20,82 @@ body {
 .main {
   max-width: 1400px;
   width: 100%;
-  height: 100%;
   margin: 0 auto;
   display: flex;
+  @media (min-width: 1024px) {
+    height: 100%;
+  }
+}
+.sidebar-btn {
+  position: absolute;
+  width: 30px;
+  z-index: 10;
+  top: 22px;
+  left: 11px;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+.burger {
+  background: $white;
+  border: none;
+  display: block;
+  position: relative;
+  width: 30px;
+  height: 20px;
+  position: relative;
+  z-index: 3;
+  & span {
+    position: absolute;
+    background-color: $dark100;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    top: 9px;
+    transition: all 0.3s ease 0s;
+  }
+  &::before,
+  &::after {
+    content: '';
+    background-color: $dark100;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    left: 0;
+    transition: all 0.3s ease 0s;
+  }
+  &:before {
+    top: 0;
+  }
+  &:after {
+    bottom: 0;
+  }
+  &.active span {
+    transform: scale(0);
+  }
+  &.active:before {
+    transform: rotate(45deg);
+    top: 9px;
+  }
+  &.active:after {
+    transform: rotate(-45deg);
+    bottom: 9px;
+  }
 }
 .wrapper {
   display: flex;
   flex-direction: column;
-
   width: 100%;
   height: 100%;
+  background: $bg;
 }
 .container {
-  padding: 28px 28px 0;
+  padding: 28px 5px 0;
   flex: 1 1 auto;
+  @media (min-width: 425px) {
+    padding: 28px 28px 0;
+  }
 }
 .logo__block {
   display: flex;

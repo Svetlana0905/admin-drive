@@ -2,12 +2,13 @@ import './sidebar.scss'
 import logoIcon from '../../assets/icons/logo_icon.svg'
 import { NavLinkData } from '../../data/navLink'
 import { NavLink, Link } from 'react-router-dom'
-export const SideBar = () => {
+
+export const SideBar = ({ isVisible }) => {
   const setActiveNavLink = ({ isActive }) =>
     isActive ? 'nav-link nav-link__active-nav' : 'nav-link'
   return (
     <>
-      <div className="sidebar">
+      <div className={isVisible ? 'sidebar' : 'sidebar sidebar__hidden'}>
         <Link to="/">
           <div className="logo__block-small">
             <img

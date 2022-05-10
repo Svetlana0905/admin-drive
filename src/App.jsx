@@ -1,4 +1,5 @@
 import './style/app.scss'
+import 'antd/dist/antd.css'
 import { Layout } from './components/Layout/Layout'
 import { CarSetting } from './pages/CarSetting/CarSetting'
 import { OrderList } from './pages/OrderList/OrderList'

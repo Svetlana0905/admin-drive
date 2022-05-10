@@ -16,7 +16,6 @@ export const Header = () => {
           <Notification className="notification__pic" />
           <span className="notification__count">2</span>
         </div>
-
         <img src={avatar} alt="avatar" className="avatar" />
         <Select
           defaultValue="Admin"
@@ -24,7 +23,7 @@ export const Header = () => {
           style={{ width: 128 }}
           onChange={handleChange}>
           <Option value="Admin1">Admin1</Option>
-          <Option value="Admin2">Admin2</Option>
+          {/* <Option value="Admin2">Admin2</Option> */}
         </Select>
       </div>
     </header>
