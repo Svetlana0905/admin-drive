@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/admin-drive/static/css/main.a712aa14.css",
-    "main.js": "/admin-drive/static/js/main.ed5b8461.js",
+    "main.css": "/admin-drive/static/css/main.a3442785.css",
+    "main.js": "/admin-drive/static/js/main.1ff2d34b.js",
     "static/media/Roboto-Light.svg": "/admin-drive/static/media/Roboto-Light.1363cafd43cabc417d70.svg",
     "static/media/Roboto-Bold.svg": "/admin-drive/static/media/Roboto-Bold.8d27a0ed275c802bc4fc.svg",
     "static/media/Roboto-Medium.svg": "/admin-drive/static/media/Roboto-Medium.8d5ff17749640d550b7f.svg",
@@ -37,11 +37,11 @@
     "static/media/nav_icon7.svg": "/admin-drive/static/media/nav_icon7.9ae656e3678d67bca3ec2fe750382d61.svg",
     "static/media/nav_icon2.svg": "/admin-drive/static/media/nav_icon2.9ba2ae69dba186b9db3bd42f85712214.svg",
     "static/media/nav_icon3.svg": "/admin-drive/static/media/nav_icon3.f2c1be7b09e938c0cdee5fc179f0b483.svg",
-    "main.a712aa14.css.map": "/admin-drive/static/css/main.a712aa14.css.map",
-    "main.ed5b8461.js.map": "/admin-drive/static/js/main.ed5b8461.js.map"
+    "main.a3442785.css.map": "/admin-drive/static/css/main.a3442785.css.map",
+    "main.1ff2d34b.js.map": "/admin-drive/static/js/main.1ff2d34b.js.map"
   },
   "entrypoints": [
-    "static/css/main.a712aa14.css",
-    "static/js/main.ed5b8461.js"
+    "static/css/main.a3442785.css",
+    "static/js/main.1ff2d34b.js"
   ]
 }
