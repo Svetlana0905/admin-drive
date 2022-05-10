@@ -26,9 +26,12 @@ export const InputSearch = ({ onSearch }) => {
     </div>
   )
 }
-export const InputFile = ({ getFile }) => {
+export const InputFile = ({ getFile, errorThumbnail }) => {
   return (
-    <label className="input-file">
+    <label
+      className={
+        errorThumbnail ? 'input-file input-file__error' : 'input-file'
+      }>
       <input
         type="file"
         accept="image/*"

@@ -4,7 +4,7 @@ import { InputStandart } from '../../components/LoginInput/LoginInput'
 import { GetColorCar } from '../../components/GetColorCar/GetColorCar'
 import { GetImage } from '../../components/GetImage/GetImage'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   getNameCar,
   getCategoryId,
@@ -14,37 +14,51 @@ import {
 
 export const CarSetting = () => {
   const dispatch = useDispatch()
+  const colorsArray = useSelector((state) => state.carSlice.colors)
+  const [colorsIvalid, setColorsInvalid] = useState('')
   const [file, setFile] = useState('')
   const [carThumbnail, setThumbnail] = useState({})
+  const [errorThumbnail, setErrorThumbnail] = useState(false)
   const [model, setModel] = useState('')
-  const [modelError, setModelError] = useState('')
   const [invalidErrorModel, setInvalidModel] = useState('')
   const [type, setType] = useState('')
-  const [typeError, setTypeError] = useState('')
   const [invalidErrorType, setInvalidType] = useState('')
   // const [disabled, setDisabled] = useState(true)
 
   useEffect(() => {
-    if (model) dispatch(getNameCar(model))
+    if (model) {
+      setInvalidModel('')
+      dispatch(getNameCar(model))
+    }
   }, [model, dispatch])
 
   useEffect(() => {
-    if (type) dispatch(getCategoryId(type))
+    if (type) {
+      dispatch(getCategoryId(type))
+      setInvalidType('')
+    }
   }, [type, dispatch])
 
   useEffect(() => {
-    if (file) dispatch(getThumbnail(carThumbnail))
-  })
+    if (file) {
+      setErrorThumbnail(false)
+      dispatch(getThumbnail(carThumbnail))
+    }
+  }, [setErrorThumbnail, file, dispatch, carThumbnail])
 
   const getCarOptionsHandler = (e) => {
     e.preventDefault()
     if (!model) {
-      setModelError('Введите данные')
       setInvalidModel('error')
     }
     if (!type) {
-      setTypeError('Введите данные')
       setInvalidType('error')
+    }
+    if (!Object.keys(carThumbnail).length) {
+      setErrorThumbnail(true)
+    }
+    if (colorsArray.length === 0) {
+      setColorsInvalid('error')
     }
   }
 
@@ -66,7 +80,7 @@ export const CarSetting = () => {
               ''
             )}
 
-            <InputFile getFile={setFile} />
+            <InputFile getFile={setFile} errorThumbnail={errorThumbnail} />
           </div>
           <label className="car-block__progress-block progress-block">
             <p className="progress-block__title-block">
@@ -86,6 +100,7 @@ export const CarSetting = () => {
               rows="5"
               cols="33"
               onChange={(e) => dispatch(getDescription(e.target.value))}
+              // Не знаю, нужна ли обработка не отсутствие описания?
             />
           </div>
         </div>
@@ -100,7 +115,6 @@ export const CarSetting = () => {
                 placeholder="Введите модель"
                 type="text"
                 status={invalidErrorModel}
-                textError={modelError}
               />
               <InputStandart
                 value={type}
@@ -109,18 +123,17 @@ export const CarSetting = () => {
                 placeholder="Введите тип"
                 type="text"
                 status={invalidErrorType}
-                textError={typeError}
               />
             </div>
-            <GetColorCar />
+            <GetColorCar
+              colorsIvalid={colorsIvalid}
+              setColorsInvalid={setColorsInvalid}
+            />
           </div>
           <div className="options-block__buttons-block">
             <div className="options-block__neighboring-button">
               <BigButton text="Сохранить" onClick={getCarOptionsHandler} />
-              <BigButton
-                text="Отменить"
-                // disabled={disabled}
-              />
+              <BigButton text="Отменить" disabled="disabled" />
             </div>
             <BigButton delite="delite" text="Удалить" />
           </div>

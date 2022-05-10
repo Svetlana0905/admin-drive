@@ -25,13 +25,13 @@ export const postAuth = createAsyncThunk(
 )
 
 export const carSlice = createSlice({
-  name: 'authSlice',
+  name: 'carSlice',
   initialState: {
     priceMax: 4000,
     priceMin: 8000,
     name: '',
     thumbnail: {},
-    description: 'Машина как машина, едет и ладно',
+    description: '',
     categoryId: {},
     colors: [],
     number: 'N148WV'
@@ -43,7 +43,7 @@ export const carSlice = createSlice({
     },
     getColorsCar: (state, data) => {
       state.colors = data.payload
-      console.log(state.colors)
+      // console.log(state.colors)
     },
     getCategoryId: (state, data) => {
       state.categoryId = { name: `${data.payload}`, description: '' }

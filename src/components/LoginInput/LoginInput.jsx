@@ -9,7 +9,6 @@ export const InputStandart = ({
   value,
   status,
   onChange,
-  textError,
   innerRef,
   size
 }) => {
@@ -26,7 +25,7 @@ export const InputStandart = ({
         onChange={(e) => onChange(e.target.value)}
       />
       <span className={status === 'error' ? 'error__visible' : 'error__hidden'}>
-        {textError}
+        {status === 'error' ? 'Введите данные' : ''}
       </span>
     </label>
   )

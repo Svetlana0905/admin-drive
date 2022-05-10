@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { InputStandart } from '../../components/LoginInput/LoginInput'
 import { getColorsCar } from '../../redux/CarSlise'
 
-export const GetColorCar = () => {
+export const GetColorCar = ({ colorsIvalid, setColorsInvalid }) => {
   const dispatch = useDispatch()
   const [color, setColor] = useState('')
   const [arrCheckbox, setArrCheckbox] = useState([])
@@ -33,6 +33,7 @@ export const GetColorCar = () => {
 
     setCheckedState(updatedCheckedState)
     dispatch(getColorsCar(colorArr))
+    setColorsInvalid('')
   }
   return (
     <div className="options-block__inputs-color inputs-color">
@@ -44,6 +45,7 @@ export const GetColorCar = () => {
           placeholder="Введите цвет"
           type="text"
           size="small"
+          status={colorsIvalid}
         />
         <button className="inputs-color__btn" onClick={addColor}></button>
       </div>
