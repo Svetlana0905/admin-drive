@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/admin-drive/static/css/main.a3442785.css",
-    "main.js": "/admin-drive/static/js/main.1ff2d34b.js",
+    "main.css": "/admin-drive/static/css/main.c3c3a0b4.css",
+    "main.js": "/admin-drive/static/js/main.753bdff8.js",
     "static/media/Roboto-Light.svg": "/admin-drive/static/media/Roboto-Light.1363cafd43cabc417d70.svg",
     "static/media/Roboto-Bold.svg": "/admin-drive/static/media/Roboto-Bold.8d27a0ed275c802bc4fc.svg",
     "static/media/Roboto-Medium.svg": "/admin-drive/static/media/Roboto-Medium.8d5ff17749640d550b7f.svg",
@@ -29,6 +29,7 @@
     "index.html": "/admin-drive/index.html",
     "static/media/search.svg": "/admin-drive/static/media/search.c8b5b3af1de2fdaa3efe9097b9e1caf7.svg",
     "static/media/logo_icon.svg": "/admin-drive/static/media/logo_icon.bc4f3ee8fbfa2ba0ccc054519f06dc93.svg",
+    "static/media/change-btn.svg": "/admin-drive/static/media/change-btn.850cde242ed04a9962e5.svg",
     "static/media/notifications.svg": "/admin-drive/static/media/notifications.4a73f89d5ed8c6ab9e4fc585c327aa9d.svg",
     "static/media/nav_icon5.svg": "/admin-drive/static/media/nav_icon5.66a68a11e4930f136ae087302fb7654a.svg",
     "static/media/nav_icon6.svg": "/admin-drive/static/media/nav_icon6.83a584d6d70a3369115682d2b9ebe082.svg",
@@ -37,11 +38,14 @@
     "static/media/nav_icon7.svg": "/admin-drive/static/media/nav_icon7.9ae656e3678d67bca3ec2fe750382d61.svg",
     "static/media/nav_icon2.svg": "/admin-drive/static/media/nav_icon2.9ba2ae69dba186b9db3bd42f85712214.svg",
     "static/media/nav_icon3.svg": "/admin-drive/static/media/nav_icon3.f2c1be7b09e938c0cdee5fc179f0b483.svg",
-    "main.a3442785.css.map": "/admin-drive/static/css/main.a3442785.css.map",
-    "main.1ff2d34b.js.map": "/admin-drive/static/js/main.1ff2d34b.js.map"
+    "static/media/cancel-btn.svg": "/admin-drive/static/media/cancel-btn.ebfbf7fc23a4eeda1596.svg",
+    "static/media/arrow_db.svg": "/admin-drive/static/media/arrow_db.02ee0e41d955277e6c5f.svg",
+    "static/media/checkbox.svg": "/admin-drive/static/media/checkbox.599a4157a9af0498854e.svg",
+    "main.c3c3a0b4.css.map": "/admin-drive/static/css/main.c3c3a0b4.css.map",
+    "main.753bdff8.js.map": "/admin-drive/static/js/main.753bdff8.js.map"
   },
   "entrypoints": [
-    "static/css/main.a3442785.css",
-    "static/js/main.1ff2d34b.js"
+    "static/css/main.c3c3a0b4.css",
+    "static/js/main.753bdff8.js"
   ]
 }
