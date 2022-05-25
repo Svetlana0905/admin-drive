@@ -1,13 +1,24 @@
 import './header.scss'
-import { Select } from 'antd'
 import { InputSearch } from '../Button/Button'
 import avatar from '../../assets/user-avatar.jpg'
 import { ReactComponent as Notification } from '../../assets/icons/notifications.svg'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useLogoutMutation } from '../../redux'
 
 export const Header = () => {
-  const { Option } = Select
-  const handleChange = () => {}
+  const navigate = useNavigate()
+  const [isVisibleButton, setIsVisibleButton] = useState(false)
+  const [logout] = useLogoutMutation()
+  const openButton = () => {
+    setIsVisibleButton(!isVisibleButton)
+  }
+  const logoutAdmin = async () => {
+    await logout().unwrap
+    navigate('/', { replace: true })
+  }
   const onSearch = () => {}
+
   return (
     <header className="header">
       <InputSearch onSearch={onSearch} />
@@ -16,15 +27,29 @@ export const Header = () => {
           <Notification className="notification__pic" />
           <span className="notification__count">2</span>
         </div>
-        <img src={avatar} alt="avatar" className="avatar" />
-        <Select
-          defaultValue="Admin"
-          bordered={false}
-          style={{ width: 128 }}
-          onChange={handleChange}>
-          <Option value="Admin1">Admin1</Option>
-          {/* <Option value="Admin2">Admin2</Option> */}
-        </Select>
+        <div className="logout-block">
+          <div className="logout-block__inner-top">
+            <img src={avatar} alt="avatar" className="avatar" />
+            <button
+              type="button"
+              onClick={openButton}
+              className="logout-block__button-open">
+              Admin
+            </button>
+          </div>
+          <div
+            className={
+              isVisibleButton
+                ? 'logout-block__inner-bottom'
+                : 'logout-block__inner-bottom-hidden'
+            }>
+            <button
+              className="logout-block__button-logout"
+              onClick={logoutAdmin}>
+              Выйти
+            </button>
+          </div>
+        </div>
       </div>
     </header>
   )

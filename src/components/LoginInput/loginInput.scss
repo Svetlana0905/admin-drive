@@ -4,9 +4,7 @@
   flex-direction: column;
   position: relative;
   width: 100%;
-  // &:not(:last-child) {
-  //   // margin-bottom: 45px;
-  // }
+  margin-bottom: 14px;
   @media (min-width: 425px) {
     margin-bottom: 14px;
   }

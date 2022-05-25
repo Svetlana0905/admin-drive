@@ -14,6 +14,13 @@ export const BigButton = ({ text, onClick, disabled, delite }) => {
     </button>
   )
 }
+export const SmallButton = ({ text, onClick, delite }) => {
+  return (
+    <button className={'button button__small'} onClick={onClick}>
+      {text}
+    </button>
+  )
+}
 export const InputSearch = ({ onSearch }) => {
   return (
     <div className="search-block">
@@ -38,6 +45,21 @@ export const InputFile = ({ getFile, errorThumbnail }) => {
         onChange={(e) => getFile(e.target.files[0])}
       />
       <span>Выберите файл...</span>
+    </label>
+  )
+}
+export const Checkbox = ({ text, name, checked, onChange, readonly }) => {
+  return (
+    <label className="checkbox">
+      <input
+        className="checkbox__input"
+        checked={checked}
+        onChange={onChange}
+        name={name}
+        type="checkbox"
+        readOnly={readonly}
+      />
+      <span className="radio__span text-light">{text}</span>
     </label>
   )
 }

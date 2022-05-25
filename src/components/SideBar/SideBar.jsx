@@ -19,7 +19,6 @@ export const SideBar = ({ isVisible }) => {
             <span className="logo__small-title">Need for car</span>
           </div>
         </Link>
-
         {NavLinkData?.map((item, id) => (
           <NavLink key={id} to={item.link} className={setActiveNavLink}>
             {item.imgpath}

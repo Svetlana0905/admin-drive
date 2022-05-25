@@ -1,20 +1,22 @@
 @import './null.scss';
 @import './shared.scss';
 @import './fonts.scss';
+@import './pagination.scss';
+@import './content.scss';
 body {
   position: relative;
   font-family: 'Helvetica';
   color: $dark100;
-  height: 100%;
+  min-height: 100vh;
 }
 #root {
   width: 100%;
-  height: 100%;
+  // height: 100%;
   background: $bg;
 }
 .body {
   position: relative;
-  height: 100%;
+  // height: 100%;
 }
 
 .main {
@@ -23,7 +25,7 @@ body {
   margin: 0 auto;
   display: flex;
   @media (min-width: 1024px) {
-    height: 100%;
+    // height: 100%;
   }
 }
 .sidebar-btn {
@@ -88,15 +90,17 @@ body {
   flex-direction: column;
   width: 100%;
   height: 100%;
+  min-height: 100vh;
   background: $bg;
 }
 .container {
-  padding: 28px 5px 0;
+  padding: 28px 10px 28px;
   flex: 1 1 auto;
-  @media (min-width: 425px) {
-    padding: 28px 28px 0;
+  @media (min-width: 1024px) {
+    padding: 30px 32px 28px;
   }
 }
+
 .logo__block {
   display: flex;
   gap: 11px;
@@ -120,6 +124,7 @@ body {
   line-height: 33px;
   letter-spacing: -0.725px;
   color: $logo;
+  margin-bottom: 29px;
   &__car {
     margin-bottom: 30px;
   }
@@ -140,10 +145,6 @@ body {
 .text {
   font-size: 10.5px;
   line-height: 14px;
-  // @media (min-width: 768px) {
-  //   font-size: 14px;
-  //   line-height: 16px;
-  // }
 }
 .small-text {
   font-family: 'Helvetica';
@@ -169,8 +170,29 @@ body {
   font-size: 18px;
   line-height: 21px;
 }
+.text-light {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: -0.408571px;
+  color: $dark50;
+}
+.text-dark {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: -0.408571px;
+  color: $black;
+}
 @media (max-width: 590px) {
   .main {
     padding-left: 0;
   }
+}
+.ant-pagination-item-ellipsis {
+  color: $blue;
 }

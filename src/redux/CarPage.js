@@ -1,10 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const carSlice = createSlice({
-  name: 'car',
+export const carPage = createSlice({
+  name: 'carPage',
   initialState: {
-    obj: {},
-    carId: '',
     priceMax: 4000,
     priceMin: 8000,
     name: '',
@@ -15,16 +13,6 @@ export const carSlice = createSlice({
     number: 'N148WV'
   },
   reducers: {
-    getCarData: (state, data) => {
-      state.obj = data.payload
-    },
-    getCarId: (state, data) => {
-      data.payload.carInput
-        ? (state.carId = data.payload.car.data.find(
-            (item) => item.name === data.payload.carInput
-          ))
-        : (state.carId = '')
-    },
     getNameCar: (state, data) => {
       state.name = data.payload
       // console.log(state.name)
@@ -48,12 +36,10 @@ export const carSlice = createSlice({
   }
 })
 export const {
-  getCarData,
-  getCarId,
   getNameCar,
   getColorsCar,
   getCategoryId,
   getThumbnail,
   getDescription
-} = carSlice.actions
-export default carSlice.reducer
+} = carPage.actions
+export default carPage.reducer

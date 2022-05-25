@@ -4,7 +4,7 @@ import { InputStandart } from '../../components/LoginInput/LoginInput'
 import { GetColorCar } from '../../components/GetColorCar/GetColorCar'
 import { GetImage } from '../../components/GetImage/GetImage'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   getNameCar,
   getCategoryId,
@@ -14,7 +14,7 @@ import {
 
 export const CarSetting = () => {
   const dispatch = useDispatch()
-  const colorsArray = useSelector((state) => state.carSlice.colors)
+  // const colorsArray = useSelector((state) => state.carSlice.colors)
   const [colorsIvalid, setColorsInvalid] = useState('')
   const [file, setFile] = useState('')
   const [carThumbnail, setThumbnail] = useState({})
@@ -57,16 +57,16 @@ export const CarSetting = () => {
     if (!Object.keys(carThumbnail).length) {
       setErrorThumbnail(true)
     }
-    if (colorsArray.length === 0) {
-      setColorsInvalid('error')
-    }
+    // if (colorsArray.length === 0) {
+    //   setColorsInvalid('error')
+    // }
   }
 
   return (
     <>
       <h2 className="title title__car">Карточка автомобиля</h2>
-      <form className="content">
-        <div className="content__car-block car-block">
+      <form className="content-car">
+        <div className="content-car__car-block car-block">
           <div className="car-block__file-block">
             <GetImage file={file} setThumbnail={setThumbnail} />
             {model ? (
@@ -104,7 +104,7 @@ export const CarSetting = () => {
             />
           </div>
         </div>
-        <div className="content__options-block">
+        <div className="content-car__options-block">
           <p className="options-block__heading heading">Настройки автомобиля</p>
           <div className="options-block__inputs-column">
             <div className="options-block__inputs-row">

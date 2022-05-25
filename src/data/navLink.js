@@ -14,32 +14,32 @@ export const NavLinkData = [
   },
   {
     imgpath: <Img2 className="nav-link__img" width="15px" height="15px" />,
-    link: 'order',
+    link: 'cars-list',
     title: 'Список авто'
   },
   {
     imgpath: <Img3 className="nav-link__img" width="15px" height="14px" />,
-    link: 'table',
-    title: 'Зказы'
+    link: 'city',
+    title: 'Города'
   },
   {
     imgpath: <Img4 className="nav-link__img" />,
-    link: 'page4',
-    title: 'Menu 4'
+    link: 'point',
+    title: 'Пункты'
   },
   {
     imgpath: <Img5 className="nav-link__img" />,
-    link: 'page5',
-    title: 'Menu 5'
+    link: 'tarif',
+    title: 'Тариф'
   },
   {
     imgpath: <Img6 className="nav-link__img" width="14px" height="16px" />,
-    link: 'page6',
-    title: 'Menu 6'
+    link: 'order-status',
+    title: 'Статус заказа'
   },
   {
     imgpath: <Img7 className="nav-link__img" width="14px" height="14px" />,
-    link: 'page7',
-    title: 'Menu 7'
+    link: 'orders',
+    title: 'Заказы'
   }
 ]
