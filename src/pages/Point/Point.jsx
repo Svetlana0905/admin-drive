@@ -49,7 +49,7 @@ export const Point = () => {
   }
 
   if (isSuccess) {
-    console.log(data.data)
+    // console.log(data.data)
     dataSource = data.data.map((item) => ({ ...item, key: item.id }))
     dispatch(getPointsData(data))
   }

@@ -9,7 +9,7 @@ export const pointsSlice = createSlice({
   },
   reducers: {
     getPointsData: (state, data) => {
-      console.log(data.payload + 'state')
+      // console.log(data.payload + 'state')
       state.name = data.payload
     }
   }

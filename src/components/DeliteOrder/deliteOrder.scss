@@ -1,0 +1,32 @@
+@import '../../style//app.scss';
+.delite-block {
+  position: fixed;
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  width: 270px;
+  padding: 35px 25px;
+  background: $white;
+  text-align: center;
+  box-shadow: 0px 4px 9.5px rgb(90 97 105 / 12%);
+  border-radius: 15px;
+  opacity: 1;
+  top: 25%;
+  z-index: 100;
+  @media (min-width: 600px) {
+    width: 290px;
+    //  transform: translate(50%, 50%);
+  }
+  &__hidden {
+    top: -500px;
+    opacity: 0;
+    width: 0px;
+    height: 0px;
+    //  transition: all ease-in-out 0.4s;
+  }
+  &__btn-block {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 25px;
+  }
+}

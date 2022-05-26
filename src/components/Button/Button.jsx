@@ -16,7 +16,11 @@ export const BigButton = ({ text, onClick, disabled, delite }) => {
 }
 export const SmallButton = ({ text, onClick, delite }) => {
   return (
-    <button className={'button button__small'} onClick={onClick}>
+    <button
+      className={
+        delite ? 'button button__small button__delite' : 'button button__small'
+      }
+      onClick={onClick}>
       {text}
     </button>
   )

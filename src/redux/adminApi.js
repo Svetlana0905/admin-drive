@@ -24,9 +24,44 @@ const baseQuery = fetchBaseQuery({
     return headers
   }
 })
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions)
+  // console.log(result)
+  if (result.error && result.error.originalStatus === 401) {
+    const refreshResult = await baseQuery(
+      {
+        url: '/auth/refresh',
+        method: 'POST',
+        body: {
+          refresh_token: localStorage.getItem('refreshToken')
+        },
+        headers: {
+          authorization: `Basic ${localStorage.getItem('authToken')}`
+        }
+      },
+      api,
+      extraOptions
+    )
+    if (refreshResult.data) {
+      console.log(refreshResult.data)
+      localStorage.setItem('accessToken', refreshResult.data.access_token)
+      localStorage.setItem(
+        'refreshToken',
+        refreshResult.data.data.refresh_token
+      )
+      // api.dispatch(tokenReceived(refreshResult.data))
+      // // retry the initial query
+      result = await baseQuery(args, api, extraOptions)
+    }
+    // else {
+    //   api.dispatch(setLogoutData())
+    // }
+  }
+  return result
+}
 export const adminApi = createApi({
   reducerPath: 'adminApi',
-  baseQuery,
+  baseQuery: baseQueryWithReauth,
   endpoints: (build) => ({
     login: build.mutation({
       query: (userData) => ({
@@ -80,14 +115,13 @@ export const adminApi = createApi({
           authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
       })
+    }),
+    deleteOrderData: build.mutation({
+      query: ({ id }) => ({
+        url: `/db/order/${id}`,
+        method: 'PUT'
+      })
     })
-    // deleteOrderData: build.mutation({
-    //   query: ({ id, ...data }) => ({
-    //     url: `/db/order/${id}`,
-    //     method: 'PUT',
-    //     body: data
-    //   })
-    // })
   })
 })
 
@@ -98,5 +132,6 @@ export const {
   useGetCityQuery,
   useGetCarQuery,
   useGetStatusQuery,
-  useGetOrdersListQuery
+  useGetOrdersListQuery,
+  useDeleteOrderDataMutation
 } = adminApi
