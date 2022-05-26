@@ -61,6 +61,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 }
 export const adminApi = createApi({
   reducerPath: 'adminApi',
+  // tagTypes: ['Orders'],
   baseQuery: baseQueryWithReauth,
   endpoints: (build) => ({
     login: build.mutation({
@@ -114,13 +115,18 @@ export const adminApi = createApi({
         headers: {
           authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
-      })
+      }),
+      providesTags: ['Orders']
     }),
     deleteOrderData: build.mutation({
-      query: ({ id }) => ({
-        url: `/db/order/${id}`,
-        method: 'PUT'
-      })
+      query: ({ orderId }) => ({
+        url: `/db/order/${orderId}`,
+        method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      invalidatesTags: ['Orders']
     })
   })
 })
