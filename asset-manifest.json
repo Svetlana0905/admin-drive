@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/admin-drive/static/css/main.10ba2c9b.css",
-    "main.js": "/admin-drive/static/js/main.a4601d2b.js",
+    "main.css": "/admin-drive/static/css/main.36461dc2.css",
+    "main.js": "/admin-drive/static/js/main.48c598e9.js",
     "static/media/Roboto-Light.svg": "/admin-drive/static/media/Roboto-Light.1363cafd43cabc417d70.svg",
     "static/media/Roboto-Bold.svg": "/admin-drive/static/media/Roboto-Bold.8d27a0ed275c802bc4fc.svg",
     "static/media/Roboto-Medium.svg": "/admin-drive/static/media/Roboto-Medium.8d5ff17749640d550b7f.svg",
@@ -39,13 +39,15 @@
     "static/media/nav_icon2.svg": "/admin-drive/static/media/nav_icon2.9ba2ae69dba186b9db3bd42f85712214.svg",
     "static/media/nav_icon3.svg": "/admin-drive/static/media/nav_icon3.f2c1be7b09e938c0cdee5fc179f0b483.svg",
     "static/media/cancel-btn.svg": "/admin-drive/static/media/cancel-btn.ebfbf7fc23a4eeda1596.svg",
+    "static/media/close_icon.svg": "/admin-drive/static/media/close_icon.b32e05e841f31bdc4ae1.svg",
     "static/media/checkbox.svg": "/admin-drive/static/media/checkbox.d4b0555a25cf257b07a9.svg",
     "static/media/arrow_db.svg": "/admin-drive/static/media/arrow_db.02ee0e41d955277e6c5f.svg",
-    "main.10ba2c9b.css.map": "/admin-drive/static/css/main.10ba2c9b.css.map",
-    "main.a4601d2b.js.map": "/admin-drive/static/js/main.a4601d2b.js.map"
+    "static/media/ok-btn.svg": "/admin-drive/static/media/ok-btn.35a8bd90455c6a26240a.svg",
+    "main.36461dc2.css.map": "/admin-drive/static/css/main.36461dc2.css.map",
+    "main.48c598e9.js.map": "/admin-drive/static/js/main.48c598e9.js.map"
   },
   "entrypoints": [
-    "static/css/main.10ba2c9b.css",
-    "static/js/main.a4601d2b.js"
+    "static/css/main.36461dc2.css",
+    "static/js/main.48c598e9.js"
   ]
 }
