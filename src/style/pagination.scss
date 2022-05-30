@@ -2,8 +2,11 @@
   display: flex;
   align-items: center;
   text-align: center;
-  font-size: 14px;
-  padding: 0 0 20px;
+  font-size: 16px;
+  padding: 10px 0 20px;
+  @media (min-width: 768px) {
+    font-size: 14px;
+  }
 }
 .pagination-btn {
   border: none;
@@ -44,7 +47,12 @@
 
 .ant-pagination-item a {
   color: $blue;
-  padding: 9px 0;
+  padding: 9px 2px;
+  font-size: 18px;
+  @media (min-width: 768px) {
+    font-size: 14px;
+    padding: 9px 0px;
+  }
 }
 .ant-pagination-item-active {
   background: $blue;

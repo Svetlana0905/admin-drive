@@ -3,7 +3,7 @@ import logoIcon from '../../assets/icons/logo_icon.svg'
 import { NavLinkData } from '../../data/navLink'
 import { NavLink, Link } from 'react-router-dom'
 
-export const SideBar = ({ isVisible }) => {
+export const SideBar = ({ isVisible, setIsVisible }) => {
   const setActiveNavLink = ({ isActive }) =>
     isActive ? 'nav-link nav-link__active-nav' : 'nav-link'
   return (

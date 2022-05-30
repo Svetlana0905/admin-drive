@@ -2,19 +2,25 @@ import './deliteOrder.scss'
 import { useDeleteOrderDataMutation } from '../../redux'
 import { useState } from 'react'
 
-export const DeliteOrder = ({ orderId, isVisible, setIsVisibleDelite }) => {
-  const [orderDelite] = useDeleteOrderDataMutation()
+export const DeleteOrder = ({
+  orderId,
+  isVisibleDelete,
+  setIsVisibleDelete
+}) => {
+  const [orderDelete] = useDeleteOrderDataMutation()
   const [responseDelete, setResponseDelete] = useState(false)
 
-  const deliteOrder = async (e) => {
-    await orderDelite({ orderId }).unwrap()
+  const deleteOrder = async (e) => {
+    await orderDelete({ orderId }).unwrap()
     setResponseDelete(true)
     setTimeout(() => {
-      setIsVisibleDelite(!isVisible)
+      setIsVisibleDelete(!isVisibleDelete)
+      setResponseDelete(false)
     }, 2000)
   }
   return (
-    <section className={isVisible ? 'delete-block' : 'delete-block__hidden'}>
+    <section
+      className={isVisibleDelete ? 'delete-block' : 'delete-block__hidden'}>
       <div
         className={
           responseDelete ? 'delete-response' : 'delete-response__hidden'
@@ -28,17 +34,16 @@ export const DeliteOrder = ({ orderId, isVisible, setIsVisibleDelite }) => {
         <p className="text-link">Вы действительно хотите удалить заказ №</p>
         <span className="text-dark">{orderId}</span>
       </div>
-
       <div className="delete-block__btn-block">
         <button
-          onClick={deliteOrder}
+          onClick={deleteOrder}
           className="button button__small button__delite">
           Удалить
         </button>
         <button
-          onClick={() => setIsVisibleDelite(!isVisible)}
+          onClick={() => setIsVisibleDelete(!isVisibleDelete)}
           className="button button__small">
-          Отмена
+          {responseDelete ? 'Закрыть' : 'Отменить'}
         </button>
       </div>
     </section>

@@ -3,7 +3,10 @@ export const ListDropdown = ({
   setInputText,
   textInput,
   data,
-  placeholder
+  placeholder,
+  name,
+  textSpan,
+  disabled
 }) => {
   const [isVisible, setToggleVisible] = useState(false)
 
@@ -14,12 +17,14 @@ export const ListDropdown = ({
   return (
     <>
       <label className="content-header__inner">
+        <span className="content-header__text-span text">{textSpan}</span>
         <input
+          disabled={!data}
           onFocus={() => setToggleVisible(true)}
           onChange={(e) => {
             setInputText(e.target.value)
           }}
-          value={textInput}
+          value={textInput || ''}
           type="text"
           className="content-header__input"
           onBlur={() => setToggleVisible(false)}
@@ -30,18 +35,15 @@ export const ListDropdown = ({
         {data
           ? data.map((item, id) => (
               <li
-                key={item}
+                key={id}
                 onClick={(e) => {
-                  setInputText(item)
+                  setInputText(name === 'point' ? item.name : item)
                 }}>
-                {item}
+                {name === 'point' ? item.name : item}
               </li>
             ))
           : ''}
       </ul>
     </>
-    //  <div className="content-header__wrapper">
-
-    //  </div>
   )
 }

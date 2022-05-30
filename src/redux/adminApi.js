@@ -1,7 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { getRandomString } from '../components/RandomString/RandomString'
-// import { Mutex } from 'async-mutex'
-// const mutex = new Mutex()
 
 const getAuthToken = () => {
   if (!localStorage.getItem('authToken')) {
@@ -61,8 +59,8 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 }
 export const adminApi = createApi({
   reducerPath: 'adminApi',
-  // tagTypes: ['Orders'],
   baseQuery: baseQueryWithReauth,
+  tagTypes: ['Orders'],
   endpoints: (build) => ({
     login: build.mutation({
       query: (userData) => ({
@@ -118,6 +116,28 @@ export const adminApi = createApi({
       }),
       providesTags: ['Orders']
     }),
+    changeOrderStatus: build.mutation({
+      query: ({ id, data }) => ({
+        url: `/db/order/${id}`,
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['Orders']
+    }),
+    changeOrder: build.mutation({
+      query: ({ id, data }) => ({
+        url: `/db/order/${id}`,
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['Orders']
+    }),
     deleteOrderData: build.mutation({
       query: ({ orderId }) => ({
         url: `/db/order/${orderId}`,
@@ -139,5 +159,7 @@ export const {
   useGetCarQuery,
   useGetStatusQuery,
   useGetOrdersListQuery,
-  useDeleteOrderDataMutation
+  useDeleteOrderDataMutation,
+  useChangeOrderStatusMutation,
+  useChangeOrderMutation
 } = adminApi
