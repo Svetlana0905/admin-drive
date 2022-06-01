@@ -91,21 +91,17 @@ export const Orders = () => {
           isVisibleStatusOrder={isVisibleStatusOrder}
           setIsVisibleStatusOrder={setIsVisibleStatusOrder}
         />
-        {data?.data ? (
+        {data?.data?.length ? (
           <>
-            {data?.data?.length ? (
-              data.data.map((item) => (
-                <OrderComponent
-                  key={item.id}
-                  orderDelete={orderDelete}
-                  item={item}
-                  orderChange={orderChange}
-                  orderChangeStatus={orderChangeStatus}
-                />
-              ))
-            ) : (
-              <div className="content__row">Записи не найдены</div>
-            )}
+            {data.data.map((item) => (
+              <OrderComponent
+                key={item.id}
+                orderDelete={orderDelete}
+                item={item}
+                orderChange={orderChange}
+                orderChangeStatus={orderChangeStatus}
+              />
+            ))}
             <Pagination
               showSizeChanger={false}
               current={page + 1}
@@ -115,7 +111,7 @@ export const Orders = () => {
             />
           </>
         ) : (
-          ''
+          <div className="content__row">Записи не найдены</div>
         )}
       </div>
     </>
