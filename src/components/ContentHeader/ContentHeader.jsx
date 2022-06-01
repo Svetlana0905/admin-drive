@@ -1,10 +1,10 @@
 import './contentHeader.scss'
 import { Spin } from 'antd'
-import { useState } from 'react'
-// import { useDispatch } from 'react-redux'
-// import { getCityId } from '../../redux/CitySlice'
-// import { getStatusId } from '../../redux/StatusSlice'
-// import { getCarId } from '../../redux/CarSlise'
+import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { getCityId } from '../../redux/CitySlice'
+import { getStatusId } from '../../redux/StatusSlice'
+import { getCarId } from '../../redux/CarSlise'
 import {
   useGetCityQuery,
   useGetStatusQuery,
@@ -14,7 +14,7 @@ import { ListDropdown } from '../ListDropdown/ListDropdown'
 import { SmallButton } from '../Button/Button'
 
 export const ContentHeader = ({ setPage }) => {
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const { data: city = [], isSuccess: citySuccess } = useGetCityQuery()
   const {
     data: car = [],
@@ -54,20 +54,20 @@ export const ContentHeader = ({ setPage }) => {
     setStatusInput('')
     setCarInput('')
   }
-  // useEffect(() => {
-  //   setPage(0)
-  //   dispatch(getCarId({ carInput, car }))
-  // }, [carInput, dispatch, car, setPage])
+  useEffect(() => {
+    setPage(0)
+    dispatch(getCarId({ carInput, car }))
+  }, [carInput, dispatch, car, setPage])
 
-  // useEffect(() => {
-  //   setPage(0)
-  //   dispatch(getCityId({ cityInput, city }))
-  // }, [cityInput, dispatch, city, setPage])
+  useEffect(() => {
+    setPage(0)
+    dispatch(getCityId({ cityInput, city }))
+  }, [cityInput, dispatch, city, setPage])
 
-  // useEffect(() => {
-  //   setPage(0)
-  //   dispatch(getStatusId({ statusInput, status }))
-  // }, [statusInput, dispatch, status, setPage])
+  useEffect(() => {
+    setPage(0)
+    dispatch(getStatusId({ statusInput, status }))
+  }, [statusInput, dispatch, status, setPage])
 
   if (statusLoading || carLoading)
     return (
