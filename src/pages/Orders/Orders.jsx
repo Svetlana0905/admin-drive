@@ -63,7 +63,6 @@ export const Orders = () => {
 
   if (isSuccess) {
     totalPage = data.count
-    console.log(data.data)
     dispatch(getOrdersData(data.data))
   }
   return (

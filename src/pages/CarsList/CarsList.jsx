@@ -50,35 +50,6 @@ export const CarsList = () => {
       <h1 className="title">CarsList</h1>
       <div className="content-column">
         {isLoading && <Spin tip="Loading..." size="large" />}
-
-        {/* {status === 'resolved' &&
-          data.data.map((item, id) => (
-            <div className="content-column__row car" key={id}>
-              <div className="car__column">
-                <picture className="car__car-picture">
-                  <source srcSet={item.thumbnail.path} type="image/jpg" />
-                  <img
-                    src={stub}
-                    className="car__car-picture"
-                    alt={item.name}
-                  />
-                </picture>
-                <span className="car__number text">
-                  {item.number ? item.number : 'No number'}
-                </span>
-              </div>
-
-              <span className="car__car-name"> {item.name}</span>
-            </div>
-          ))}
-        {status === 'resolved' && (
-          <PaginationAdmin
-            current={currentPage}
-            total={totalPage}
-            onChange={setCurrentPage}
-            pageSize={carsOnPage}
-          />
-        )} */}
         {dataSource.length ? (
           <Table
             dataSource={dataSource}

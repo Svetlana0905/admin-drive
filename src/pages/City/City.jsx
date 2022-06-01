@@ -40,6 +40,7 @@ export const City = () => {
   }
 
   if (isSuccess) {
+    console.log(data.dat)
     dataSource = data.data.map((item) => ({ ...item, key: item.id }))
     dispatch(getCityData(data.data))
   }
