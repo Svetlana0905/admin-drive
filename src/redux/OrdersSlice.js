@@ -23,7 +23,10 @@ export const ordersSlice = createSlice({
       if (data.payload) state.order.cityId = data.payload
     },
     getPointId: (state, data) => {
-      if (data.payload) state.order.pointId = data.payload
+      let point = {}
+      console.log(data.payload)
+      data.payload ? (point = data.payload) : (point = {})
+      state.order.pointId = point
     },
     getStatusId: (state, data) => {
       if (data.payload) state.order.orderStatusId = data.payload

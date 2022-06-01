@@ -17,6 +17,7 @@ export const Orders = () => {
   const [isVisibleStatusOrder, setIsVisibleStatusOrder] = useState(false)
   const [orderId, setOrderId] = useState('')
   const [orderItem, setOrderItem] = useState('')
+
   const city = useSelector((state) => state.cities.cityId.id)
   const status = useSelector((state) => state.status.statusId.id)
   const car = useSelector((state) => state.car.carId.id)
@@ -29,7 +30,6 @@ export const Orders = () => {
   const orderChange = (id) => {
     setIsVisibleChange(true)
     setOrderItem(id)
-    // dispatch(getStatusAlert(false))
   }
   const orderChangeStatus = (id) => {
     setIsVisibleStatusOrder(true)
@@ -74,7 +74,7 @@ export const Orders = () => {
             ? 'content content__dark'
             : 'content'
         }>
-        <ContentHeader />
+        <ContentHeader setPage={setPage} />
         <DeleteOrder
           isVisibleDelete={isVisibleDelete}
           orderId={orderId}
@@ -90,20 +90,27 @@ export const Orders = () => {
           isVisibleStatusOrder={isVisibleStatusOrder}
           setIsVisibleStatusOrder={setIsVisibleStatusOrder}
         />
-        <OrdersList
-          orderDelete={orderDelete}
-          orderChange={orderChange}
-          orderChangeStatus={orderChangeStatus}
-          data={data}
-        />
-        <Pagination
-          showSizeChanger={false}
-          total={totalPage}
-          onChange={(e) => setPage(e - 1)}
-          itemRender={(current, type, originalElement) =>
-            itemRender(current, type, originalElement)
-          }
-        />
+        {data?.data ? (
+          <>
+            <OrdersList
+              orderDelete={orderDelete}
+              orderChange={orderChange}
+              orderChangeStatus={orderChangeStatus}
+              data={data}
+            />
+            <Pagination
+              showSizeChanger={false}
+              current={page + 1}
+              total={totalPage}
+              onChange={(e) => setPage(e - 1)}
+              itemRender={(current, type, originalElement) =>
+                itemRender(current, type, originalElement)
+              }
+            />
+          </>
+        ) : (
+          ''
+        )}
       </div>
     </>
   )

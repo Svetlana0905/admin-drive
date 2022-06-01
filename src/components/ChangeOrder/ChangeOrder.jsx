@@ -17,7 +17,7 @@ import {
 import { getStatusAlert } from '../../redux/alertSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { ListDropdown } from '../ListDropdown/ListDropdown'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Checkbox } from '../Button/Button'
 import { ChangeBlockCar } from '../ChangeBlockCar/ChangeBlockCar'
 import { ChangeDateBlock } from '../ChangeDateBlock/ChangeDateBlock'
@@ -32,12 +32,12 @@ export const ChangeOrder = ({
   const { data: city = [], isSuccess: citySuccess } = useGetCityQuery()
   const { data: status = [], isSuccess: statusSuccess } = useGetStatusQuery()
   const { data: point = [] } = useGetPointQuery()
-  const [orderChange, { isSuccess: response, isError }] =
-    useChangeOrderMutation()
+  const [orderChange, { isError }] = useChangeOrderMutation()
 
   const [cityInput, setCityInput] = useState('')
   const [statusInput, setStatusInput] = useState('')
   const [pointInput, setPointInput] = useState('')
+  const [placeholderPoint, setPlaceholderPoint] = useState()
   const [tank, setTank] = useState()
   const [childChair, setChildChair] = useState()
   const [rightWheell, setRightWheell] = useState()
@@ -46,6 +46,7 @@ export const ChangeOrder = ({
 
   let cityArr = []
   let statusArr = []
+  let pointArr = []
 
   useEffect(() => {
     setTank(orderItem.isFullTank ? orderItem.isFullTank : false)
@@ -53,18 +54,9 @@ export const ChangeOrder = ({
       orderItem.isNeedChildChair ? orderItem.isNeedChildChair : false
     )
     setRightWheell(orderItem.isRightWheel ? orderItem.isRightWheel : false)
+    setPlaceholderPoint(orderItem.pointId ? orderItem.pointId.address : '')
     dispatch(getOrder(orderItem))
   }, [orderItem, dispatch])
-
-  useEffect(() => {
-    let itemPoint = {}
-    if (pointInput) {
-      itemPoint = point.data.filter(
-        (item) => item.name && item.name === pointInput
-      )
-      dispatch(getPointId(itemPoint[0]))
-    }
-  }, [pointInput, point, dispatch])
 
   useEffect(() => {
     let itemStatus = {}
@@ -77,17 +69,29 @@ export const ChangeOrder = ({
   }, [statusInput, status, dispatch])
 
   useEffect(() => {
+    let itemPoint = {}
+    if (pointInput) {
+      itemPoint = point.data.filter(
+        (item) => item.name && item.name === pointInput
+      )
+      dispatch(getPointId(itemPoint[0]))
+    }
+  }, [pointInput, point, dispatch])
+
+  useEffect(() => {
     let itemCity = {}
+    setPlaceholderPoint('')
+    setPointInput('')
     if (cityInput) {
       itemCity = city.data.filter(
         (item) => item.name && item.name === cityInput
       )
-
+      dispatch(getPointId(null))
       dispatch(getCityId(itemCity[0]))
     }
   }, [cityInput, city, dispatch])
 
-  const pointArr = useMemo(() => {
+  pointArr = useMemo(() => {
     let pointAr = []
     if (cityInput) {
       pointAr = point.data.filter(
@@ -129,22 +133,21 @@ export const ChangeOrder = ({
   const changeOrder = async (e) => {
     const id = orderItem.id
     await orderChange({ id, data }).unwrap()
+    setTimeout(() => {
+      dispatch(getStatusAlert('Заказ был успешно сохранен!'))
+      setErrormessage(false)
+      setIsDisabledBtn(true)
+    }, 2000)
   }
-
+  useEffect(() => {
+    data.pointId ? console.log(data.pointId) : console.log('no')
+  }, [data])
   useEffect(() => {
     if (isError) {
       setErrormessage(true)
       setIsDisabledBtn(false)
     }
   }, [isError])
-
-  useEffect(() => {
-    if (response) {
-      dispatch(getStatusAlert('Заказ был успешно сохранен!'))
-      setErrormessage(false)
-      setIsDisabledBtn(true)
-    }
-  }, [response, dispatch])
 
   return (
     <section
@@ -178,9 +181,9 @@ export const ChangeOrder = ({
             setInputText={setPointInput}
             textInput={pointInput}
             data={pointArr}
-            // disabled={pointArr}
             placeholder={
-              orderItem.pointId ? orderItem.pointId.address : 'Нет совпадений'
+              placeholderPoint
+              // orderItem.pointId ? orderItem.pointId.address : 'Нет совпадений'
             }
           />
         </div>

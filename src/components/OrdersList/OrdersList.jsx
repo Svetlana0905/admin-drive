@@ -102,7 +102,7 @@ export const OrdersList = ({
           </div>
         ))
       ) : (
-        <div className="content__row">Нет заказов в этом городе</div>
+        <div className="content__row">Записи не найдены</div>
       )}
     </>
   )

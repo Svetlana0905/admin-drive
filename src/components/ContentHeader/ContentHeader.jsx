@@ -13,7 +13,7 @@ import {
 import { ListDropdown } from '../ListDropdown/ListDropdown'
 import { SmallButton } from '../Button/Button'
 
-export const ContentHeader = () => {
+export const ContentHeader = ({ setPage }) => {
   const dispatch = useDispatch()
   const { data: city = [], isSuccess: citySuccess } = useGetCityQuery()
   const {
@@ -55,16 +55,19 @@ export const ContentHeader = () => {
     setCarInput('')
   }
   useEffect(() => {
+    setPage(0)
     dispatch(getCarId({ carInput, car }))
-  }, [carInput, dispatch, car])
+  }, [carInput, dispatch, car, setPage])
 
   useEffect(() => {
+    setPage(0)
     dispatch(getCityId({ cityInput, city }))
-  }, [cityInput, dispatch, city])
+  }, [cityInput, dispatch, city, setPage])
 
   useEffect(() => {
+    setPage(0)
     dispatch(getStatusId({ statusInput, status }))
-  }, [statusInput, dispatch, status])
+  }, [statusInput, dispatch, status, setPage])
 
   if (statusLoading || carLoading)
     return (
@@ -104,9 +107,6 @@ export const ContentHeader = () => {
         </div>
       </div>
       <SmallButton text="Очистить" onClick={clear} />
-      {/* <button onClick={clear} className="content-header__btn">
-        Отменить
-      </button> */}
     </section>
   )
 }

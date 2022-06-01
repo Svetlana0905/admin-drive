@@ -3,14 +3,23 @@ import { Outlet } from 'react-router-dom'
 import { Header } from '../Header/Header'
 import { Footer } from '../Footer/Footer'
 import { SideBar } from '../SideBar/SideBar'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getStatusAlert } from '../../redux/alertSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 export const Layout = () => {
+  const dispatch = useDispatch()
   const [isVisible, setIsVisible] = useState(false)
   const { status, text } = useSelector((state) => state.alert)
-  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      dispatch(getStatusAlert(false))
+    }, 3000)
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [status, dispatch])
 
   return (
     <div className="body">

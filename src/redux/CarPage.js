@@ -3,34 +3,27 @@ import { createSlice } from '@reduxjs/toolkit'
 export const carPage = createSlice({
   name: 'carPage',
   initialState: {
-    priceMax: 4000,
-    priceMin: 8000,
-    name: '',
-    thumbnail: {},
-    description: '',
-    categoryId: {},
-    colors: [],
-    number: 'N148WV'
+    data: {}
   },
   reducers: {
     getNameCar: (state, data) => {
-      state.name = data.payload
+      state.data.name = data.payload
       // console.log(state.name)
     },
     getColorsCar: (state, data) => {
-      state.colors = data.payload
+      state.data.colors = data.payload
       // console.log(state.colors)
     },
     getCategoryId: (state, data) => {
-      state.categoryId = { name: `${data.payload}`, description: '' }
+      state.data.categoryId = { name: `${data.payload}`, description: '' }
       // console.log(state.categoryId)
     },
     getThumbnail: (state, data) => {
-      state.thumbnail = data.payload
+      state.data.thumbnail = data.payload
       // console.log(data.payload)
     },
     getDescription: (state, data) => {
-      state.description = data.payload
+      state.data.description = data.payload
       // console.log(data.payload)
     }
   }
