@@ -71,7 +71,7 @@ export const OrdersList = ({
             </div>
             <p className="content__price">
               {item.price ? item.price : 0}
-              <span className="content__price">₽</span>
+              <span className="content__price"> ₽</span>
             </p>
             <div className="buttons-group">
               <button
