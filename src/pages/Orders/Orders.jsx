@@ -7,7 +7,7 @@ import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
 import { ChangeOrder } from '../../components/ChangeOrder/ChangeOrder'
 import { ChangeStatus } from '../../components/ChangeStatus/ChangeStatus'
 import { useState } from 'react'
-import { OrdersList } from '../../components/OrdersList/OrdersList'
+import { OrderComponent } from '../../components/OrderComponent/OrderComponent'
 
 export const Orders = () => {
   const dispatch = useDispatch()
@@ -63,6 +63,7 @@ export const Orders = () => {
 
   if (isSuccess) {
     totalPage = data.count
+    console.log(data.data)
     dispatch(getOrdersData(data.data))
   }
   return (
@@ -92,20 +93,25 @@ export const Orders = () => {
         />
         {data?.data ? (
           <>
-            <OrdersList
-              orderDelete={orderDelete}
-              orderChange={orderChange}
-              orderChangeStatus={orderChangeStatus}
-              data={data}
-            />
+            {data?.data?.length ? (
+              data.data.map((item) => (
+                <OrderComponent
+                  key={item.id}
+                  orderDelete={orderDelete}
+                  item={item}
+                  orderChange={orderChange}
+                  orderChangeStatus={orderChangeStatus}
+                />
+              ))
+            ) : (
+              <div className="content__row">Записи не найдены</div>
+            )}
             <Pagination
               showSizeChanger={false}
               current={page + 1}
               total={totalPage}
               onChange={(e) => setPage(e - 1)}
-              itemRender={(current, type, originalElement) =>
-                itemRender(current, type, originalElement)
-              }
+              itemRender={itemRender}
             />
           </>
         ) : (

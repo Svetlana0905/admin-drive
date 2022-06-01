@@ -24,7 +24,6 @@ export const ordersSlice = createSlice({
     },
     getPointId: (state, data) => {
       let point = {}
-      console.log(data.payload)
       data.payload ? (point = data.payload) : (point = {})
       state.order.pointId = point
     },

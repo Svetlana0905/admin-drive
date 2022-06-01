@@ -181,10 +181,7 @@ export const ChangeOrder = ({
             setInputText={setPointInput}
             textInput={pointInput}
             data={pointArr}
-            placeholder={
-              placeholderPoint
-              // orderItem.pointId ? orderItem.pointId.address : 'Нет совпадений'
-            }
+            placeholder={placeholderPoint}
           />
         </div>
         <div className="change-block__wrapper-input">
