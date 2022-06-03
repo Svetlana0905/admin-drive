@@ -113,6 +113,7 @@ export const TarifType = () => {
       setResponseDelete(false)
     }, 2000)
   }
+  if (isLoading) return <Spin tip="Loading..." size="large" />
   if (isSuccess) {
     dataSource = data.data
   }
@@ -120,7 +121,6 @@ export const TarifType = () => {
     <>
       <h1 className="title">TarifList</h1>
       <div className="list-block">
-        {isLoading && <Spin tip="Loading..." size="large" />}
         <div className="content-header">
           <div className="content-header__btn-block"></div>
           <div className="content-header__btn-block">

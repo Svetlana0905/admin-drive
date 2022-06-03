@@ -60,11 +60,15 @@ export const City = () => {
   const addItem = async () => {
     const data = {}
     data.name = cityName
-    if (cityName) {
-      await cityAddRequest({ data }).unwrap()
+    if (data.name) {
       setIsDisabledModal(true)
-      setIsVisibleModalAdd(false)
-      setCityName('')
+      await cityAddRequest({ data }).unwrap()
+      setTimeout(() => {
+        setIsVisibleModalAdd(false)
+      }, 2000)
+      setTimeout(() => {
+        setIsDisabledModal(false)
+      }, 2500)
     } else {
       setErrorMassage(true)
       setIsDisabledModal(false)
@@ -72,13 +76,17 @@ export const City = () => {
     }
   }
   const changeItem = async () => {
+    setIsDisabledModal(true)
     const data = {}
     data.name = cityName
     if (cityName) {
       await cityChangeRequest({ cityId, data }).unwrap()
-      setIsDisabledModal(true)
-      setIsVisibleModal(false)
-      setCityName('')
+      setTimeout(() => {
+        setIsVisibleModal(false)
+      }, 2000)
+      setTimeout(() => {
+        setIsDisabledModal(false)
+      }, 2500)
     } else {
       setErrorMassage(true)
       setIsDisabledModal(false)

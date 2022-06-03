@@ -33,14 +33,9 @@ export const NavLinkData = [
     title: 'Тариф'
   },
   {
-    imgpath: <Img2 className="nav-link__img" width="14px" height="14px" />,
+    imgpath: <Img6 className="nav-link__img" width="14px" height="14px" />,
     link: 'tarif-type',
     title: 'Типы Тарифов'
-  },
-  {
-    imgpath: <Img6 className="nav-link__img" width="14px" height="16px" />,
-    link: 'order-status',
-    title: 'Статус заказа'
   },
   {
     imgpath: <Img7 className="nav-link__img" width="14px" height="14px" />,

@@ -1,6 +1,5 @@
 import { useGetOrdersListQuery, useDeleteOrderDataMutation } from '../../redux/'
-import { useDispatch, useSelector } from 'react-redux'
-import { getOrdersData } from '../../redux/OrdersSlice'
+import { useSelector } from 'react-redux'
 import { Spin, Pagination } from 'antd'
 import { ContentHeader } from '../../components/ContentHeader/ContentHeader'
 import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
@@ -10,7 +9,6 @@ import { useEffect, useState } from 'react'
 import { OrderComponent } from '../../components/OrderComponent/OrderComponent'
 
 export const Orders = () => {
-  const dispatch = useDispatch()
   const [page, setPage] = useState(0)
   const [totalPage, setTotalPage] = useState(0)
   const [isVisibleDelete, setIsVisibleDelete] = useState(false)
@@ -19,9 +17,15 @@ export const Orders = () => {
   const [orderId, setOrderId] = useState('')
   const [orderItem, setOrderItem] = useState('')
 
-  const city = useSelector((state) => state.cities.cityId.id)
-  const status = useSelector((state) => state.status.statusId.id)
-  const car = useSelector((state) => state.car.carId.id)
+  const city = useSelector((state) =>
+    state.cities.cityId ? state.cities.cityId.id : ''
+  )
+  const status = useSelector((state) =>
+    state.status.statusId ? state.status.statusId.id : ''
+  )
+  const car = useSelector((state) =>
+    state.car.carId ? state.car.carId.id : ''
+  )
 
   const [orderDeleteRequest] = useDeleteOrderDataMutation()
   const [responseDelete, setResponseDelete] = useState(false)
@@ -31,7 +35,6 @@ export const Orders = () => {
     setOrderId(id)
   }
   const deleteItem = async (e) => {
-    console.log(orderId)
     await orderDeleteRequest({ orderId }).unwrap()
     setResponseDelete(true)
     setTimeout(() => {
@@ -47,11 +50,12 @@ export const Orders = () => {
     setIsVisibleStatusOrder(true)
     setOrderItem(id)
   }
-  const {
-    data = [],
-    isLoading,
-    isSuccess
-  } = useGetOrdersListQuery({ page, city, status, car })
+  const { data = [], isLoading } = useGetOrdersListQuery({
+    page,
+    city,
+    status,
+    car
+  })
 
   function itemRender(_, type, originalElement) {
     if (type === 'prev') {
@@ -76,9 +80,6 @@ export const Orders = () => {
 
   if (isLoading) return <Spin tip="Loading..." size="large" />
 
-  if (isSuccess) {
-    dispatch(getOrdersData(data.data))
-  }
   return (
     <>
       <h1 className="title">Заказы</h1>

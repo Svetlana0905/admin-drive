@@ -47,8 +47,7 @@ export const ModalTarifType = ({
               isDisabledModal
                 ? 'button button__small green-btn hidden'
                 : 'button button__small green-btn'
-            }
-            disabled={isDisabledModal}>
+            }>
             {text === 'Изменить' ? 'Изменить' : 'Добавить'}
           </button>
           <button onClick={closeModal} className="button button__small">

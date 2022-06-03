@@ -28,7 +28,11 @@ export const ModalCity = ({
         <div className="modal-block__btn-block">
           <button
             onClick={actions}
-            className="button button__small green-btn"
+            className={
+              isDisabledModal
+                ? 'button button__small green-btn hidden'
+                : 'button button__small green-btn'
+            }
             disabled={isDisabledModal}>
             {text === 'Изменить' ? 'Изменить' : 'Добавить'}
           </button>

@@ -10,9 +10,10 @@ export const ordersSlice = createSlice({
   },
   reducers: {
     getOrdersData: (state, data) => {
-      // console.log(data.payload)
+      console.log(data.data)
     },
     getOrder: (state, data) => {
+      console.log(data.payload)
       state.order = data.payload
     },
     getCarId: (state, data) => {
@@ -20,6 +21,7 @@ export const ordersSlice = createSlice({
       if (car) state.order.carId = car
     },
     getCityId: (state, data) => {
+      console.log(data.payload)
       if (data.payload) state.order.cityId = data.payload
     },
     getPointId: (state, data) => {

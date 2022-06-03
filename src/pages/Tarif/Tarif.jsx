@@ -123,6 +123,7 @@ export const Tarif = () => {
       setResponseDelete(false)
     }, 2500)
   }
+  if (isLoading) return <Spin tip="Loading..." size="large" />
   if (isSuccess) {
     dataSource = data.data
   }
@@ -130,7 +131,6 @@ export const Tarif = () => {
     <>
       <h1 className="title">TarifList</h1>
       <div className={'list-block'}>
-        {isLoading && <Spin tip="Loading..." size="large" />}
         <div className="content-header">
           <div className="content-header__btn-block"></div>
           <div className="content-header__btn-block">
