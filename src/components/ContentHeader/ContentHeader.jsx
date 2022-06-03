@@ -14,8 +14,13 @@ import { ListDropdown } from '../ListDropdown/ListDropdown'
 import { SmallButton } from '../Button/Button'
 
 export const ContentHeader = ({ setPage }) => {
+  const page = 4
+
   const dispatch = useDispatch()
-  const { data: city = [], isSuccess: citySuccess } = useGetCityQuery()
+  const { data: city = [], isSuccess: citySuccess } = useGetCityQuery({
+    page: page,
+    limit: 0
+  })
   const {
     data: car = [],
     isLoading: carLoading,

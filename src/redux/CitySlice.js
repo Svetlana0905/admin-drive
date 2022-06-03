@@ -9,7 +9,7 @@ export const citySlice = createSlice({
   reducers: {
     getCityData: (state, data) => {
       state.obj = data.payload
-      console.log(data.payload)
+      // console.log(data.payload)
     },
     getCityId: (state, data) => {
       data.payload.cityInput

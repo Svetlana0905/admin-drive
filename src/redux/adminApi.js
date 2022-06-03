@@ -47,20 +47,15 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         'refreshToken',
         refreshResult.data.data.refresh_token
       )
-      // api.dispatch(tokenReceived(refreshResult.data))
-      // // retry the initial query
       result = await baseQuery(args, api, extraOptions)
     }
-    // else {
-    //   api.dispatch(setLogoutData())
-    // }
   }
   return result
 }
 export const adminApi = createApi({
   reducerPath: 'adminApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Orders'],
+  tagTypes: ['Orders', 'City', 'Tarif', 'TarifType'],
   endpoints: (build) => ({
     login: build.mutation({
       query: (userData) => ({
@@ -88,10 +83,13 @@ export const adminApi = createApi({
       }
     }),
     getCity: build.query({
-      query: () => `/db/city`,
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
+      query: ({ page, limit }) => ({
+        url: `/db/city?${limit ? `limit=${limit}&` : ''}page=${page}`,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      providesTags: ['City']
     }),
     getCar: build.query({
       query: () => `/db/car`,
@@ -147,6 +145,120 @@ export const adminApi = createApi({
         }
       }),
       invalidatesTags: ['Orders']
+    }),
+    deleteCityData: build.mutation({
+      query: ({ cityId }) => ({
+        url: `/db/city/${cityId}`,
+        method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      invalidatesTags: ['City']
+    }),
+    addCityData: build.mutation({
+      query: ({ data }) => ({
+        url: `/db/city`,
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['City']
+    }),
+    changeCity: build.mutation({
+      query: ({ cityId, data }) => ({
+        url: `/db/city/${cityId}`,
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['City']
+    }),
+    getTarif: build.query({
+      query: ({ page, limit }) => ({
+        url: `/db/rate?${limit ? `limit=${limit}&` : ''}page=${page}`,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      providesTags: ['Tarif']
+    }),
+    addTarif: build.mutation({
+      query: ({ data }) => ({
+        url: `/db/rate`,
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['Tarif']
+    }),
+    changeTarif: build.mutation({
+      query: ({ tarifId, data }) => ({
+        url: `/db/rate/${tarifId}`,
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['Tarif']
+    }),
+    deleteTarifData: build.mutation({
+      query: ({ tarifId }) => ({
+        url: `/db/rate/${tarifId}`,
+        method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      invalidatesTags: ['Tarif']
+    }),
+    getTarifType: build.query({
+      query: ({ page, limit }) => ({
+        url: `/db/rateType?${limit ? `limit=${limit}&` : ''}page=${page}`,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      providesTags: ['TarifType']
+    }),
+    changeTarifType: build.mutation({
+      query: ({ tarifId, data }) => ({
+        url: `/db/rateType/${tarifId}`,
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['TarifType']
+    }),
+    deleteTarifType: build.mutation({
+      query: ({ tarifId }) => ({
+        url: `/db/rateType/${tarifId}`,
+        method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      invalidatesTags: ['TarifType']
+    }),
+    addTarifType: build.mutation({
+      query: ({ data }) => ({
+        url: `/db/rateType`,
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['TarifType']
     })
   })
 })
@@ -161,5 +273,16 @@ export const {
   useGetOrdersListQuery,
   useDeleteOrderDataMutation,
   useChangeOrderStatusMutation,
-  useChangeOrderMutation
+  useChangeOrderMutation,
+  useDeleteCityDataMutation,
+  useAddCityDataMutation,
+  useChangeCityMutation,
+  useGetTarifQuery,
+  useAddTarifMutation,
+  useChangeTarifMutation,
+  useDeleteTarifDataMutation,
+  useAddTarifTypeMutation,
+  useChangeTarifTypeMutation,
+  useDeleteTarifTypeMutation,
+  useGetTarifTypeQuery
 } = adminApi

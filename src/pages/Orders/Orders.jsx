@@ -1,4 +1,4 @@
-import { useGetOrdersListQuery } from '../../redux/'
+import { useGetOrdersListQuery, useDeleteOrderDataMutation } from '../../redux/'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrdersData } from '../../redux/OrdersSlice'
 import { Spin, Pagination } from 'antd'
@@ -6,12 +6,13 @@ import { ContentHeader } from '../../components/ContentHeader/ContentHeader'
 import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
 import { ChangeOrder } from '../../components/ChangeOrder/ChangeOrder'
 import { ChangeStatus } from '../../components/ChangeStatus/ChangeStatus'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { OrderComponent } from '../../components/OrderComponent/OrderComponent'
 
 export const Orders = () => {
   const dispatch = useDispatch()
   const [page, setPage] = useState(0)
+  const [totalPage, setTotalPage] = useState(0)
   const [isVisibleDelete, setIsVisibleDelete] = useState(false)
   const [isVisibleChange, setIsVisibleChange] = useState(false)
   const [isVisibleStatusOrder, setIsVisibleStatusOrder] = useState(false)
@@ -21,11 +22,22 @@ export const Orders = () => {
   const city = useSelector((state) => state.cities.cityId.id)
   const status = useSelector((state) => state.status.statusId.id)
   const car = useSelector((state) => state.car.carId.id)
-  let totalPage = 0
+
+  const [orderDeleteRequest] = useDeleteOrderDataMutation()
+  const [responseDelete, setResponseDelete] = useState(false)
 
   const orderDelete = (id) => {
     setIsVisibleDelete(true)
     setOrderId(id)
+  }
+  const deleteItem = async (e) => {
+    console.log(orderId)
+    await orderDeleteRequest({ orderId }).unwrap()
+    setResponseDelete(true)
+    setTimeout(() => {
+      setIsVisibleDelete(!isVisibleDelete)
+      setResponseDelete(false)
+    }, 2000)
   }
   const orderChange = (id) => {
     setIsVisibleChange(true)
@@ -58,11 +70,13 @@ export const Orders = () => {
     }
     return originalElement
   }
+  useEffect(() => {
+    setTotalPage(data.count)
+  }, [data])
 
-  if (isLoading) <Spin tip="Loading..." size="large" />
+  if (isLoading) return <Spin tip="Loading..." size="large" />
 
   if (isSuccess) {
-    totalPage = data.count
     dispatch(getOrdersData(data.data))
   }
   return (
@@ -79,6 +93,18 @@ export const Orders = () => {
           isVisibleDelete={isVisibleDelete}
           orderId={orderId}
           setIsVisibleDelete={setIsVisibleDelete}
+          itemDeleteRequest={deleteItem}
+          responseDelete={responseDelete}
+          deleteOrder={deleteItem}
+          text={
+            orderId ? (
+              <p className="text-dark">
+                Заказ<span className="text-green"> {orderId}</span>
+              </p>
+            ) : (
+              'Заказ'
+            )
+          }
         />
         <ChangeOrder
           orderItem={orderItem}
@@ -105,6 +131,7 @@ export const Orders = () => {
               showSizeChanger={false}
               current={page + 1}
               total={totalPage}
+              pageSize={4}
               onChange={(e) => setPage(e - 1)}
               itemRender={itemRender}
             />

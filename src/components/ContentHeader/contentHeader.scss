@@ -60,8 +60,8 @@
     border-radius: 4px;
     &:hover,
     &:focus {
-      border-color: $green;
-      box-shadow: 2px 2px 4px 1px rgb(168 228 156 / 59%);
+      border-color: $ligthBlue;
+      box-shadow: 0 0 0 2px $box-shadow;
     }
     &:disabled {
       border-color: $border;

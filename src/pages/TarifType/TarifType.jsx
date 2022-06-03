@@ -1,31 +1,29 @@
 import '../City/list-block.scss'
 import {
-  useGetTarifQuery,
-  useChangeTarifMutation,
-  useDeleteTarifDataMutation,
-  useAddTarifMutation
+  useAddTarifTypeMutation,
+  useChangeTarifTypeMutation,
+  useDeleteTarifTypeMutation,
+  useGetTarifTypeQuery
 } from '../../redux'
 import { Spin } from 'antd'
 import { SmallButton } from '../../components/Button/Button'
 import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
-import { ModalTarif } from './ModalTarif'
-import { TarifContent } from './TarifContent'
+import { ModalTarifType } from './ModalTarifType'
+import { TarifTypeContent } from './TarifTypeContent'
 import { useState } from 'react'
 
-export const Tarif = () => {
+export const TarifType = () => {
   const {
     data = [],
     isLoading,
     isSuccess
-  } = useGetTarifQuery({ page: 0, limit: 0 })
-  const [tarifDeleteRequest] = useDeleteTarifDataMutation()
-  const [tarifChangeRequest] = useChangeTarifMutation()
-  const [tarifTypeAddRequest] = useAddTarifMutation()
-
-  const [tarifPrice, setTarifPrice] = useState('')
+  } = useGetTarifTypeQuery({ page: 0, limit: 0 })
+  const [tarifDeleteRequest] = useDeleteTarifTypeMutation()
+  const [tarifChangeRequest] = useChangeTarifTypeMutation()
+  const [tarifAddRequest] = useAddTarifTypeMutation()
+  const [tarifName, setTarifName] = useState('')
+  const [tarifUnit, setTarifUnit] = useState('')
   const [item, setItem] = useState({})
-  const [errorNumber, setErrorNumber] = useState(false)
-  const [tarifRate, setTarifRate] = useState({})
   const [isDisabledModal, setIsDisabledModal] = useState(false)
   const [responseDelete, setResponseDelete] = useState(false)
   const [isVisibleDelete, setIsVisibleDelete] = useState(false)
@@ -38,35 +36,28 @@ export const Tarif = () => {
   const closeModal = () => {
     setIsVisibleModal(false)
     setIsVisibleModalAdd(false)
-    setTarifRate({})
-    setItem({})
-    setErrorNumber(false)
-    setErrorMassage(false)
+    setTarifName('')
+    setTarifUnit('')
   }
-  const tarifDelete = (item) => {
-    setIsVisibleDelete(true)
-    setTarifId(item.id)
-    setItem(item)
-  }
+
   const changeTarif = (item) => {
-    setErrorMassage(false)
     setItem(item)
-    setTarifId(item.id)
-    setTarifPrice(item.price ? +item.price : 0)
+    setErrorMassage(false)
+    setTarifName(item ? item.name : '')
+    setTarifUnit(item ? item.unit : '')
     setIsDisabledModal(false)
     setIsVisibleModal(true)
   }
   const changeItem = async () => {
     let { data } = item
-    if (!isNaN(tarifPrice)) {
-      data = {
-        ...data,
-        price: tarifPrice
-      }
-      await tarifChangeRequest({ tarifId, data }).unwrap()
+    data = {
+      ...data,
+      name: tarifName,
+      unit: tarifUnit
+    }
+    if (tarifName && tarifUnit) {
+      await tarifChangeRequest({ tarifId: item.id, data }).unwrap()
       setIsDisabledModal(true)
-      setErrorNumber(false)
-      setErrorMassage(false)
       setTimeout(() => {
         setIsVisibleModal(false)
       }, 2000)
@@ -77,51 +68,50 @@ export const Tarif = () => {
       setErrorMassage(true)
       setIsDisabledModal(false)
       setIsVisibleModal(true)
-      setErrorNumber(true)
     }
   }
-  const addTarif = () => {
+  const addTarifType = () => {
     setIsDisabledModal(false)
     setIsVisibleModalAdd(true)
-    setTarifPrice('')
-    setTarifRate('')
+    setTarifName('')
+    setTarifUnit('')
   }
   const addItem = async () => {
     let { data } = item
     data = {
       ...data,
-      price: tarifPrice,
-      rateTypeId: tarifRate[0]
+      name: tarifName,
+      unit: tarifUnit
     }
-    console.log(data)
-    if (!isNaN(tarifPrice) && data.rateTypeId) {
-      await tarifTypeAddRequest({ data }).unwrap()
+    if (tarifName && tarifUnit) {
+      await tarifAddRequest({ data }).unwrap()
       setIsDisabledModal(true)
-      setTarifPrice('')
       setTimeout(() => {
         setIsVisibleModalAdd(false)
       }, 2000)
       setTimeout(() => {
         setIsDisabledModal(false)
-        setErrorNumber(false)
-        setErrorMassage(false)
+        setTarifName('')
+        setTarifUnit('')
       }, 2500)
     } else {
       setErrorMassage(true)
       setIsDisabledModal(false)
       setIsVisibleModalAdd(true)
-      setErrorNumber(true)
     }
+  }
+  const tarifDelete = (item) => {
+    setIsVisibleDelete(true)
+    setTarifId(item.id)
+    setTarifName(item ? item.name : '')
   }
   const deleteItem = async (e) => {
     setResponseDelete(true)
     await tarifDeleteRequest({ tarifId }).unwrap()
     setTimeout(() => {
       setIsVisibleDelete(!isVisibleDelete)
-    }, 2000)
-    setTimeout(() => {
       setResponseDelete(false)
-    }, 2500)
+    }, 2000)
   }
   if (isSuccess) {
     dataSource = data.data
@@ -129,12 +119,12 @@ export const Tarif = () => {
   return (
     <>
       <h1 className="title">TarifList</h1>
-      <div className={'list-block'}>
+      <div className="list-block">
         {isLoading && <Spin tip="Loading..." size="large" />}
         <div className="content-header">
           <div className="content-header__btn-block"></div>
           <div className="content-header__btn-block">
-            <SmallButton text="Создать" onClick={addTarif} />
+            <SmallButton text="Создать" onClick={addTarifType} />
           </div>
         </div>
         <DeleteOrder
@@ -144,39 +134,38 @@ export const Tarif = () => {
           itemDeleteRequest={deleteItem}
           responseDelete={responseDelete}
           text={
-            item.rateTypeId ? (
-              <span className="text-green"> {item.rateTypeId.name}</span>
+            tarifName ? (
+              <span className="text-green"> {tarifName}</span>
             ) : (
               'Тариф'
             )
           }
         />
-        <ModalTarif
+        <ModalTarifType
           isVisibleModal={isVisibleModal}
           closeModal={closeModal}
           actions={changeItem}
           text="Изменить"
-          item={item}
           isDisabledModal={isDisabledModal}
-          tarifPrice={tarifPrice}
-          setTarifPrice={setTarifPrice}
+          tarifName={tarifName}
+          setTarifName={setTarifName}
+          tarifUnit={tarifUnit}
+          setTarifUnit={setTarifUnit}
           errorMassage={errorMassage}
-          errorNumber={errorNumber}
         />
-        <ModalTarif
+        <ModalTarifType
           isVisibleModal={isVisibleModalAdd}
           closeModal={closeModal}
           actions={addItem}
-          setTarifRate={setTarifRate}
           text="Добавить"
-          item={item}
           isDisabledModal={isDisabledModal}
-          tarifPrice={tarifPrice}
-          setTarifPrice={setTarifPrice}
+          tarifName={tarifName}
+          setTarifName={setTarifName}
+          tarifUnit={tarifUnit}
+          setTarifUnit={setTarifUnit}
           errorMassage={errorMassage}
-          errorNumber={errorNumber}
         />
-        <TarifContent
+        <TarifTypeContent
           dataSource={dataSource}
           isVisibleDelete={isVisibleDelete}
           isVisibleModal={isVisibleModal}

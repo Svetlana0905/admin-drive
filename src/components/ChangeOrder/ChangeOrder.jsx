@@ -29,7 +29,10 @@ export const ChangeOrder = ({
 }) => {
   const dispatch = useDispatch()
   const data = useSelector((state) => state.orders.order)
-  const { data: city = [], isSuccess: citySuccess } = useGetCityQuery()
+  const { data: city = [], isSuccess: citySuccess } = useGetCityQuery({
+    page: 0,
+    limit: 0
+  })
   const { data: status = [], isSuccess: statusSuccess } = useGetStatusQuery()
   const { data: point = [] } = useGetPointQuery()
   const [orderChange, { isError }] = useChangeOrderMutation()
@@ -133,15 +136,12 @@ export const ChangeOrder = ({
   const changeOrder = async (e) => {
     const id = orderItem.id
     await orderChange({ id, data }).unwrap()
+    setIsDisabledBtn(true)
     setTimeout(() => {
       dispatch(getStatusAlert('Заказ был успешно сохранен!'))
       setErrormessage(false)
-      setIsDisabledBtn(true)
     }, 2000)
   }
-  useEffect(() => {
-    data.pointId ? console.log(data.pointId) : console.log('no')
-  }, [data])
   useEffect(() => {
     if (isError) {
       setErrormessage(true)
@@ -227,8 +227,11 @@ export const ChangeOrder = ({
       <div className="change-block__btn-block">
         <button
           onClick={changeOrder}
-          className="button button__small"
-          disabled={isDisabledBtn}>
+          className={
+            isDisabledBtn
+              ? 'button button__small hidden'
+              : 'button button__small'
+          }>
           Изменить
         </button>
         <button onClick={() => close()} className="button button__small">

@@ -67,3 +67,10 @@ export const Checkbox = ({ text, name, checked, onChange, readonly }) => {
     </label>
   )
 }
+export const ListButton = ({ text, clickHandler }) => {
+  return (
+    <button onClick={clickHandler} className="group-list-btn">
+      {text}
+    </button>
+  )
+}

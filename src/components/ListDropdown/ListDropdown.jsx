@@ -9,7 +9,6 @@ export const ListDropdown = ({
   disabled
 }) => {
   const [isVisible, setToggleVisible] = useState(false)
-
   const classesList = isVisible
     ? `content-header__list_open content-header__list`
     : `content-header__list`

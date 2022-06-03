@@ -22,6 +22,9 @@
     width: 95px;
     padding: 0 10px;
   }
+  &__small + &__small {
+    margin-left: 15px;
+  }
   &__delite {
     background: $red;
   }
@@ -157,5 +160,67 @@ label.input-file input[type='file'] {
   }
   &__span {
     color: $border;
+  }
+}
+.group-list-btn {
+  position: relative;
+  width: 90px;
+  height: 29px;
+  background: $white;
+  border: 0.5px solid $border;
+  font-family: 'Helvetica';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: -0.345714px;
+  color: #5a6169;
+  &:first-child,
+  &:last-child {
+    @media (min-width: 768px) {
+      width: 71.5px;
+      height: 24px;
+      font-size: 11px;
+      line-height: 13px;
+    }
+  }
+  &:hover {
+    background: $disabled;
+  }
+  &:disabled {
+    background: $disabled;
+  }
+  &:first-child {
+    border-radius: 4px 0 0 4px;
+  }
+  &:first-child::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 10px;
+    left: 4px;
+    top: 9px;
+    background: url(../../assets//icons/change-btn.svg) center no-repeat;
+    @media (min-width: 768px) {
+      left: 2px;
+      top: 6px;
+    }
+  }
+  &:last-child {
+    border-radius: 0 4px 4px 0;
+  }
+  &:last-child::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 6px;
+    left: 7px;
+    top: 11px;
+    background: url(../../assets//icons/cancel-btn.svg) center no-repeat;
+    @media (min-width: 768px) {
+      height: 6px;
+      left: 5px;
+      top: 8px;
+    }
   }
 }

@@ -10,6 +10,7 @@ export const ChangeStatus = ({
   const [responseStatus, setResponseStatus] = useState(false)
   const [showMessage, setShowMessage] = useState(false)
   const [isDisabled, setIsDisabled] = useState(false)
+  // const [isDisabledModal, setIsDisabledModal] = useState(false)
 
   const changeStatus = async (e) => {
     const id = orderItem.id
@@ -21,6 +22,7 @@ export const ChangeStatus = ({
     setIsDisabled(true)
     setResponseStatus(true)
     await changeStatusOrder({ id, data }).unwrap()
+    // setIsDisabledModal(true)
     setTimeout(() => {
       setIsVisibleStatusOrder(!isVisibleStatusOrder)
       setResponseStatus(false)
@@ -87,9 +89,13 @@ export const ChangeStatus = ({
 
       <div className="delete-block__btn-block">
         <button
-          disabled={isDisabled}
+          // disabled={isDisabled}
           onClick={changeStatus}
-          className="button button__small button__delite">
+          className={
+            isDisabled
+              ? 'button button__small green-btn hidden'
+              : 'button button__small green-btn '
+          }>
           Изменить
         </button>
         <button

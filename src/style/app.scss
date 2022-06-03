@@ -4,6 +4,7 @@
 @import './pagination.scss';
 @import './content.scss';
 @import './pagination.scss';
+@import './modalBlock.scss';
 body {
   position: relative;
   font-family: 'Helvetica';
@@ -226,6 +227,9 @@ body {
   letter-spacing: -0.408571px;
   color: $black;
 }
+.green-btn {
+  background: $green;
+}
 @media (max-width: 590px) {
   .main {
     padding-left: 0;
@@ -233,4 +237,7 @@ body {
 }
 .ant-pagination-item-ellipsis {
   color: $blue;
+}
+.hidden {
+  display: none;
 }
