@@ -3,18 +3,18 @@ import './loginInput.scss'
 import { Input, Space } from 'antd'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 
-export const InputLogin = ({
+export const InputStandart = ({
   label,
   placeholder,
   value,
   status,
   onChange,
-  textError,
-  innerRef
+  innerRef,
+  size
 }) => {
   // console.log(status)
   return (
-    <label className="form__label label">
+    <label className={size ? 'label label__small' : 'form__label label'}>
       <span className="label__span">{label}</span>
       <Input
         placeholder={placeholder}
@@ -25,7 +25,7 @@ export const InputLogin = ({
         onChange={(e) => onChange(e.target.value)}
       />
       <span className={status === 'error' ? 'error__visible' : 'error__hidden'}>
-        {textError}
+        {status === 'error' ? 'Введите данные' : ''}
       </span>
     </label>
   )

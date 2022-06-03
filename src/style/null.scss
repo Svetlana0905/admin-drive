@@ -18,6 +18,9 @@ a:active {
   cursor: pointer;
   outline: none;
 }
+p {
+  margin: 0;
+}
 aside,
 nav,
 footer,
@@ -28,7 +31,10 @@ section {
 html,
 body {
   width: 100%;
-  height: 100%;
+
+  // height: 100%;
+  // overflow-x: hidden;
+  // overflow: auto;
 }
 body {
   line-height: 1;

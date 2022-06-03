@@ -1,11 +1,17 @@
 @import './null.scss';
 @import './shared.scss';
 @import './fonts.scss';
+@import './pagination.scss';
+@import './content.scss';
+@import './pagination.scss';
+@import './modalBlock.scss';
 body {
   position: relative;
-  font-family: 'Roboto';
+  font-family: 'Helvetica';
   color: $dark100;
-  height: 100%;
+  min-height: 100vh;
+  width: 100%;
+  background: $bg;
 }
 #root {
   width: 100%;
@@ -13,9 +19,90 @@ body {
   background: $bg;
 }
 .body {
+  width: 100%;
   position: relative;
-  height: 100%;
 }
+
+.main {
+  // max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+}
+.sidebar-btn {
+  position: absolute;
+  width: 30px;
+  z-index: 10;
+  top: 22px;
+  left: 11px;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+.burger {
+  background: $white;
+  border: none;
+  display: block;
+  position: relative;
+  width: 30px;
+  height: 20px;
+  position: relative;
+  z-index: 3;
+  & span {
+    position: absolute;
+    background-color: $dark100;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    top: 9px;
+    transition: all 0.3s ease 0s;
+  }
+  &::before,
+  &::after {
+    content: '';
+    background-color: $dark100;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    left: 0;
+    transition: all 0.3s ease 0s;
+  }
+  &:before {
+    top: 0;
+  }
+  &:after {
+    bottom: 0;
+  }
+  &.active span {
+    transform: scale(0);
+  }
+  &.active:before {
+    transform: rotate(45deg);
+    top: 9px;
+  }
+  &.active:after {
+    transform: rotate(-45deg);
+    bottom: 9px;
+  }
+}
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+  background: $bg;
+}
+.container {
+  position: relative;
+  padding: 28px 10px 28px;
+  flex: 1 1 auto;
+  @media (min-width: 1024px) {
+    padding: 30px 32px 28px;
+  }
+}
+
 .logo__block {
   display: flex;
   gap: 11px;
@@ -26,31 +113,87 @@ body {
   font-size: 24px;
   line-height: 28px;
 }
-.main {
-  width: 100%;
-  height: 100%;
+.alert {
+  position: absolute;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42px;
+  padding: 0 25px;
+  background: $green;
+  font-family: 'Helvetica';
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: -0.325px;
+  color: $white;
+  &__hidden {
+    display: none;
+  }
+  &__close {
+    width: 19px;
+    height: 20px;
+    background: transparent;
+    background: url(../assets/icons/close_icon.svg);
+    border: none;
+  }
+}
+.loading-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin: 0 auto;
+}
+.logo-text {
+  color: $logo;
+  font-family: 'Helvetica';
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: -0.6125px;
+}
+.title {
+  font-weight: 400;
+  font-size: 29px;
+  line-height: 33px;
+  letter-spacing: -0.725px;
+  color: $logo;
+  margin-bottom: 29px;
+  &__car {
+    margin-bottom: 30px;
+  }
 }
 .subtitle {
   text-align: center;
-  font-family: 'Helvetica';
   font-size: 17.5px;
+}
+.heading {
+  font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 17.5px;
+  line-height: 21px;
+  letter-spacing: -0.4375px;
+  color: $logo;
 }
 .text {
   font-size: 10.5px;
   line-height: 14px;
-  font-weight: normal;
-  // @media (min-width: 768px) {
-  //   font-size: 14px;
-  //   line-height: 16px;
-  // }
 }
 .small-text {
   font-family: 'Helvetica';
-  font-weight: normal;
   font-size: 10.5px;
   line-height: 12px;
   letter-spacing: -0.18421px;
+}
+.small-roboto {
+  font-family: 'Roboto';
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: -0.345714px;
+  color: $dark100;
 }
 .text-bold {
   font-weight: 500;
@@ -62,8 +205,39 @@ body {
   font-size: 18px;
   line-height: 21px;
 }
+.text-light {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: -0.408571px;
+  color: $dark50;
+}
+.text-green {
+  padding: 0 3px;
+  color: $green;
+}
+.text-dark {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: -0.408571px;
+  color: $black;
+}
+.green-btn {
+  background: $green;
+}
 @media (max-width: 590px) {
   .main {
     padding-left: 0;
   }
+}
+.ant-pagination-item-ellipsis {
+  color: $blue;
+}
+.hidden {
+  display: none;
 }

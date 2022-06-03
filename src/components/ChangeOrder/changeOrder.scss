@@ -1,0 +1,94 @@
+@import '../../style//app.scss';
+@keyframes show {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes hide {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+.change-block {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 95%;
+  padding: 35px 15px;
+  background: $white;
+  text-align: center;
+  box-shadow: 2px 4px 8px 9.5px rgb(100 100 100 / 47%);
+  border-radius: 15px;
+  opacity: 1;
+  top: 15px;
+  z-index: 100;
+  animation: show 1s;
+  animation-fill-mode: forwards;
+  transform: rotateX(0deg);
+  transition: top ease-in-out 0.4s;
+  @media (min-width: 500px) {
+    padding: 35px 25px;
+    width: 90%;
+  }
+  &__hidden {
+    position: absolute;
+    transition: all ease-in-out 0.4s;
+    animation: hide 1s;
+    animation-fill-mode: forwards;
+    z-index: -1;
+  }
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+  &__options {
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    @media (min-width: 500px) {
+      flex-direction: row;
+    }
+  }
+  &__car {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  &__error {
+    color: $red;
+  }
+  &__btn-block {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 25px;
+  }
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  &__wrapper-input {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+  }
+}
+.change-response {
+  display: block;
+  &__hidden {
+    display: none;
+  }
+}

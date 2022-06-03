@@ -1,0 +1,38 @@
+@import '../../style//app.scss';
+.car {
+  padding-bottom: 15px;
+  &__column {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  &__number {
+    width: 60px;
+    border: 1px solid $disabled;
+    border-radius: 2px;
+    text-align: center;
+    padding: 5px 0;
+  }
+  &__car-picture {
+    display: block;
+    position: relative;
+    height: 63px;
+    width: 138px;
+    align-self: flex-end;
+    object-fit: contain;
+    z-index: 5;
+    //   &:after {
+    //     content: '';
+    //     font-size: 16px;
+    //     color: rgb(100, 100, 100);
+    //     display: block;
+    //     position: absolute;
+
+    //     top: 0;
+    //     left: 0;
+    //     height: 63px;
+    //     width: 138px;
+    //     background: url(../../assets/stub.jpg);
+    //   }
+  }
+}

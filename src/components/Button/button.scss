@@ -18,7 +18,23 @@
     font-size: 11.5px;
     line-height: 13px;
   }
+  &__small {
+    width: 95px;
+    padding: 0 10px;
+  }
+  &__small + &__small {
+    margin-left: 15px;
+  }
+  &__delite {
+    background: $red;
+  }
+  &:disabled {
+    background: $disabled;
+    color: $text;
+    cursor: not-allowed;
+  }
 }
+
 .ant-btn,
 .ant-btn-link {
   font-family: 'Helvetica';
@@ -28,4 +44,183 @@
   line-height: 12px;
   letter-spacing: -0.18421px;
   color: $blue;
+}
+.search-block {
+  display: none;
+  @media (min-width: 500px) {
+    display: flex;
+    gap: 9px;
+  }
+  &__input-search {
+    font-family: 'Helvetica';
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: -0.0928572px;
+    color: $placeholder;
+    outline: none;
+    border: none;
+  }
+}
+
+label.input-file input[type='file'] {
+  position: absolute;
+  top: -1000px;
+}
+.input-file {
+  position: relative;
+  width: 231px;
+  padding: 12px 0 8px 11px;
+  background: $white;
+  border: 0.5px solid $border;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: -0.175439px;
+  &__error {
+    border: 0.5px solid #c4183c;
+    box-shadow: 0px 2.5px 5.5px rgba(196, 24, 60, 0.1);
+  }
+  &:hover {
+    border-color: $ligthBlue;
+  }
+  &:focus {
+    border-color: $ligthBlue;
+    box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+    border-right-width: 1px;
+    outline: 0;
+  }
+  &:active {
+    border-color: $ligthBlue;
+    box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+    border-right-width: 1px;
+    outline: 0;
+  }
+  &::after {
+    content: 'Обзор';
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 65.5px;
+    height: 34px;
+    padding-top: 8px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    text-align: center;
+    letter-spacing: -0.175439px;
+    border: 1px solid $border;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background: $disabled;
+  }
+  &__error::after {
+    border-color: $red;
+  }
+}
+.checkbox {
+  display: flex;
+  &__input {
+    width: 0px;
+    height: 0px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    &::before {
+      content: '';
+      position: absolute;
+      margin-top: 2px;
+      margin-left: -19px;
+      width: 12px;
+      height: 12px;
+      overflow: hidden;
+      border: 1px solid $border;
+      background-color: white;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+    }
+    &:checked::before {
+      border: 1px solid $green;
+    }
+    &:checked + .radio__span {
+      color: $text;
+    }
+    &:checked::after {
+      content: '';
+      position: absolute;
+      margin-top: 5px;
+      margin-left: -19px;
+      width: 16px;
+      height: 12px;
+      background: url(../../assets/icons/checkbox.svg) 2px 0px no-repeat;
+    }
+  }
+  &__span {
+    color: $border;
+  }
+}
+.group-list-btn {
+  position: relative;
+  width: 90px;
+  height: 29px;
+  background: $white;
+  border: 0.5px solid $border;
+  font-family: 'Helvetica';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: -0.345714px;
+  color: #5a6169;
+  &:first-child,
+  &:last-child {
+    @media (min-width: 768px) {
+      width: 71.5px;
+      height: 24px;
+      font-size: 11px;
+      line-height: 13px;
+    }
+  }
+  &:hover {
+    background: $disabled;
+  }
+  &:disabled {
+    background: $disabled;
+  }
+  &:first-child {
+    border-radius: 4px 0 0 4px;
+  }
+  &:first-child::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 10px;
+    left: 4px;
+    top: 9px;
+    background: url(../../assets//icons/change-btn.svg) center no-repeat;
+    @media (min-width: 768px) {
+      left: 2px;
+      top: 6px;
+    }
+  }
+  &:last-child {
+    border-radius: 0 4px 4px 0;
+  }
+  &:last-child::before {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 6px;
+    left: 7px;
+    top: 11px;
+    background: url(../../assets//icons/cancel-btn.svg) center no-repeat;
+    @media (min-width: 768px) {
+      height: 6px;
+      left: 5px;
+      top: 8px;
+    }
+  }
 }
