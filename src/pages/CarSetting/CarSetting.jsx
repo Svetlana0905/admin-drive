@@ -212,9 +212,7 @@ export const CarSetting = () => {
                 label="Максимальная цена"
                 type="text"
                 status={errorNumberMax ? 'error' : ''}
-                textError={
-                  errorNumberMax ? 'Должно быть число и больше мин. цены' : ''
-                }
+                textError={errorNumberMax ? 'Число. Больше мин. цены' : ''}
               />
             </div>
             <div className="content-header__wrapper">
