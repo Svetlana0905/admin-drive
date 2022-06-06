@@ -1,15 +1,20 @@
 import './getColor.scss'
 import { Checkbox } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { InputStandart } from '../../components/LoginInput/LoginInput'
-import { getColorsCar } from '../../redux/CarSlise'
+import { getColorsCar } from '../../redux/CarPageSlice'
 
-export const GetColorCar = ({ colorsIvalid, setColorsInvalid }) => {
+export const GetColorCar = ({ colors }) => {
   const dispatch = useDispatch()
   const [color, setColor] = useState('')
-  const [arrCheckbox, setArrCheckbox] = useState([])
-  const [checkedState, setCheckedState] = useState([])
+  const [arrCheckbox, setArrCheckbox] = useState(colors)
+  const [checkedState, setCheckedState] = useState(colors)
+  useEffect(() => {
+    setArrCheckbox(colors)
+    setCheckedState(colors)
+    dispatch(getColorsCar(colors))
+  }, [colors, dispatch])
 
   const addColor = (e) => {
     e.preventDefault()
@@ -33,7 +38,6 @@ export const GetColorCar = ({ colorsIvalid, setColorsInvalid }) => {
 
     setCheckedState(updatedCheckedState)
     dispatch(getColorsCar(colorArr))
-    setColorsInvalid('')
   }
   return (
     <div className="options-block__inputs-color inputs-color">
@@ -45,7 +49,6 @@ export const GetColorCar = ({ colorsIvalid, setColorsInvalid }) => {
           placeholder="Введите цвет"
           type="text"
           size="small"
-          status={colorsIvalid}
         />
         <button className="inputs-color__btn" onClick={addColor}></button>
       </div>

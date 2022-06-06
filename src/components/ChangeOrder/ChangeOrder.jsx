@@ -14,6 +14,7 @@ import {
   getRightWhelId,
   getFullTankId
 } from '../../redux/OrdersSlice'
+import { getPointsData } from '../../redux/PointsSlice'
 import { getStatusAlert } from '../../redux/alertSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { ListDropdown } from '../ListDropdown/ListDropdown'
@@ -34,7 +35,7 @@ export const ChangeOrder = ({
     limit: 0
   })
   const { data: status = [], isSuccess: statusSuccess } = useGetStatusQuery()
-  const { data: point = [] } = useGetPointQuery()
+  const { data: point = [] } = useGetPointQuery({ page: 0, limit: 0 })
   const [orderChange, { isError }] = useChangeOrderMutation()
 
   const [cityInput, setCityInput] = useState('')
@@ -80,6 +81,10 @@ export const ChangeOrder = ({
       dispatch(getPointId(itemPoint[0]))
     }
   }, [pointInput, point, dispatch])
+
+  useEffect(() => {
+    dispatch(getPointsData(point.data))
+  }, [point, dispatch])
 
   useEffect(() => {
     let itemCity = {}

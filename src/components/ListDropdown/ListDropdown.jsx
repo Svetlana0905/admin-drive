@@ -1,3 +1,4 @@
+import { ClearInputButton } from '../Button/Button'
 import { useState } from 'react'
 export const ListDropdown = ({
   setInputText,
@@ -6,7 +7,7 @@ export const ListDropdown = ({
   placeholder,
   name,
   textSpan,
-  disabled
+  clearInput
 }) => {
   const [isVisible, setToggleVisible] = useState(false)
   const classesList = isVisible
@@ -29,6 +30,7 @@ export const ListDropdown = ({
           onBlur={() => setToggleVisible(false)}
           placeholder={placeholder}
         />
+        {textInput && <ClearInputButton clearInput={clearInput} />}
       </label>
       <ul className={classesList}>
         {data

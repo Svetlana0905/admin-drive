@@ -93,7 +93,6 @@ export const Tarif = () => {
       price: tarifPrice,
       rateTypeId: tarifRate[0]
     }
-    console.log(data)
     if (!isNaN(tarifPrice) && data.rateTypeId) {
       await tarifTypeAddRequest({ data }).unwrap()
       setIsDisabledModal(true)

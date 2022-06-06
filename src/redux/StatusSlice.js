@@ -9,7 +9,6 @@ export const statusSlice = createSlice({
   reducers: {
     getStatusData: (state, data) => {
       state.obj = data.payload
-      // console.log(data.payload)
     },
     getStatusId: (state, data) => {
       data.payload.statusInput

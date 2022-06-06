@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { OrderComponent } from '../../components/OrderComponent/OrderComponent'
 
 export const Orders = () => {
+  const pageSise = 4
   const [page, setPage] = useState(0)
   const [totalPage, setTotalPage] = useState(0)
   const [isVisibleDelete, setIsVisibleDelete] = useState(false)
@@ -16,6 +17,15 @@ export const Orders = () => {
   const [isVisibleStatusOrder, setIsVisibleStatusOrder] = useState(false)
   const [orderId, setOrderId] = useState('')
   const [orderItem, setOrderItem] = useState('')
+
+  useEffect(() => {
+    if (page >= Math.ceil(totalPage / pageSise) && page > 1) {
+      setPage(page - 1)
+    }
+  }, [page, totalPage])
+  // useEffect(() => {
+  //   setPage(Math.min(page, Math.ceil(totalPage / 4) - 1))
+  // }, [page, totalPage]) //   Так работает, но выдает ошибку CORS
 
   const city = useSelector((state) =>
     state.cities.cityId ? state.cities.cityId.id : ''
@@ -34,6 +44,7 @@ export const Orders = () => {
     setIsVisibleDelete(true)
     setOrderId(id)
   }
+
   const deleteItem = async (e) => {
     await orderDeleteRequest({ orderId }).unwrap()
     setResponseDelete(true)
@@ -99,9 +110,9 @@ export const Orders = () => {
           deleteOrder={deleteItem}
           text={
             orderId ? (
-              <p className="text-dark">
+              <span className="text-dark">
                 Заказ<span className="text-green"> {orderId}</span>
-              </p>
+              </span>
             ) : (
               'Заказ'
             )
@@ -132,7 +143,7 @@ export const Orders = () => {
               showSizeChanger={false}
               current={page + 1}
               total={totalPage}
-              pageSize={4}
+              pageSize={pageSise}
               onChange={(e) => setPage(e - 1)}
               itemRender={itemRender}
             />

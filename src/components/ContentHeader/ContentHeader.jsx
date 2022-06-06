@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { getCityId } from '../../redux/CitySlice'
 import { getStatusId } from '../../redux/StatusSlice'
-import { getCarId } from '../../redux/CarSlise'
+import { getCarId, getCarData } from '../../redux/CarSlise'
 import {
   useGetCityQuery,
   useGetStatusQuery,
@@ -15,7 +15,6 @@ import { SmallButton } from '../Button/Button'
 
 export const ContentHeader = ({ setPage }) => {
   const page = 4
-
   const dispatch = useDispatch()
   const { data: city = [], isSuccess: citySuccess } = useGetCityQuery({
     page: page,
@@ -25,7 +24,7 @@ export const ContentHeader = ({ setPage }) => {
     data: car = [],
     isLoading: carLoading,
     isSuccess: carSuccess
-  } = useGetCarQuery()
+  } = useGetCarQuery({ page: 0, limit: 0 })
   const {
     data: status = [],
     isLoading: statusLoading,
@@ -44,14 +43,11 @@ export const ContentHeader = ({ setPage }) => {
     statusArr = status.data.map((item) => item.name)
   }
   if (carSuccess) {
-    carArr = car.data.reduce((accum, item) => {
-      return accum.includes(item.name) ? accum : [...accum, item.name]
-    }, [])
+    carArr = Array.from(new Set(car.data.map((e) => e.name)))
+    dispatch(getCarData(car))
   }
   if (citySuccess) {
-    cityArr = city.data.reduce((accum, item) => {
-      return accum.includes(item.name) ? accum : [...accum, item.name]
-    }, [])
+    cityArr = Array.from(new Set(city.data.map((e) => e.name)))
   }
 
   const clear = () => {
@@ -73,7 +69,15 @@ export const ContentHeader = ({ setPage }) => {
     setPage(0)
     dispatch(getStatusId({ statusInput, status }))
   }, [statusInput, dispatch, status, setPage])
-
+  const clearCity = () => {
+    setCityInput('')
+  }
+  const clearStatus = () => {
+    setStatusInput('')
+  }
+  const clearCar = () => {
+    setCarInput('')
+  }
   if (statusLoading || carLoading)
     return (
       carLoading && (
@@ -92,6 +96,8 @@ export const ContentHeader = ({ setPage }) => {
             data={cityArr}
             setInputText={setCityInput}
             textInput={cityInput}
+            clearInput={clearCity}
+            textSpan="Выберите город"
           />
         </div>
         <div className="content-header__wrapper">
@@ -100,6 +106,8 @@ export const ContentHeader = ({ setPage }) => {
             data={statusArr}
             setInputText={setStatusInput}
             textInput={statusInput}
+            clearInput={clearStatus}
+            textSpan="Выберите статус"
           />
         </div>
         <div className="content-header__wrapper">
@@ -108,10 +116,14 @@ export const ContentHeader = ({ setPage }) => {
             data={carArr}
             setInputText={setCarInput}
             textInput={carInput}
+            clearInput={clearCar}
+            textSpan="Выберите авто"
           />
         </div>
       </div>
-      <SmallButton text="Очистить" onClick={clear} />
+      <div className="content-header__btn-block">
+        <SmallButton text="Очистить" onClick={clear} />
+      </div>
     </section>
   )
 }

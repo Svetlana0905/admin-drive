@@ -7,6 +7,7 @@ import ordersRedducer from './OrdersSlice'
 import statusRedducer from './StatusSlice'
 import carRedducer from './CarSlise'
 import alertRedducer from './alertSlice'
+import carPageRedducer from './CarPageSlice'
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
     orders: ordersRedducer,
     status: statusRedducer,
     car: carRedducer,
-    alert: alertRedducer
+    alert: alertRedducer,
+    carPage: carPageRedducer
   },
   middleware: (getDefaultMiddlware) =>
     getDefaultMiddlware().concat(adminApi.middleware)

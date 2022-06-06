@@ -58,7 +58,6 @@ export const LoginPage = () => {
       localStorage.setItem('tokenExpires', data.expires_in.toString())
       dispatch(setCredentials(data))
       navigate('admin/point', { replace: true })
-      console.log(data)
     }
   }, [data])
 

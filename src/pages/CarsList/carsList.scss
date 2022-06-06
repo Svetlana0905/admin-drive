@@ -2,16 +2,59 @@
 .car {
   padding-bottom: 15px;
   &__column {
-    display: flex;
     flex-direction: column;
     gap: 7px;
   }
+  &__row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    padding: 7px;
+    border-bottom: 1px solid #becad6;
+    transition: box-shadow ease-in-out 0.3s;
+    &:focus,
+    &:hover {
+      background: #fbfbfb;
+      border-radius: 5px;
+      box-shadow: 0px 1px 0px rgb(90 97 105 / 11%),
+        0px 5px 5px rgb(90 97 105 / 6%);
+    }
+    @media (min-width: 1300px) {
+      flex-wrap: nowrap;
+    }
+  }
   &__number {
-    width: 60px;
     border: 1px solid $disabled;
     border-radius: 2px;
     text-align: center;
-    padding: 5px 0;
+    padding: 5px 10px;
+  }
+  &__half {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    &:last-child {
+      border-top: 1px solid #fbfbfb;
+      @media (min-width: 564px) {
+        flex-wrap: nowrap;
+        border-top: none;
+      }
+    }
+    @media (min-width: 1300px) {
+      width: 50%;
+    }
+  }
+  &__item-list {
+    width: 48%;
+    text-align: center;
+    @media (min-width: 564px) {
+      width: 24%;
+    }
   }
   &__car-picture {
     display: block;
@@ -21,18 +64,17 @@
     align-self: flex-end;
     object-fit: contain;
     z-index: 5;
-    //   &:after {
-    //     content: '';
-    //     font-size: 16px;
-    //     color: rgb(100, 100, 100);
-    //     display: block;
-    //     position: absolute;
-
-    //     top: 0;
-    //     left: 0;
-    //     height: 63px;
-    //     width: 138px;
-    //     background: url(../../assets/stub.jpg);
-    //   }
+  }
+  &__text {
+    color: #818ea3;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.38px;
+    line-height: 18px;
+    text-align: center;
+    @media (min-width: 564px) {
+      font-size: 12px;
+    }
   }
 }

@@ -1,70 +1,89 @@
 import './carsList.scss'
-import { useGetCarQuery } from '../../redux/'
-// import { useDispatch } from 'react-redux'
-// import stub from '../../assets/stub.jpg'
-import { Table, Spin } from 'antd'
+import { useGetCarQuery, useDeleteCarMutation } from '../../redux/'
+import { CarComponent } from './CarComponent'
+import { CarHeader } from './CarHeader'
+import { Spin } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
 
 export const CarsList = () => {
-  // const dispatch = useDispatch()
-  const { data = [], isLoading, isSuccess } = useGetCarQuery()
-  let dataSource = []
-  console.log(data)
-  const columns = [
-    {
-      title: 'Id',
-      dataIndex: 'id',
-      key: 'id'
-    },
-    {
-      title: 'Город',
-      dataIndex: 'name',
-      key: 'name'
+  const navigate = useNavigate()
+  const pageSise = 5
+  const [page, setPage] = useState(0)
+  const [totalPage, setTotalPage] = useState(0)
+  const [carName, setCarName] = useState('')
+  const [category, setCategory] = useState('')
+  const [isVisibleDelete, setIsVisibleDelete] = useState(false)
+  const [responseDelete, setResponseDelete] = useState(false)
+  const [carItem, setCarItem] = useState('')
+  const [carDeleteRequest] = useDeleteCarMutation()
+  const { data: car = [], isLoading } = useGetCarQuery({
+    page,
+    limit: pageSise,
+    category,
+    name: carName
+  })
+  useEffect(() => {
+    if (page >= Math.ceil(totalPage / pageSise) && page > 1) {
+      setPage(page - 1)
     }
-  ]
-
-  function itemRender(current, type, originalElement) {
-    if (type === 'prev') {
-      return (
-        <button className="pagination-btn" type="button">
-          «
-        </button>
-      )
-    }
-    if (type === 'next') {
-      return (
-        <button className="pagination-btn" type="button">
-          »
-        </button>
-      )
-    }
-    return originalElement
+  }, [page, totalPage])
+  const clearInputName = () => {
+    setCarName('')
   }
 
-  if (isSuccess) {
-    dataSource = data.data.map((item) => ({ ...item, key: item.id }))
-    // dispatch(getCityData(data.data))
+  const deleteCar = (item) => {
+    setIsVisibleDelete(true)
+    setCarItem(item)
   }
+  const changeCar = (item) => {
+    navigate('/admin/car', { replace: true, state: item })
+  }
+  const deleteItem = async (e) => {
+    setResponseDelete(true)
+    await carDeleteRequest({ carId: carItem.id }).unwrap()
+    setTimeout(() => {
+      setIsVisibleDelete(!isVisibleDelete)
+    }, 2000)
+    setTimeout(() => {
+      setResponseDelete(false)
+    }, 2500)
+  }
+  useEffect(() => {
+    setTotalPage(car.count)
+  }, [car])
 
+  if (isLoading) return <Spin tip="Loading..." size="large" />
   return (
     <>
       <h1 className="title">CarsList</h1>
-      <div className="content-column">
-        {isLoading && <Spin tip="Loading..." size="large" />}
-        {dataSource.length ? (
-          <Table
-            dataSource={dataSource}
-            columns={columns}
-            pagination={{
-              pageSize: '4',
-              position: ['bottomCenter'],
-              size: 'small',
-              itemRender: (current, type, originalElement) =>
-                itemRender(current, type, originalElement)
-            }}
+      <div className="content">
+        <div className="content-header">
+          <CarHeader
+            carName={carName}
+            setCarName={setCarName}
+            category={category}
+            setCategory={setCategory}
+            clearInputName={clearInputName}
           />
-        ) : (
-          ''
-        )}
+        </div>
+        <DeleteOrder
+          isVisibleDelete={isVisibleDelete}
+          setIsVisibleDelete={setIsVisibleDelete}
+          itemDeleteRequest={deleteItem}
+          responseDelete={responseDelete}
+          text={<span className="text-green"> {carItem.name}</span>}
+        />
+        <CarComponent
+          setPage={setPage}
+          totalPage={totalPage}
+          car={car}
+          page={page}
+          pageSise={pageSise}
+          deleteCar={deleteCar}
+          changeCar={changeCar}
+        />
       </div>
     </>
   )

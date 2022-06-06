@@ -22,6 +22,12 @@
     width: 95px;
     padding: 0 10px;
   }
+  &__small-link {
+    padding-top: 14px;
+    @media (min-width: 425px) {
+      padding-top: 7px;
+    }
+  }
   &__small + &__small {
     margin-left: 15px;
   }
@@ -222,5 +228,21 @@ label.input-file input[type='file'] {
       left: 5px;
       top: 8px;
     }
+  }
+}
+.clear-input {
+  position: absolute;
+  right: 1px;
+  top: 22px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: $white url(../../assets/icons/clear_input.svg) center no-repeat;
+  z-index: 1001;
+  @media (min-width: 768px) {
+    top: 24px;
+    right: 10px;
+    width: 15px;
+    height: 15px;
   }
 }

@@ -55,7 +55,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const adminApi = createApi({
   reducerPath: 'adminApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Orders', 'City', 'Tarif', 'TarifType'],
+  tagTypes: ['Orders', 'City', 'Tarif', 'TarifType', 'Point', 'Car'],
   endpoints: (build) => ({
     login: build.mutation({
       query: (userData) => ({
@@ -77,10 +77,45 @@ export const adminApi = createApi({
       })
     }),
     getPoint: build.query({
-      query: () => `/db/point`,
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
+      query: ({ page, limit }) => ({
+        url: `/db/point?${limit ? `limit=${limit}&` : ''}page=${page}`,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      providesTags: ['Point']
+    }),
+    deletePoint: build.mutation({
+      query: ({ pointId }) => ({
+        url: `/db/point/${pointId}`,
+        method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      invalidatesTags: ['Point']
+    }),
+    addPointData: build.mutation({
+      query: ({ data }) => ({
+        url: `/db/point`,
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['Point']
+    }),
+    changePoint: build.mutation({
+      query: ({ pointId, data }) => ({
+        url: `/db/point/${pointId}`,
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['Point']
     }),
     getCity: build.query({
       query: ({ page, limit }) => ({
@@ -92,10 +127,47 @@ export const adminApi = createApi({
       providesTags: ['City']
     }),
     getCar: build.query({
-      query: () => `/db/car`,
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
+      query: ({ page, limit, category, name }) => ({
+        url: `/db/car?${limit ? `limit=${limit}&` : ''}page=${page}${
+          category ? `&categoryId=${category}` : ''
+        }${name ? `&name=${name}` : ''}`,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      providesTags: ['Car']
+    }),
+    addCar: build.mutation({
+      query: ({ data }) => ({
+        url: `/db/car`,
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['Car']
+    }),
+    deleteCar: build.mutation({
+      query: ({ carId }) => ({
+        url: `/db/car/${carId}`,
+        method: 'DELETE',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }),
+      invalidatesTags: ['Car']
+    }),
+    changeCarData: build.mutation({
+      query: ({ id, data }) => ({
+        url: `/db/car/${id}`,
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['Car']
     }),
     getStatus: build.query({
       query: () => `/db/orderStatus`,
@@ -259,6 +331,14 @@ export const adminApi = createApi({
         body: data
       }),
       invalidatesTags: ['TarifType']
+    }),
+    getCategory: build.query({
+      query: () => ({
+        url: `/db/category`,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      })
     })
   })
 })
@@ -267,8 +347,14 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useGetPointQuery,
+  useDeletePointMutation,
+  useAddPointDataMutation,
+  useChangePointMutation,
   useGetCityQuery,
   useGetCarQuery,
+  useAddCarMutation,
+  useDeleteCarMutation,
+  useChangeCarDataMutation,
   useGetStatusQuery,
   useGetOrdersListQuery,
   useDeleteOrderDataMutation,
@@ -284,5 +370,6 @@ export const {
   useAddTarifTypeMutation,
   useChangeTarifTypeMutation,
   useDeleteTarifTypeMutation,
-  useGetTarifTypeQuery
+  useGetTarifTypeQuery,
+  useGetCategoryQuery
 } = adminApi

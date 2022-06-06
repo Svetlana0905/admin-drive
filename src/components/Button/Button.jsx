@@ -1,13 +1,13 @@
 import './button.scss'
 import { ReactComponent as Search } from '../../assets/icons/search.svg'
 
-export const BigButton = ({ text, onClick, disabled, delite }) => {
+export const BigButton = ({ text, onClick, disabled, deleteBtn }) => {
   return (
     <button
       disabled={disabled}
       type="submit"
       className={
-        delite ? 'form__button button button__delite' : 'form__button button'
+        deleteBtn ? 'form__button button button__delite' : 'form__button button'
       }
       onClick={onClick}>
       {text}
@@ -39,10 +39,7 @@ export const InputSearch = ({ onSearch }) => {
 }
 export const InputFile = ({ getFile, errorThumbnail }) => {
   return (
-    <label
-      className={
-        errorThumbnail ? 'input-file input-file__error' : 'input-file'
-      }>
+    <label className="input-file">
       <input
         type="file"
         accept="image/*"
@@ -72,5 +69,17 @@ export const ListButton = ({ text, clickHandler }) => {
     <button onClick={clickHandler} className="group-list-btn">
       {text}
     </button>
+  )
+}
+export const ClearInputButton = ({ clearInput, name }) => {
+  return (
+    <button
+      onClick={clearInput}
+      className={
+        name === 'calendar'
+          ? 'clear-input clear-input__calendar'
+          : 'clear-input'
+      }
+    />
   )
 }

@@ -1,57 +1,50 @@
 import { InputStandart } from '../../components/LoginInput/LoginInput'
-import { useGetTarifTypeQuery } from '../../redux'
 import { ListDropdown } from '../../components/ListDropdown/ListDropdown'
-import { useEffect, useState } from 'react'
-import { Spin } from 'antd'
+import { useState, useEffect } from 'react'
 
-export const ModalTarif = ({
+export const ModalPoint = ({
   isVisibleModal,
   closeModal,
   actions,
   text,
   isDisabledModal,
-  tarifPrice,
-  setTarifPrice,
   errorMassage,
-  setTarifRate,
-  errorNumber,
-  item
+  pointName,
+  setPointName,
+  setCityObj,
+  cityArr,
+  item,
+  setPointAddress,
+  pointAddress,
+  city
 }) => {
   const [textInput, setInputText] = useState('')
-  let dataSource = []
-  const {
-    data = [],
-    isLoading,
-    isSuccess
-  } = useGetTarifTypeQuery({ page: 0, limit: 0 })
+  const clearCityInput = () => {
+    setPointAddress('')
+    setPointName('')
+    setInputText('')
+  }
   useEffect(() => {
     if (textInput) {
-      setTarifRate(
-        data.data.filter((item) => item.name && item.name === textInput)
+      setCityObj(
+        city.data.filter((item) => item.name && item.name === textInput)
       )
     }
-  }, [textInput, setTarifRate, data.data])
-
-  if (isLoading) return <Spin tip="Loading..." size="large" />
-  if (isSuccess) {
-    dataSource = data.data.map((item) => item.name)
-  }
+  }, [textInput, setCityObj, city])
   return (
     <section className={isVisibleModal ? 'modal-block' : 'modal-block__hidden'}>
       <div className="modal-block__column">
         <p className="modal-block__text-link text-link">
-          {text} тариф <br />
+          {text} точку <br />
           <span className="text-green">
-            {item.rateTypeId ? item.rateTypeId.name : ''}
+            {item.cityId ? item.cityId.name : ''}
           </span>
-          <br />
-          {item.rateTypeId ? item.rateTypeId.unit : ''}
         </p>
         <p
           className={
             errorMassage ? 'modal-block__error' : 'modal-block__error-hidden'
           }>
-          Поле не должно быть пустым
+          Поля не должны быть пустыми
         </p>
         {text === 'Добавить' ? (
           <>
@@ -59,28 +52,30 @@ export const ModalTarif = ({
               <ListDropdown
                 setInputText={setInputText}
                 textInput={textInput}
-                data={dataSource}
-                placeholder="Выберите тариф"
-                disabled={!dataSource}
-                textSpan="Тариф"
+                data={cityArr}
+                placeholder="Выберите город"
+                disabled={!cityArr}
+                clearInput={clearCityInput}
               />
             </div>
           </>
         ) : (
           ''
         )}
-        <p
-          className={
-            errorNumber ? 'modal-block__error' : 'modal-block__error-hidden'
-          }>
-          Должно быть число
-        </p>
+
         <InputStandart
-          label="Цена"
-          value={tarifPrice}
-          onChange={setTarifPrice}
-          placeholder={tarifPrice}
+          label="Название точки"
+          value={pointName}
+          onChange={setPointName}
           type="text"
+          placeholder={item ? item.name : ''}
+        />
+        <InputStandart
+          label="Адрес"
+          value={pointAddress}
+          onChange={setPointAddress}
+          type="text"
+          placeholder={item ? item.address : ''}
         />
         <div className="modal-block__btn-block">
           <button

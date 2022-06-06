@@ -11,7 +11,7 @@ import { Spin } from 'antd'
 import { SmallButton, ListButton } from '../../components/Button/Button'
 import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
 import { ModalCity } from './ModalCity'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const City = () => {
   const dispatch = useDispatch()
@@ -101,9 +101,11 @@ export const City = () => {
       setResponseDelete(false)
     }, 2000)
   }
+  useEffect(() => {
+    dispatch(getCityData(data.data))
+  }, [data, dispatch])
   if (isSuccess) {
     dataSource = data.data.map((item) => ({ ...item, key: item.id }))
-    dispatch(getCityData(data.data))
   }
   return (
     <>

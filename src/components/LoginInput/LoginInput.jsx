@@ -10,7 +10,8 @@ export const InputStandart = ({
   status,
   onChange,
   innerRef,
-  size
+  size,
+  textError
 }) => {
   // console.log(status)
   return (
@@ -25,7 +26,7 @@ export const InputStandart = ({
         onChange={(e) => onChange(e.target.value)}
       />
       <span className={status === 'error' ? 'error__visible' : 'error__hidden'}>
-        {status === 'error' ? 'Введите данные' : ''}
+        {textError}
       </span>
     </label>
   )
@@ -39,7 +40,6 @@ export const InputPassword = ({
   onChange,
   textError
 }) => {
-  // console.log(status)
   return (
     <label className="form__label label">
       <span className="label__span">{label}</span>

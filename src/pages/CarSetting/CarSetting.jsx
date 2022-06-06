@@ -1,109 +1,171 @@
 import './carsetting.scss'
-import { BigButton, InputFile } from '../../components/Button/Button'
+import { Link, useLocation } from 'react-router-dom'
+import { BigButton } from '../../components/Button/Button'
 import { InputStandart } from '../../components/LoginInput/LoginInput'
 import { GetColorCar } from '../../components/GetColorCar/GetColorCar'
-import { GetImage } from '../../components/GetImage/GetImage'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { AddCarImage } from './AddCarImage'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux/'
+import { Spin } from 'antd'
+import { ListDropdown } from '../../components/ListDropdown/ListDropdown'
+import {
+  useGetCategoryQuery,
+  useAddCarMutation,
+  useChangeCarDataMutation
+} from '../../redux'
 import {
   getNameCar,
-  getCategoryId,
+  getNumberCar,
+  getDescriptionCar,
+  getTankCar,
+  getMinPriceCar,
+  getMaxPriceCar,
+  getCategoryCar,
   getThumbnail,
-  getDescription
-} from '../../redux/CarSlise'
+  getDataCarFromredux
+} from '../../redux/CarPageSlice'
 
 export const CarSetting = () => {
   const dispatch = useDispatch()
-  // const colorsArray = useSelector((state) => state.carSlice.colors)
-  const [colorsIvalid, setColorsInvalid] = useState('')
+  const { state } = useLocation()
+  const { data: category = [], isLoading, isSuccess } = useGetCategoryQuery()
+  const [carAddRequest, { isError }] = useAddCarMutation()
+  const [carChangeRequest, { isError: errorChange }] =
+    useChangeCarDataMutation()
+  const dataState = useSelector((state) => state.carPage.data)
+  const [percent, setPercent] = useState(0)
+
+  const [model, setModel] = useState(state?.name ? state.name : '')
+  const [number, setNumber] = useState(state?.number ? state.number : '')
+  const [description, setDescription] = useState(
+    state?.description ? state.description : ''
+  )
+  const [tank, setTank] = useState(state?.tank ? state.tank : '')
+  const [errorNumberTank, setErrorNumberTank] = useState(false)
+  const [minPrice, setMinPrice] = useState(
+    state?.priceMin ? state.priceMin : ''
+  )
+  const [errorNumberMin, setErrorNumberMin] = useState(false)
+  const [maxPrice, setMaxPrice] = useState(
+    state?.priceMax ? state.priceMax : ''
+  )
+  const [errorNumberMax, setErrorNumberMax] = useState(false)
   const [file, setFile] = useState('')
-  const [carThumbnail, setThumbnail] = useState({})
-  const [errorThumbnail, setErrorThumbnail] = useState(false)
-  const [model, setModel] = useState('')
-  const [invalidErrorModel, setInvalidModel] = useState('')
-  const [type, setType] = useState('')
-  const [invalidErrorType, setInvalidType] = useState('')
-  // const [disabled, setDisabled] = useState(true)
+  const [carThumbnail, setThumbnail] = useState(
+    state?.thumbnail ? state.thumbnail : {}
+  )
+  const [type, setType] = useState(
+    state?.categoryId?.name ? state.categoryId.name : ''
+  )
+  const [colors, setColors] = useState(state?.colors ? state.colors : [])
+  const [isDisabledBtn, setIsDisabledBtn] = useState(false)
 
   useEffect(() => {
-    if (model) {
-      setInvalidModel('')
-      dispatch(getNameCar(model))
-    }
+    dispatch(getNameCar(model))
   }, [model, dispatch])
 
   useEffect(() => {
-    if (type) {
-      dispatch(getCategoryId(type))
-      setInvalidType('')
-    }
-  }, [type, dispatch])
+    dispatch(getNumberCar(number))
+  }, [number, dispatch])
 
   useEffect(() => {
-    if (file) {
-      setErrorThumbnail(false)
+    dispatch(getDescriptionCar(description))
+  }, [description, dispatch])
+
+  useEffect(() => {
+    if (!isNaN(tank)) {
+      dispatch(getTankCar(tank))
+      setErrorNumberTank(false)
+    } else {
+      setErrorNumberTank(true)
+    }
+  }, [tank, dispatch])
+
+  useEffect(() => {
+    if (!isNaN(minPrice)) {
+      dispatch(getMinPriceCar(minPrice))
+      setErrorNumberMin(false)
+    } else {
+      setErrorNumberMin(true)
+    }
+  }, [minPrice, dispatch])
+
+  useEffect(() => {
+    if (!isNaN(maxPrice) && maxPrice > minPrice) {
+      dispatch(getMaxPriceCar(maxPrice))
+      setErrorNumberMax(false)
+    } else {
+      setErrorNumberMax(true)
+    }
+  }, [maxPrice, dispatch, minPrice])
+
+  useEffect(() => {
+    let categoryId = {}
+    if (type && category && isSuccess) {
+      categoryId = category.data.filter(
+        (item) => item.name && item.name === type
+      )
+      dispatch(getCategoryCar(categoryId[0]))
+    }
+  }, [type, category, dispatch, isSuccess])
+
+  useEffect(() => {
+    if (carThumbnail) {
       dispatch(getThumbnail(carThumbnail))
     }
-  }, [setErrorThumbnail, file, dispatch, carThumbnail])
-
-  const getCarOptionsHandler = (e) => {
-    e.preventDefault()
-    if (!model) {
-      setInvalidModel('error')
-    }
-    if (!type) {
-      setInvalidType('error')
-    }
-    if (!Object.keys(carThumbnail).length) {
-      setErrorThumbnail(true)
-    }
-    // if (colorsArray.length === 0) {
-    //   setColorsInvalid('error')
-    // }
+  }, [file, dispatch, carThumbnail])
+  const clearListDropdown = () => {
+    setType('')
+    dispatch(getCategoryCar({}))
   }
 
+  const clearData = () => {
+    setModel('')
+    setNumber('')
+    setDescription('')
+    setTank('')
+    setMinPrice('')
+    setMaxPrice('')
+    setIsDisabledBtn(true)
+    setThumbnail({})
+    setFile('')
+    setColors([])
+    dispatch(getDataCarFromredux({}))
+    setPercent(0)
+  }
+  useEffect(() => {
+    percent === 100 ? setIsDisabledBtn(false) : setIsDisabledBtn(true)
+  }, [percent])
+  useEffect(() => {
+    console.log(isError + ' ошибка запроса на добавление')
+    console.log(errorChange + ' ошибка запроса на изменение')
+  }, [isError])
+
+  const addItem = async () => {
+    const data = dataState
+    await carAddRequest({ data }).unwrap()
+    setIsDisabledBtn(true)
+  }
+  const changeCar = async () => {
+    const { ...data } = dataState
+    data.id = state.id
+    await carChangeRequest({ data, id: state.id }).unwrap
+    setIsDisabledBtn(true)
+  }
+  if (isLoading) return <Spin tip="Loading..." size="large" />
   return (
     <>
       <h2 className="title title__car">Карточка автомобиля</h2>
-      <form className="content-car">
-        <div className="content-car__car-block car-block">
-          <div className="car-block__file-block">
-            <GetImage file={file} setThumbnail={setThumbnail} />
-            {model ? (
-              <p className="car-block__logo-text logo-text">{model}</p>
-            ) : (
-              ''
-            )}
-            {type ? (
-              <span className="car-block__caption thin">{type}</span>
-            ) : (
-              ''
-            )}
-
-            <InputFile getFile={setFile} errorThumbnail={errorThumbnail} />
-          </div>
-          <label className="car-block__progress-block progress-block">
-            <p className="progress-block__title-block">
-              <span className="car-block__caption thin">Заполнено</span>
-              <span className="small-roboto">70%</span>
-            </p>
-            <progress
-              className="progress"
-              min="0"
-              value="70"
-              max="100"></progress>
-          </label>
-          <div className="car-block__definition definition">
-            <span className="car-block__caption">Описание</span>
-            <textarea
-              placeholder="Добавьте описание"
-              rows="5"
-              cols="33"
-              onChange={(e) => dispatch(getDescription(e.target.value))}
-              // Не знаю, нужна ли обработка не отсутствие описания?
-            />
-          </div>
-        </div>
+      <div className="content-car">
+        <AddCarImage
+          setThumbnail={setThumbnail}
+          setFile={setFile}
+          file={file}
+          carThumbnail={carThumbnail}
+          description={description}
+          percent={percent}
+          setPercent={setPercent}
+        />
         <div className="content-car__options-block">
           <p className="options-block__heading heading">Настройки автомобиля</p>
           <div className="options-block__inputs-column">
@@ -112,33 +174,82 @@ export const CarSetting = () => {
                 value={model}
                 onChange={setModel}
                 label="Модель автомобиля"
-                placeholder="Введите модель"
                 type="text"
-                status={invalidErrorModel}
               />
               <InputStandart
-                value={type}
-                onChange={setType}
-                label="Тип автомобиля"
-                placeholder="Введите тип"
+                value={number}
+                onChange={setNumber}
+                label="Номер"
                 type="text"
-                status={invalidErrorType}
+              />
+              <InputStandart
+                value={description}
+                onChange={setDescription}
+                label="Описание"
+                type="text"
               />
             </div>
-            <GetColorCar
-              colorsIvalid={colorsIvalid}
-              setColorsInvalid={setColorsInvalid}
-            />
+            <div className="options-block__inputs-row">
+              <InputStandart
+                value={tank}
+                onChange={setTank}
+                label="Бензин (%)"
+                type="text"
+                status={errorNumberTank ? 'error' : ''}
+                textError={errorNumberTank ? 'Должно быть число' : ''}
+              />
+              <InputStandart
+                value={minPrice}
+                onChange={setMinPrice}
+                label="Минимальная цена"
+                type="text"
+                status={errorNumberMin ? 'error' : ''}
+                textError={errorNumberMin ? 'Должно быть число' : ''}
+              />
+              <InputStandart
+                value={maxPrice}
+                onChange={setMaxPrice}
+                label="Максимальная цена"
+                type="text"
+                status={errorNumberMax ? 'error' : ''}
+                textError={
+                  errorNumberMax ? 'Должно быть число и больше мин. цены' : ''
+                }
+              />
+            </div>
+            <div className="content-header__wrapper">
+              <ListDropdown
+                data={category.data.map((item) => item.name)}
+                setInputText={setType}
+                textInput={type}
+                textSpan="Выберите тип авто"
+                name="car"
+                clearInput={clearListDropdown}
+              />
+            </div>
+            <GetColorCar colors={colors} />
           </div>
           <div className="options-block__buttons-block">
             <div className="options-block__neighboring-button">
-              <BigButton text="Сохранить" onClick={getCarOptionsHandler} />
-              <BigButton text="Отменить" disabled="disabled" />
+              <BigButton
+                text={state ? 'Сохранить' : 'Добавить'}
+                onClick={state ? changeCar : addItem}
+                disabled={isDisabledBtn}
+              />
+              <Link
+                to="/admin/cars-list"
+                className="button button__small button__small-link">
+                <span>Отменить</span>
+              </Link>
             </div>
-            <BigButton delite="delite" text="Удалить" />
+            <BigButton
+              deleteBtn="deleteBtn"
+              text="Удалить"
+              onClick={clearData}
+            />
           </div>
         </div>
-      </form>
+      </div>
     </>
   )
 }

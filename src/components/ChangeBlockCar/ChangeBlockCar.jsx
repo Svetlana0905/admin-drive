@@ -12,12 +12,11 @@ export const ChangeBlockCar = ({ orderItem }) => {
   const [carPath, setCarPath] = useState('')
 
   let carArr = []
-
   const {
     data: car = [],
     isSuccess: carSuccess,
     isLoading: loadingCar
-  } = useGetCarQuery()
+  } = useGetCarQuery({ page: 0, limit: 0 })
 
   useEffect(() => {
     setCarPath(orderItem.carId ? orderItem.carId.thumbnail.path : '')
