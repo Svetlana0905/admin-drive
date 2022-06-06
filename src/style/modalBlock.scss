@@ -30,7 +30,7 @@
   opacity: 1;
   top: 15%;
   margin: 0 auto;
-  z-index: 100;
+  z-index: 1001;
   box-shadow: 2px 4px 8px 9.5px rgb(100 100 100 / 47%);
   animation: show 1s;
   animation-fill-mode: forwards;
@@ -73,6 +73,8 @@
     flex-direction: column;
     width: 100%;
     gap: 15px;
+    background: $white;
+    // z-index: 1000;
   }
   &__list-car {
     position: relative;
