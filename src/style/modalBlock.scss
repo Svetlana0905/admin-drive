@@ -1,0 +1,83 @@
+@keyframes show {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes hide {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+.modal-block {
+  position: absolute;
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  max-width: 310px;
+  width: 95%;
+  padding: 35px 25px;
+  background: $white;
+  text-align: center;
+  box-shadow: 0px 4px 9.5px rgb(90 97 105 / 12%);
+  border-radius: 15px;
+  opacity: 1;
+  top: 15%;
+  margin: 0 auto;
+  z-index: 1001;
+  box-shadow: 2px 4px 8px 9.5px rgb(100 100 100 / 47%);
+  animation: show 1s;
+  animation-fill-mode: forwards;
+  @media (min-width: 600px) {
+    width: 350px;
+  }
+  &__hidden {
+    position: absolute;
+    transition: all ease-in-out 0.4s;
+    animation: hide 1s;
+    animation-fill-mode: forwards;
+    z-index: -1;
+  }
+  &__column,
+  &__text-link {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  &__text-link {
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+  &__btn-block {
+    padding-top: 25px;
+    width: 100%;
+  }
+  &__error {
+    color: $red;
+  }
+  &__number-error {
+    display: block;
+  }
+  &__error-hidden {
+    display: none;
+  }
+  &__listdd {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    background: $white;
+  }
+  &__list-car {
+    position: relative;
+    display: flex;
+    width: 100%;
+  }
+}

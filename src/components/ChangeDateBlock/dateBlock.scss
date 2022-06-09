@@ -1,0 +1,37 @@
+@import '../../style//app.scss';
+.change-date-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 0 10px;
+  gap: 22px;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  &__datepicker-block {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  &__datepicker-inner {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+}
+.input-text {
+  position: relative;
+  width: 224px;
+  font-family: 'Roboto';
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 16px;
+  border: none;
+  padding: 0 0 0px 8px;
+  border-bottom: 1px solid $border;
+}

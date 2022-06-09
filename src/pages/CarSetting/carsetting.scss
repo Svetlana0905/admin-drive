@@ -1,0 +1,164 @@
+@import '../../style//app.scss';
+.content-car {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  &__car-block {
+    width: 100%;
+    flex: 1 0 auto;
+    padding-bottom: 38px;
+    background: $white;
+    box-shadow: 0px 2px 4px rgba(90, 97, 105, 0.12);
+    border-radius: 9px;
+    @media (min-width: 1024px) {
+      width: 334px;
+    }
+  }
+  &__options-block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px 18px 18px 18px;
+    background: $white;
+    box-shadow: 0px 2px 4px rgba(90, 97, 105, 0.12);
+    border-radius: 9px;
+    margin-bottom: 40px;
+    @media (min-width: 1024px) {
+      margin-bottom: 0px;
+    }
+  }
+}
+.car-block {
+  &__title-text {
+    padding: 15px 0;
+  }
+  &__file-block {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 22.5px;
+    gap: 5px;
+  }
+  &__img {
+    width: 280px;
+    height: 150px;
+    object-fit: contain;
+  }
+  &__progress-block {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    padding: 12px 22.5px 17px;
+  }
+  &__definition {
+    padding: 22.5px 27px 0px 21px;
+    display: flex;
+    flex-direction: column;
+    gap: 13.5px;
+  }
+  &__caption {
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: -0.408571px;
+    color: $dark50;
+  }
+  &__text {
+    padding-top: 11px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 13.5px;
+    line-height: 20px;
+    letter-spacing: -0.408571px;
+    color: $dark100;
+  }
+}
+.thin {
+  font-weight: 400;
+}
+.progress-block {
+  box-shadow: 0px -1px 0px rgba(0, 0, 0, 0.12), 0px 1px 0px rgba(0, 0, 0, 0.12);
+  &__title-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.progress,
+::-webkit-progress-bar {
+  height: 5px;
+  width: 100%;
+  background: $white;
+  vertical-align: baseline;
+  box-shadow: inset 0px 0.5px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+.progress,
+::-webkit-progress-value {
+  background: $blue;
+  border-radius: 4px;
+}
+.options-block {
+  &__heading {
+    margin-bottom: 38px;
+  }
+  &__inputs-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    gap: 15px;
+  }
+  &__inputs-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 21px;
+    width: 100%;
+    @media (min-width: 1264px) {
+      flex-wrap: nowrap;
+    }
+  }
+  &__inputs-color {
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+    padding-bottom: 35px;
+  }
+  &__buttons-block {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    @media (min-width: 500px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  &__neighboring-button {
+    display: flex;
+    gap: 12.5px;
+  }
+}
+.definition textarea {
+  resize: none;
+  outline: none;
+  border: 0px;
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 13.5px;
+  line-height: 19px;
+  letter-spacing: -0.408571px;
+  color: $dark100;
+}
+.ant-input-number {
+  font-size: 13.5px;
+  color: $dark100;
+  border-radius: 4px;
+  width: 150px;
+}
