@@ -1,5 +1,9 @@
 import './carsList.scss'
-import { useGetCarQuery, useDeleteCarMutation } from '../../redux/'
+import {
+  useGetCarQuery,
+  useDeleteCarMutation,
+  useGetCategoryQuery
+} from '../../redux/'
 import { CarComponent } from './CarComponent'
 import { CarHeader } from './CarHeader'
 import { Spin } from 'antd'
@@ -17,28 +21,43 @@ export const CarsList = () => {
   const [isVisibleDelete, setIsVisibleDelete] = useState(false)
   const [responseDelete, setResponseDelete] = useState(false)
   const [carItem, setCarItem] = useState('')
-  const [carDeleteRequest] = useDeleteCarMutation()
-  const { data: car = [], isLoading } = useGetCarQuery({
-    page,
-    limit: pageSise,
-    category,
-    name: carName
-  })
+  const [carDeleteRequest, { isError: errorDeleteQuery }] =
+    useDeleteCarMutation()
+  let cat = {}
+  const { data: categoryResponse = [] } = useGetCategoryQuery()
+
   useEffect(() => {
     if (page >= Math.ceil(totalPage / pageSise) && page > 1) {
       setPage(page - 1)
     }
   }, [page, totalPage])
-  const clearInputName = () => {
-    setCarName('')
-  }
 
+  if (category) {
+    cat = categoryResponse.data.filter(
+      (item) => item.name && item.name === category
+    )
+  }
+  const {
+    data: car = [],
+    isLoading,
+    isError
+  } = useGetCarQuery({
+    page,
+    limit: pageSise,
+    category: cat?.[0] ? cat[0].id : '',
+    name: carName
+  })
+  useEffect(() => {
+    if (isError || errorDeleteQuery) {
+      navigate('*')
+    }
+  }, [isError, errorDeleteQuery, navigate])
   const deleteCar = (item) => {
     setIsVisibleDelete(true)
     setCarItem(item)
   }
   const changeCar = (item) => {
-    navigate('/admin/car', { replace: true, state: item })
+    navigate('/admin/car', { replace: false, state: item })
   }
   const deleteItem = async (e) => {
     setResponseDelete(true)
@@ -57,16 +76,26 @@ export const CarsList = () => {
   if (isLoading) return <Spin tip="Loading..." size="large" />
   return (
     <>
-      <h1 className="title">CarsList</h1>
-      <div className="content">
+      <h1 className="title">Список машин</h1>
+      <div className={isVisibleDelete ? 'content content__dark' : 'content'}>
         <div className="content-header">
           <CarHeader
             carName={carName}
             setCarName={setCarName}
             category={category}
             setCategory={setCategory}
-            clearInputName={clearInputName}
+            categoryResponse={categoryResponse}
           />
+        </div>
+        <div className="car__subtitle-block">
+          <span>Картинка</span>
+          <span>Название</span>
+          <span>Номер</span>
+          <span>Категория</span>
+          <span>Цена</span>
+          <span>Описание</span>
+          <span>Цвета</span>
+          <span>Действие</span>
         </div>
         <DeleteOrder
           isVisibleDelete={isVisibleDelete}

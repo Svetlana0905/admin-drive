@@ -9,7 +9,6 @@ export const carSlice = createSlice({
   reducers: {
     getCarData: (state, data) => {
       state.obj = data.payload
-      console.log(state.obj)
     },
     getCarId: (state, data) => {
       data.payload.carInput

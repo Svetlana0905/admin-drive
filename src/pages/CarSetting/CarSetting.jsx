@@ -1,9 +1,11 @@
 import './carsetting.scss'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { BigButton } from '../../components/Button/Button'
 import { InputStandart } from '../../components/LoginInput/LoginInput'
 import { GetColorCar } from '../../components/GetColorCar/GetColorCar'
+import { InputNumberBlock } from './InputNumberBlock'
 import { AddCarImage } from './AddCarImage'
+import { getStatusAlert } from '../../redux/alertSlice'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux/'
 import { Spin } from 'antd'
@@ -16,16 +18,13 @@ import {
 import {
   getNameCar,
   getNumberCar,
-  getDescriptionCar,
-  getTankCar,
-  getMinPriceCar,
-  getMaxPriceCar,
   getCategoryCar,
   getThumbnail,
   getDataCarFromredux
 } from '../../redux/CarPageSlice'
 
 export const CarSetting = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const { state } = useLocation()
   const { data: category = [], isLoading, isSuccess } = useGetCategoryQuery()
@@ -37,23 +36,18 @@ export const CarSetting = () => {
 
   const [model, setModel] = useState(state?.name ? state.name : '')
   const [number, setNumber] = useState(state?.number ? state.number : '')
-  const [description, setDescription] = useState(
-    state?.description ? state.description : ''
-  )
+
   const [tank, setTank] = useState(state?.tank ? state.tank : '')
-  const [errorNumberTank, setErrorNumberTank] = useState(false)
   const [minPrice, setMinPrice] = useState(
     state?.priceMin ? state.priceMin : ''
   )
-  const [errorNumberMin, setErrorNumberMin] = useState(false)
   const [maxPrice, setMaxPrice] = useState(
     state?.priceMax ? state.priceMax : ''
   )
-  const [errorNumberMax, setErrorNumberMax] = useState(false)
-  const [file, setFile] = useState('')
   const [carThumbnail, setThumbnail] = useState(
     state?.thumbnail ? state.thumbnail : {}
   )
+  const [file, setFile] = useState('')
   const [type, setType] = useState(
     state?.categoryId?.name ? state.categoryId.name : ''
   )
@@ -67,37 +61,6 @@ export const CarSetting = () => {
   useEffect(() => {
     dispatch(getNumberCar(number))
   }, [number, dispatch])
-
-  useEffect(() => {
-    dispatch(getDescriptionCar(description))
-  }, [description, dispatch])
-
-  useEffect(() => {
-    if (!isNaN(tank)) {
-      dispatch(getTankCar(tank))
-      setErrorNumberTank(false)
-    } else {
-      setErrorNumberTank(true)
-    }
-  }, [tank, dispatch])
-
-  useEffect(() => {
-    if (!isNaN(minPrice)) {
-      dispatch(getMinPriceCar(minPrice))
-      setErrorNumberMin(false)
-    } else {
-      setErrorNumberMin(true)
-    }
-  }, [minPrice, dispatch])
-
-  useEffect(() => {
-    if (!isNaN(maxPrice) && maxPrice > minPrice) {
-      dispatch(getMaxPriceCar(maxPrice))
-      setErrorNumberMax(false)
-    } else {
-      setErrorNumberMax(true)
-    }
-  }, [maxPrice, dispatch, minPrice])
 
   useEffect(() => {
     let categoryId = {}
@@ -122,7 +85,6 @@ export const CarSetting = () => {
   const clearData = () => {
     setModel('')
     setNumber('')
-    setDescription('')
     setTank('')
     setMinPrice('')
     setMaxPrice('')
@@ -137,20 +99,30 @@ export const CarSetting = () => {
     percent === 100 ? setIsDisabledBtn(false) : setIsDisabledBtn(true)
   }, [percent])
   useEffect(() => {
-    console.log(isError + ' ошибка запроса на добавление')
-    console.log(errorChange + ' ошибка запроса на изменение')
-  }, [isError])
+    if (isError || errorChange) {
+      navigate('*')
+    }
+  }, [isError, errorChange, navigate])
 
   const addItem = async () => {
     const data = dataState
     await carAddRequest({ data }).unwrap()
     setIsDisabledBtn(true)
+    setTimeout(() => {
+      dispatch(getStatusAlert('Машина была успешно добавлена!'))
+      navigate('/admin/cars-list')
+    }, 2500)
   }
+  const goBack = () => navigate(-1)
   const changeCar = async () => {
     const { ...data } = dataState
     data.id = state.id
     await carChangeRequest({ data, id: state.id }).unwrap
     setIsDisabledBtn(true)
+    setTimeout(() => {
+      dispatch(getStatusAlert('Машина была успешно изменена!'))
+      goBack()
+    }, 2500)
   }
   if (isLoading) return <Spin tip="Loading..." size="large" />
   return (
@@ -162,9 +134,9 @@ export const CarSetting = () => {
           setFile={setFile}
           file={file}
           carThumbnail={carThumbnail}
-          description={description}
           percent={percent}
           setPercent={setPercent}
+          state={state}
         />
         <div className="content-car__options-block">
           <p className="options-block__heading heading">Настройки автомобиля</p>
@@ -182,39 +154,15 @@ export const CarSetting = () => {
                 label="Номер"
                 type="text"
               />
-              <InputStandart
-                value={description}
-                onChange={setDescription}
-                label="Описание"
-                type="text"
-              />
             </div>
-            <div className="options-block__inputs-row">
-              <InputStandart
-                value={tank}
-                onChange={setTank}
-                label="Бензин (%)"
-                type="text"
-                status={errorNumberTank ? 'error' : ''}
-                textError={errorNumberTank ? 'Должно быть число' : ''}
-              />
-              <InputStandart
-                value={minPrice}
-                onChange={setMinPrice}
-                label="Минимальная цена"
-                type="text"
-                status={errorNumberMin ? 'error' : ''}
-                textError={errorNumberMin ? 'Должно быть число' : ''}
-              />
-              <InputStandart
-                value={maxPrice}
-                onChange={setMaxPrice}
-                label="Максимальная цена"
-                type="text"
-                status={errorNumberMax ? 'error' : ''}
-                textError={errorNumberMax ? 'Число. Больше мин. цены' : ''}
-              />
-            </div>
+            <InputNumberBlock
+              tank={tank}
+              setTank={setTank}
+              minPrice={minPrice}
+              setMinPrice={setMinPrice}
+              maxPrice={maxPrice}
+              setMaxPrice={setMaxPrice}
+            />
             <div className="content-header__wrapper">
               <ListDropdown
                 data={category.data.map((item) => item.name)}
@@ -242,7 +190,7 @@ export const CarSetting = () => {
             </div>
             <BigButton
               deleteBtn="deleteBtn"
-              text="Удалить"
+              text="Очистить"
               onClick={clearData}
             />
           </div>

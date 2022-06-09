@@ -19,6 +19,9 @@ export const ModalPoint = ({
   city
 }) => {
   const [textInput, setInputText] = useState('')
+  useEffect(() => {
+    setInputText(item.cityId ? item.cityId.name : '')
+  }, [item])
   const clearCityInput = () => {
     setPointAddress('')
     setPointName('')
@@ -46,22 +49,17 @@ export const ModalPoint = ({
           }>
           Поля не должны быть пустыми
         </p>
-        {text === 'Добавить' ? (
-          <>
-            <div className="modal-block__listdd">
-              <ListDropdown
-                setInputText={setInputText}
-                textInput={textInput}
-                data={cityArr}
-                placeholder="Выберите город"
-                disabled={!cityArr}
-                clearInput={clearCityInput}
-              />
-            </div>
-          </>
-        ) : (
-          ''
-        )}
+        <div className="modal-block__listdd">
+          <ListDropdown
+            setInputText={setInputText}
+            textInput={textInput}
+            data={cityArr}
+            textSpan="Город"
+            placeholder="Выберите город"
+            disabled={!cityArr}
+            clearInput={clearCityInput}
+          />
+        </div>
 
         <InputStandart
           label="Название точки"

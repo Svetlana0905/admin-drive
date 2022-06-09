@@ -13,7 +13,6 @@ export const InputStandart = ({
   size,
   textError
 }) => {
-  // console.log(status)
   return (
     <label className={size ? 'label label__small' : 'form__label label'}>
       <span className="label__span">{label}</span>

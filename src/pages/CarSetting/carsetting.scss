@@ -79,11 +79,6 @@
     letter-spacing: -0.408571px;
     color: $dark100;
   }
-  &__list-car {
-    position: relative;
-    display: flex;
-    width: 100%;
-  }
 }
 .thin {
   font-weight: 400;
@@ -122,10 +117,11 @@
   }
   &__inputs-row {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 21px;
     width: 100%;
-    @media (min-width: 768px) {
+    @media (min-width: 1264px) {
       flex-wrap: nowrap;
     }
   }
@@ -159,4 +155,10 @@
   line-height: 19px;
   letter-spacing: -0.408571px;
   color: $dark100;
+}
+.ant-input-number {
+  font-size: 13.5px;
+  color: $dark100;
+  border-radius: 4px;
+  width: 150px;
 }

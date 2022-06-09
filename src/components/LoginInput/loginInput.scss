@@ -20,12 +20,11 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 12px;
-    letter-spacing: -0.18421px;
+    letter-spacing: 0.61579px;
     color: $text;
     @media (min-width: 425px) {
       font-size: 10.5px;
       line-height: 12px;
-      letter-spacing: -0.18421px;
     }
   }
 }
@@ -64,7 +63,7 @@
   font-size: 16px;
   line-height: 16px;
   letter-spacing: -0.192982px;
-  color: $logo;
+  color: $copyright;
   @media (min-width: 425px) {
     font-size: 11px;
     line-height: 13px;
@@ -102,4 +101,5 @@
 }
 .form__label {
   min-width: 154px;
+  max-width: 250px;
 }

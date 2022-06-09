@@ -57,6 +57,7 @@ export const ChangeBlockCar = ({ orderItem }) => {
             textInput={carInput}
             data={carArr}
             placeholder={orderItem.carId ? orderItem.carId.name : ''}
+            clearInput={() => setCarInput('')}
           />
         </div>
         <p className="content__img-inner">

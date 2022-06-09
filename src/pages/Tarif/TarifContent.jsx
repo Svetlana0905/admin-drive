@@ -4,24 +4,22 @@ export const TarifContent = ({
   isVisibleDelete,
   isVisibleModal,
   changeTarif,
-  tarifDelete
+  tarifDelete,
+  isVisibleModalAdd
 }) => {
   return (
-    <>
+    <div className="content">
       {dataSource?.length ? (
         <div className="list-block__column">
           {dataSource.map((item, id) => (
-            <div
-              className={
-                isVisibleDelete || isVisibleModal
-                  ? 'list-block__dark'
-                  : 'list-block__row'
-              }
-              key={id}>
-              <p className="list-block__text-tarif text-bold">
-                {item.rateTypeId ? item.rateTypeId.name : 'Нет названия'}
-                <br /> (
-                {item.rateTypeId ? item.rateTypeId.unit : 'Нет названия'})
+            <div className="list-block__row" key={id}>
+              <p className="list-block__inner-tarif text-bold">
+                <span>
+                  {item.rateTypeId ? item.rateTypeId.name : 'Нет названия'}
+                </span>
+                <span className="text-light">
+                  ({item.rateTypeId ? item.rateTypeId.unit : 'Нет названия'})
+                </span>
               </p>
               <p className="list-block__text-tarif">
                 {item.price ? `${item.price} ₽` : 0}
@@ -42,6 +40,6 @@ export const TarifContent = ({
       ) : (
         ''
       )}
-    </>
+    </div>
   )
 }

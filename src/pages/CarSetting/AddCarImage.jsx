@@ -1,20 +1,30 @@
 import { InputFile } from '../../components/Button/Button'
 import { useState, useEffect } from 'react'
 import { Image } from 'antd'
-import { useSelector } from 'react-redux/'
+import { getDescriptionCar } from '../../redux/CarPageSlice'
+import { useDispatch, useSelector } from 'react-redux/'
 
 export const AddCarImage = ({
   setThumbnail,
   setFile,
   file,
   carThumbnail,
-  description,
+  state,
   percent,
   setPercent
 }) => {
+  const dispatch = useDispatch()
+
   const percentField = 12 // процент заполнения поля
+  const [description, setDescription] = useState(
+    state?.description ? state.description : 'Добавьте описание'
+  )
   const dataState = useSelector((state) => state.carPage.data)
   const [path, setPath] = useState()
+
+  useEffect(() => {
+    dispatch(getDescriptionCar(description))
+  }, [state, description, dispatch])
 
   useEffect(() => {
     let valueArr = []
@@ -73,7 +83,7 @@ export const AddCarImage = ({
             </>
           )}
         </div>
-        <InputFile getFile={setFile} />
+        <InputFile getFile={setFile} carThumbnail={carThumbnail} />
       </div>
       <label className="car-block__progress-block progress-block">
         <p className="progress-block__title-block">
@@ -88,7 +98,12 @@ export const AddCarImage = ({
       </label>
       <div className="car-block__definition definition">
         <span className="car-block__caption">Описание</span>
-        <p>{description}</p>
+        <textarea
+          value={description}
+          rows="5"
+          cols="33"
+          onChange={(e) => setDescription(e.target.value)}
+        />
       </div>
     </div>
   )

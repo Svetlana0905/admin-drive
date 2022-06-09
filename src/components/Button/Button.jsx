@@ -37,7 +37,7 @@ export const InputSearch = ({ onSearch }) => {
     </div>
   )
 }
-export const InputFile = ({ getFile, errorThumbnail }) => {
+export const InputFile = ({ getFile, carThumbnail }) => {
   return (
     <label className="input-file">
       <input
@@ -45,7 +45,11 @@ export const InputFile = ({ getFile, errorThumbnail }) => {
         accept="image/*"
         onChange={(e) => getFile(e.target.files[0])}
       />
-      <span>Выберите файл...</span>
+      <span>
+        {carThumbnail?.originalname
+          ? carThumbnail.originalname
+          : 'Выберите файл...'}
+      </span>
     </label>
   )
 }

@@ -1,4 +1,5 @@
 import '../City/list-block.scss'
+import './tarif.scss'
 import {
   useGetTarifQuery,
   useChangeTarifMutation,
@@ -11,8 +12,11 @@ import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
 import { ModalTarif } from './ModalTarif'
 import { TarifContent } from './TarifContent'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { getStatusAlert } from '../../redux/alertSlice'
 
 export const Tarif = () => {
+  const dispatch = useDispatch()
   const {
     data = [],
     isLoading,
@@ -42,6 +46,7 @@ export const Tarif = () => {
     setItem({})
     setErrorNumber(false)
     setErrorMassage(false)
+    setTarifPrice('')
   }
   const tarifDelete = (item) => {
     setIsVisibleDelete(true)
@@ -58,7 +63,7 @@ export const Tarif = () => {
   }
   const changeItem = async () => {
     let { data } = item
-    if (!isNaN(tarifPrice)) {
+    if (tarifPrice && !isNaN(tarifPrice)) {
       data = {
         ...data,
         price: tarifPrice
@@ -68,11 +73,13 @@ export const Tarif = () => {
       setErrorNumber(false)
       setErrorMassage(false)
       setTimeout(() => {
+        dispatch(getStatusAlert('Тариф был успешно изменен!'))
         setIsVisibleModal(false)
       }, 2000)
       setTimeout(() => {
+        setIsVisibleModal(false)
         setIsDisabledModal(false)
-      }, 2500)
+      }, 3000)
     } else {
       setErrorMassage(true)
       setIsDisabledModal(false)
@@ -81,10 +88,7 @@ export const Tarif = () => {
     }
   }
   const addTarif = () => {
-    setIsDisabledModal(false)
     setIsVisibleModalAdd(true)
-    setTarifPrice('')
-    setTarifRate('')
   }
   const addItem = async () => {
     let { data } = item
@@ -93,18 +97,19 @@ export const Tarif = () => {
       price: tarifPrice,
       rateTypeId: tarifRate[0]
     }
-    if (!isNaN(tarifPrice) && data.rateTypeId) {
+    if (tarifPrice && !isNaN(tarifPrice) && data.rateTypeId) {
       await tarifTypeAddRequest({ data }).unwrap()
       setIsDisabledModal(true)
-      setTarifPrice('')
       setTimeout(() => {
-        setIsVisibleModalAdd(false)
+        dispatch(getStatusAlert('Тариф был добавлен!'))
       }, 2000)
       setTimeout(() => {
+        setTarifPrice('')
+        setIsVisibleModalAdd(false)
         setIsDisabledModal(false)
         setErrorNumber(false)
         setErrorMassage(false)
-      }, 2500)
+      }, 3000)
     } else {
       setErrorMassage(true)
       setIsDisabledModal(false)
@@ -126,15 +131,28 @@ export const Tarif = () => {
   if (isSuccess) {
     dataSource = data.data
   }
+
   return (
     <>
-      <h1 className="title">TarifList</h1>
-      <div className={'list-block'}>
+      <h1 className="title">Тарифы</h1>
+      <div
+        className={
+          isVisibleDelete || isVisibleModal || isVisibleModalAdd
+            ? 'content content__dark'
+            : 'content'
+        }>
         <div className="content-header">
           <div className="content-header__btn-block"></div>
           <div className="content-header__btn-block">
             <SmallButton text="Создать" onClick={addTarif} />
           </div>
+        </div>
+        <div className="tarif__subtitle-block">
+          <p className="tarif__subtitle-block-tarif">
+            <span>Тариф</span>
+          </p>
+          <span className="tarif__subtitle-block-price">Цена</span>
+          <span className="tarif__subtitle-block-buttons">Действие</span>
         </div>
         <DeleteOrder
           isVisibleDelete={isVisibleDelete}
@@ -178,7 +196,7 @@ export const Tarif = () => {
         <TarifContent
           dataSource={dataSource}
           isVisibleDelete={isVisibleDelete}
-          isVisibleModal={isVisibleModal}
+          isVisibleModalAdd={isVisibleModalAdd}
           changeTarif={changeTarif}
           tarifDelete={tarifDelete}
         />

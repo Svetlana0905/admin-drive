@@ -137,6 +137,9 @@ export const ChangeOrder = ({
     clearItems()
     setErrormessage(false)
     setIsDisabledBtn(false)
+    setTimeout(() => {
+      dispatch(getStatusAlert(false))
+    }, 3000)
   }
   const changeOrder = async (e) => {
     const id = orderItem.id
@@ -176,6 +179,7 @@ export const ChangeOrder = ({
             setInputText={setCityInput}
             textInput={cityInput}
             data={cityArr}
+            clearInput={() => setCityInput('')}
             placeholder={orderItem.cityId ? orderItem.cityId.name : ''}
           />
         </div>
@@ -187,6 +191,7 @@ export const ChangeOrder = ({
             textInput={pointInput}
             data={pointArr}
             placeholder={placeholderPoint}
+            clearInput={() => setPointInput('')}
           />
         </div>
         <div className="change-block__wrapper-input">
@@ -198,6 +203,7 @@ export const ChangeOrder = ({
             placeholder={
               orderItem.orderStatusId ? orderItem.orderStatusId.name : ''
             }
+            clearInput={() => setStatusInput('')}
           />
         </div>
       </div>

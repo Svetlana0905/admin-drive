@@ -83,7 +83,7 @@ export const adminApi = createApi({
           authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
       }),
-      providesTags: ['Point']
+      providesTags: ['Point', 'City']
     }),
     deletePoint: build.mutation({
       query: ({ pointId }) => ({

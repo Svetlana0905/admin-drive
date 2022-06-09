@@ -119,8 +119,13 @@ export const TarifType = () => {
   }
   return (
     <>
-      <h1 className="title">TarifList</h1>
-      <div className="list-block">
+      <h1 className="title">Типы тарифов</h1>
+      <div
+        className={
+          isVisibleDelete || isVisibleModal || isVisibleModalAdd
+            ? 'content content__dark'
+            : 'content'
+        }>
         <div className="content-header">
           <div className="content-header__btn-block"></div>
           <div className="content-header__btn-block">

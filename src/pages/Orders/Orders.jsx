@@ -7,9 +7,11 @@ import { ChangeOrder } from '../../components/ChangeOrder/ChangeOrder'
 import { ChangeStatus } from '../../components/ChangeStatus/ChangeStatus'
 import { useEffect, useState } from 'react'
 import { OrderComponent } from '../../components/OrderComponent/OrderComponent'
+import { useNavigate } from 'react-router-dom'
 
 export const Orders = () => {
   const pageSise = 4
+  const navigate = useNavigate()
   const [page, setPage] = useState(0)
   const [totalPage, setTotalPage] = useState(0)
   const [isVisibleDelete, setIsVisibleDelete] = useState(false)
@@ -37,8 +39,14 @@ export const Orders = () => {
     state.car.carId ? state.car.carId.id : ''
   )
 
-  const [orderDeleteRequest] = useDeleteOrderDataMutation()
+  const [orderDeleteRequest, { isError }] = useDeleteOrderDataMutation()
   const [responseDelete, setResponseDelete] = useState(false)
+
+  useEffect(() => {
+    if (isError) {
+      navigate('*')
+    }
+  }, [isError, navigate])
 
   const orderDelete = (id) => {
     setIsVisibleDelete(true)
@@ -67,7 +75,6 @@ export const Orders = () => {
     status,
     car
   })
-
   function itemRender(_, type, originalElement) {
     if (type === 'prev') {
       return (

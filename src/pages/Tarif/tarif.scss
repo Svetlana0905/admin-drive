@@ -1,0 +1,38 @@
+@import '../../style//app.scss';
+.tarif {
+  @media (min-width: 1024px) {
+    width: 75%;
+  }
+  &__subtitle-block {
+    display: none;
+    @media (min-width: 768px) {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: $logo;
+      font-size: 17px;
+      background: $activeLink;
+      padding: 19px 40px;
+      border-bottom: 1px solid $border;
+    }
+  }
+
+  &__subtitle-block-tarif {
+    width: 50%;
+  }
+  &__subtitle-block-price,
+  &__subtitle-block-buttons {
+    width: 25%;
+  }
+  &__subtitle-block-price {
+    @media (min-width: 1300px) {
+      width: 35%;
+    }
+  }
+  &__subtitle-block-buttons {
+    @media (min-width: 1300px) {
+      width: 15%;
+    }
+  }
+}

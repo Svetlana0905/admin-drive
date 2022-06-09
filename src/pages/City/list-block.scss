@@ -18,14 +18,29 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(206, 206, 206, 0.3);
+    background: rgba(206, 206, 206, 0.1);
     border-radius: 9px;
   }
   &__column {
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 15px 40px;
+    padding: 15px 15px;
+  }
+  &__inner-point {
+    width: 100%;
+    @media (min-width: 1024px) {
+      width: 60%;
+    }
+  }
+  &__inner-tarif {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    width: 100%;
+    @media (min-width: 1024px) {
+      width: 40%;
+    }
   }
   &__row {
     width: 100%;
@@ -60,5 +75,25 @@
   }
   &__text-tarif {
     width: 25%;
+  }
+}
+.city {
+  &__subtitle-block {
+    display: none;
+    @media (min-width: 425px) {
+      display: block;
+      width: 100%;
+      padding: 19px 15px;
+      border-bottom: 1px solid $border;
+    }
+  }
+  &__subtitle-block-inner {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    margin: 0 auto;
+    align-items: center;
+    color: $logo;
+    font-size: 17px;
   }
 }

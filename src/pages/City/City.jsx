@@ -12,6 +12,7 @@ import { SmallButton, ListButton } from '../../components/Button/Button'
 import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
 import { ModalCity } from './ModalCity'
 import { useEffect, useState } from 'react'
+import { getStatusAlert } from '../../redux/alertSlice'
 
 export const City = () => {
   const dispatch = useDispatch()
@@ -64,9 +65,10 @@ export const City = () => {
       setIsDisabledModal(true)
       await cityAddRequest({ data }).unwrap()
       setTimeout(() => {
-        setIsVisibleModalAdd(false)
+        dispatch(getStatusAlert('Город был успешно добавлен!'))
       }, 2000)
       setTimeout(() => {
+        setIsVisibleModalAdd(false)
         setIsDisabledModal(false)
       }, 2500)
     } else {
@@ -82,9 +84,10 @@ export const City = () => {
     if (cityName) {
       await cityChangeRequest({ cityId, data }).unwrap()
       setTimeout(() => {
-        setIsVisibleModal(false)
+        dispatch(getStatusAlert('Город был успешно изменен!'))
       }, 2000)
       setTimeout(() => {
+        setIsVisibleModal(false)
         setIsDisabledModal(false)
       }, 2500)
     } else {
@@ -109,13 +112,24 @@ export const City = () => {
   }
   return (
     <>
-      <h1 className="title">CityList</h1>
-      <div className={'list-block'}>
+      <h1 className="title">Список городов</h1>
+      <div
+        className={
+          isVisibleDelete || isVisibleModal || isVisibleModalAdd
+            ? 'content content__dark'
+            : 'content'
+        }>
         {isLoading && <Spin tip="Loading..." size="large" />}
         <div className="content-header">
           <div className="content-header__btn-block"></div>
           <div className="content-header__btn-block">
             <SmallButton text="Создать" onClick={addCity} />
+          </div>
+        </div>
+        <div className="city__subtitle-block">
+          <div className="city__subtitle-block-inner">
+            <span className="city__subtitle-block-city">Город</span>
+            <span className="city__subtitle-block-buttons">Действие</span>
           </div>
         </div>
         <DeleteOrder
@@ -146,17 +160,11 @@ export const City = () => {
           setCityName={setCityName}
           errorMassage={errorMassage}
         />
-        {dataSource?.length ? (
-          <>
+        <div className="list-block__inner-point">
+          {dataSource?.length ? (
             <div className="list-block__column">
               {dataSource.map((item, id) => (
-                <div
-                  className={
-                    isVisibleDelete || isVisibleModal
-                      ? 'list-block__dark'
-                      : 'list-block__row'
-                  }
-                  key={id}>
+                <div className="list-block__row" key={id}>
                   <p className="list-block__text">{item.name}</p>
                   <div className="buttons-group">
                     <ListButton
@@ -171,10 +179,10 @@ export const City = () => {
                 </div>
               ))}
             </div>
-          </>
-        ) : (
-          ''
-        )}
+          ) : (
+            ''
+          )}
+        </div>
       </div>
     </>
   )

@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { Header } from '../Header/Header'
 import { Footer } from '../Footer/Footer'
 import { SideBar } from '../SideBar/SideBar'
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { getStatusAlert } from '../../redux/alertSlice'
 import { useDispatch, useSelector } from 'react-redux'
 

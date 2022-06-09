@@ -8,8 +8,8 @@ import { getColorsCar } from '../../redux/CarPageSlice'
 export const GetColorCar = ({ colors }) => {
   const dispatch = useDispatch()
   const [color, setColor] = useState('')
-  const [arrCheckbox, setArrCheckbox] = useState(colors)
-  const [checkedState, setCheckedState] = useState(colors)
+  const [arrCheckbox, setArrCheckbox] = useState([])
+  const [checkedState, setCheckedState] = useState([])
   useEffect(() => {
     setArrCheckbox(colors)
     setCheckedState(colors)
@@ -17,7 +17,6 @@ export const GetColorCar = ({ colors }) => {
   }, [colors, dispatch])
 
   const addColor = (e) => {
-    e.preventDefault()
     if (!arrCheckbox.includes(color) && color) {
       setArrCheckbox((arrCheckbox) => [...arrCheckbox, color])
       setCheckedState((checkedState) => [...checkedState, false])
@@ -27,7 +26,7 @@ export const GetColorCar = ({ colors }) => {
 
   const handleOnChange = (position) => {
     const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item
+      index === position ? !item : !!item
     )
     const colorArr = updatedCheckedState.reduce((accum, item, index) => {
       if (item === true) {
@@ -35,7 +34,6 @@ export const GetColorCar = ({ colors }) => {
       }
       return accum
     }, [])
-
     setCheckedState(updatedCheckedState)
     dispatch(getColorsCar(colorArr))
   }

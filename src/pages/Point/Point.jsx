@@ -12,8 +12,11 @@ import { SmallButton } from '../../components/Button/Button'
 import { ListDropdown } from '../../components/ListDropdown/ListDropdown'
 import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
 import { ModalPoint } from './ModalPoint'
+import { getStatusAlert } from '../../redux/alertSlice'
+import { useDispatch } from 'react-redux'
 
 export const Point = () => {
+  const dispatch = useDispatch()
   const { data: pointArr = [], isLoading } = useGetPointQuery({
     page: 0,
     limit: 0
@@ -97,21 +100,22 @@ export const Point = () => {
       data = {
         ...data,
         address: pointAddress,
+        cityId: cityObj[0],
         name: pointName
       }
       await pointChangeRequest({ pointId: itemPoint.id, data }).unwrap()
       setIsDisabledModal(true)
       setErrorMassage(false)
+      dispatch(getStatusAlert('Точка была успешно изменена!'))
       setTimeout(() => {
         setIsVisibleModal(false)
-      }, 2000)
-      setTimeout(() => {
         setIsDisabledModal(false)
-      }, 2500)
+      }, 2000)
     } else {
       setErrorMassage(true)
       setIsDisabledModal(false)
       setIsVisibleModal(true)
+      dispatch(getStatusAlert(false))
     }
   }
   const addPoint = () => {
@@ -132,6 +136,7 @@ export const Point = () => {
       setIsDisabledModal(true)
       setPointName('')
       setPointAddress('')
+      dispatch(getStatusAlert('Точка была успешно добавлена!'))
       setTimeout(() => {
         setIsVisibleModalAdd(false)
       }, 2000)
@@ -147,8 +152,13 @@ export const Point = () => {
   if (cityLoadung || isLoading) return <Spin tip="Loading..." size="large" />
   return (
     <>
-      <h1 className="title">PointsList</h1>
-      <div className="content">
+      <h1 className="title">Список точек</h1>
+      <div
+        className={
+          isVisibleDelete || isVisibleModalAdd || isVisibleModal
+            ? 'content content__dark'
+            : 'content'
+        }>
         <div className="content-header">
           <div className="content-header__btn-block">
             <div className="modal-block__listdd">
@@ -165,6 +175,14 @@ export const Point = () => {
             <SmallButton text="Применить" onClick={filterCity} />
             <SmallButton text="Создать" onClick={addPoint} />
           </div>
+        </div>
+        <div className="point__subtitle-block">
+          <p className="point__subtitle-block-address">
+            <span>Название</span>
+            <span>Адрес</span>
+          </p>
+          <span className="point__subtitle-block-city">Город</span>
+          <span className="point__subtitle-block-buttons">Действие</span>
         </div>
         <DeleteOrder
           isVisibleDelete={isVisibleDelete}
@@ -203,9 +221,11 @@ export const Point = () => {
           setPointAddress={setPointAddress}
           pointAddress={pointAddress}
           errorMassage={errorMassage}
+          cityArr={cityArr}
+          city={city}
         />
         {filterPoint?.length ? (
-          <>
+          <div className="list-block__column">
             {filterPoint.map((item) => (
               <PointComponent
                 key={item.id}
@@ -214,7 +234,7 @@ export const Point = () => {
                 item={item}
               />
             ))}
-          </>
+          </div>
         ) : (
           <div className="content__row">Записи не найдены</div>
         )}

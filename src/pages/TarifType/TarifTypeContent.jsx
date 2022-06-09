@@ -12,18 +12,13 @@ export const TarifTypeContent = ({
       {dataSource?.length ? (
         <div className="list-block__column">
           {dataSource.map((item, id) => (
-            <div
-              className={
-                isVisibleDelete || isVisibleModal
-                  ? 'list-block__dark'
-                  : 'list-block__row'
-              }
-              key={id}>
-              <p className="list-block__text-tarif">
-                {item.name ? item.name : 'Нет названия'}
-                <br /> ({item.unit ? item.unit : 'Нет названия'})
+            <div className="list-block__row" key={id}>
+              <p className="list-block__inner-tarif text-bold">
+                <span>{item.name ? item.name : 'Нет названия'}</span>
+                <span className="text-light">
+                  ({item.unit ? item.unit : 'Нет названия'})
+                </span>
               </p>
-
               <div className="buttons-group">
                 <ListButton
                   text="Изменить"

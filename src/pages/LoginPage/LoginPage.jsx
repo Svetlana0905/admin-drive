@@ -47,7 +47,6 @@ export const LoginPage = () => {
     if (isError) {
       setInvalidMail('error')
       setInvalidPassword('error')
-      console.log(isError)
     }
   }
 

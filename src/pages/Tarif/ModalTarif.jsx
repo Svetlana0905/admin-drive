@@ -63,6 +63,7 @@ export const ModalTarif = ({
                 placeholder="Выберите тариф"
                 disabled={!dataSource}
                 textSpan="Тариф"
+                clearInput={() => setInputText('')}
               />
             </div>
           </>

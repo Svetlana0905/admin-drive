@@ -38,9 +38,11 @@ export const ListDropdown = ({
               <li
                 key={id}
                 onClick={(e) => {
-                  setInputText(name === 'point' ? item.name : item)
+                  setInputText(
+                    name === 'point' || name === 'category' ? item.name : item
+                  )
                 }}>
-                {name === 'point' ? item.name : item}
+                {name === 'point' || name === 'category' ? item.name : item}
               </li>
             ))
           : ''}
