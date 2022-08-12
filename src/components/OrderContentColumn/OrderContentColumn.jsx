@@ -14,7 +14,7 @@ export const OrderContentColumn = ({ item }) => {
         </span>
       </p>
       <p className="text-light">
-        {getDate(item.dateFrom)} - {getDate(item.dateTo)}
+        {getDate(+item.dateFrom)} - {getDate(+item.dateTo)}
       </p>
       <p className="text-dark">
         <span className="text-light">Цвет </span> {item.color}

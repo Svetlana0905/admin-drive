@@ -30,19 +30,12 @@ export const TarifType = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false)
   const [isVisibleModalAdd, setIsVisibleModalAdd] = useState(false)
   const [tarifId, setTarifId] = useState('')
-  const [errorMassage, setErrorMassage] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
   let dataSource = []
-
-  const closeModal = () => {
-    setIsVisibleModal(false)
-    setIsVisibleModalAdd(false)
-    setTarifName('')
-    setTarifUnit('')
-  }
 
   const changeTarif = (item) => {
     setItem(item)
-    setErrorMassage(false)
+    setErrorMessage(false)
     setTarifName(item ? item.name : '')
     setTarifUnit(item ? item.unit : '')
     setIsDisabledModal(false)
@@ -65,7 +58,7 @@ export const TarifType = () => {
         setIsDisabledModal(false)
       }, 2500)
     } else {
-      setErrorMassage(true)
+      setErrorMessage(true)
       setIsDisabledModal(false)
       setIsVisibleModal(true)
     }
@@ -95,7 +88,7 @@ export const TarifType = () => {
         setTarifUnit('')
       }, 2500)
     } else {
-      setErrorMassage(true)
+      setErrorMessage(true)
       setIsDisabledModal(false)
       setIsVisibleModalAdd(true)
     }
@@ -113,13 +106,25 @@ export const TarifType = () => {
       setResponseDelete(false)
     }, 2000)
   }
+  const changeProps = {
+    isVisibleModal: isVisibleModal,
+    setIsVisibleModal: setIsVisibleModal,
+    actions: changeItem,
+    text: 'Изменить'
+  }
+  const addProps = {
+    isVisibleModal: isVisibleModalAdd,
+    setIsVisibleModal: setIsVisibleModalAdd,
+    actions: addItem,
+    text: 'Добавить'
+  }
   if (isLoading) return <Spin tip="Loading..." size="large" />
   if (isSuccess) {
     dataSource = data.data
   }
   return (
     <>
-      <h1 className="title">Типы тарифов</h1>
+      <h2 className="title">Типы тарифов</h2>
       <div
         className={
           isVisibleDelete || isVisibleModal || isVisibleModalAdd
@@ -147,28 +152,13 @@ export const TarifType = () => {
           }
         />
         <ModalTarifType
-          isVisibleModal={isVisibleModal}
-          closeModal={closeModal}
-          actions={changeItem}
-          text="Изменить"
-          isDisabledModal={isDisabledModal}
-          tarifName={tarifName}
+          props={isVisibleModal ? changeProps : addProps}
           setTarifName={setTarifName}
+          tarifName={tarifName}
+          isDisabledModal={isDisabledModal}
           tarifUnit={tarifUnit}
           setTarifUnit={setTarifUnit}
-          errorMassage={errorMassage}
-        />
-        <ModalTarifType
-          isVisibleModal={isVisibleModalAdd}
-          closeModal={closeModal}
-          actions={addItem}
-          text="Добавить"
-          isDisabledModal={isDisabledModal}
-          tarifName={tarifName}
-          setTarifName={setTarifName}
-          tarifUnit={tarifUnit}
-          setTarifUnit={setTarifUnit}
-          errorMassage={errorMassage}
+          errorMessage={errorMessage}
         />
         <TarifTypeContent
           dataSource={dataSource}

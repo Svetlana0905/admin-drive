@@ -1,5 +1,6 @@
 import { useGetOrdersListQuery, useDeleteOrderDataMutation } from '../../redux/'
 import { useSelector } from 'react-redux'
+import { ItemRender } from '../../components/Button/Button'
 import { Spin, Pagination } from 'antd'
 import { ContentHeader } from '../../components/ContentHeader/ContentHeader'
 import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
@@ -25,9 +26,6 @@ export const Orders = () => {
       setPage(page - 1)
     }
   }, [page, totalPage])
-  // useEffect(() => {
-  //   setPage(Math.min(page, Math.ceil(totalPage / 4) - 1))
-  // }, [page, totalPage]) //   Так работает, но выдает ошибку CORS
 
   const city = useSelector((state) =>
     state.cities.cityId ? state.cities.cityId.id : ''
@@ -75,23 +73,7 @@ export const Orders = () => {
     status,
     car
   })
-  function itemRender(_, type, originalElement) {
-    if (type === 'prev') {
-      return (
-        <button className="pagination-btn" type="button">
-          «
-        </button>
-      )
-    }
-    if (type === 'next') {
-      return (
-        <button className="pagination-btn" type="button">
-          »
-        </button>
-      )
-    }
-    return originalElement
-  }
+
   useEffect(() => {
     setTotalPage(data.count)
   }, [data])
@@ -100,7 +82,7 @@ export const Orders = () => {
 
   return (
     <>
-      <h1 className="title">Заказы</h1>
+      <h2 className="title">Заказы</h2>
       <div
         className={
           isVisibleDelete || isVisibleChange || isVisibleStatusOrder
@@ -152,7 +134,7 @@ export const Orders = () => {
               total={totalPage}
               pageSize={pageSise}
               onChange={(e) => setPage(e - 1)}
-              itemRender={itemRender}
+              itemRender={ItemRender}
             />
           </>
         ) : (

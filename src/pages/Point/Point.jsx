@@ -33,6 +33,7 @@ export const Point = () => {
   const [pointChangeRequest] = useChangePointMutation()
   const [pointAddRequest] = useAddPointDataMutation()
   const [filterPoint, setFilterPoint] = useState([])
+  const [cityInputFilter, setCityInputFilter] = useState('')
   const [cityInput, setCityInput] = useState('')
   const [pointName, setPointName] = useState('')
   const [pointAddress, setPointAddress] = useState('')
@@ -43,30 +44,31 @@ export const Point = () => {
   const [isDisabledModal, setIsDisabledModal] = useState(false)
   const [errorMassage, setErrorMassage] = useState(false)
   const [itemPoint, setItemPoint] = useState({})
-  const [cityObj, setCityObj] = useState({})
 
   let cityArr = []
-
   useEffect(() => {
-    setFilterPoint(pointArr.data)
-  }, [pointArr])
-
-  const filterCity = () => {
-    setFilterPoint(
-      pointArr.data.filter(
-        (item) => item.cityId && item.cityId.name === cityInput
+    if (cityInputFilter && pointArr) {
+      setFilterPoint(
+        pointArr.data.filter(
+          (item) => item.cityId && item.cityId.name === cityInputFilter
+        )
       )
-    )
+    } else setFilterPoint(pointArr.data) // ????
+  }, [cityInputFilter, pointArr])
+
+  const clearCityInputFilter = () => {
+    setCityInputFilter('')
+    setFilterPoint(pointArr.data)
   }
+
   if (citySuccess) {
     cityArr = Array.from(new Set(city.data.map((e) => e.name)))
   }
   const deletePoint = (item) => {
     setItemPoint(item)
     setIsVisibleDelete(true)
-    // setPointId(item.id)
-    // setDelitePointName(item.name)
   }
+
   const deleteItem = async (e) => {
     setResponseDelete(true)
     await pointDeleteRequest({ pointId: itemPoint.id }).unwrap()
@@ -75,18 +77,21 @@ export const Point = () => {
       setResponseDelete(false)
     }, 2000)
   }
-  const clearCityInput = () => {
-    setCityInput('')
-    setFilterPoint(pointArr.data)
-  }
-  const closeModal = () => {
-    setIsVisibleModal(false)
-    setIsVisibleModalAdd(false)
-    setCityObj({})
-    setItemPoint({})
-    setErrorMassage(false)
-    setPointName('')
-    setPointAddress('')
+  const getCityObj = () => {
+    let cityObj = {}
+    if (cityInput && city) {
+      cityObj = city?.data?.filter(
+        (item) => item.name && item.name === cityInput
+      )
+    }
+    let { data } = itemPoint
+    data = {
+      ...data,
+      address: pointAddress,
+      cityId: cityObj[0],
+      name: pointName
+    }
+    return data
   }
   const changePoint = (item) => {
     setErrorMassage(false)
@@ -95,14 +100,8 @@ export const Point = () => {
     setIsVisibleModal(true)
   }
   const changeItem = async () => {
-    let { data } = itemPoint
+    const data = getCityObj()
     if (pointName && pointAddress) {
-      data = {
-        ...data,
-        address: pointAddress,
-        cityId: cityObj[0],
-        name: pointName
-      }
       await pointChangeRequest({ pointId: itemPoint.id, data }).unwrap()
       setIsDisabledModal(true)
       setErrorMassage(false)
@@ -110,6 +109,8 @@ export const Point = () => {
       setTimeout(() => {
         setIsVisibleModal(false)
         setIsDisabledModal(false)
+        setPointName('')
+        setPointAddress('')
       }, 2000)
     } else {
       setErrorMassage(true)
@@ -123,13 +124,7 @@ export const Point = () => {
     setIsVisibleModalAdd(true)
   }
   const addItem = async () => {
-    let { data } = itemPoint
-    data = {
-      ...data,
-      address: pointAddress,
-      cityId: cityObj[0],
-      name: pointName
-    }
+    const data = getCityObj()
     if (data.cityId && data.address && data.name) {
       setErrorMassage(false)
       await pointAddRequest({ data }).unwrap()
@@ -141,6 +136,8 @@ export const Point = () => {
         setIsVisibleModalAdd(false)
       }, 2000)
       setTimeout(() => {
+        setPointName('')
+        setPointAddress('')
         setIsDisabledModal(false)
       }, 2500)
     } else {
@@ -149,10 +146,34 @@ export const Point = () => {
       setIsVisibleModalAdd(true)
     }
   }
+
+  const addProps = {
+    isVisibleModal: isVisibleModalAdd,
+    setIsVisibleModal: setIsVisibleModalAdd,
+    actions: addItem,
+    text: 'Добавить',
+    item: itemPoint,
+    pointName: pointName,
+    setPointName: setPointName,
+    setPointAddress: setPointAddress,
+    pointAddress: pointAddress
+  }
+  const changeProps = {
+    isVisibleModal: isVisibleModal,
+    setIsVisibleModal: setIsVisibleModal,
+    actions: changeItem,
+    text: 'Изменить',
+    item: itemPoint,
+    pointName: pointName,
+    setPointName: setPointName,
+    setPointAddress: setPointAddress,
+    pointAddress: pointAddress
+  }
+
   if (cityLoadung || isLoading) return <Spin tip="Loading..." size="large" />
   return (
     <>
-      <h1 className="title">Список точек</h1>
+      <h2 className="title">Список точек</h2>
       <div
         className={
           isVisibleDelete || isVisibleModalAdd || isVisibleModal
@@ -165,14 +186,13 @@ export const Point = () => {
               <ListDropdown
                 textSpan="Выберите город"
                 data={cityArr}
-                setInputText={setCityInput}
-                textInput={cityInput}
-                clearInput={clearCityInput}
+                setInputText={setCityInputFilter}
+                textInput={cityInputFilter}
+                clearInput={clearCityInputFilter}
               />
             </div>
           </div>
           <div className="content-header__btn-block">
-            <SmallButton text="Применить" onClick={filterCity} />
             <SmallButton text="Создать" onClick={addPoint} />
           </div>
         </div>
@@ -193,36 +213,13 @@ export const Point = () => {
           text={itemPoint.name}
         />
         <ModalPoint
-          isVisibleModal={isVisibleModalAdd}
-          closeModal={closeModal}
-          actions={addItem}
-          setCityObj={setCityObj}
-          text="Добавить"
-          item={itemPoint}
+          props={isVisibleModal ? changeProps : addProps}
           isDisabledModal={isDisabledModal}
-          pointName={pointName}
-          setPointName={setPointName}
-          setPointAddress={setPointAddress}
-          pointAddress={pointAddress}
-          errorMassage={errorMassage}
           cityArr={cityArr}
-          city={city}
-        />
-        <ModalPoint
-          isVisibleModal={isVisibleModal}
-          closeModal={closeModal}
-          actions={changeItem}
-          setCityObj={setCityObj}
-          text="Изменить"
-          item={itemPoint}
-          isDisabledModal={isDisabledModal}
-          pointName={pointName}
-          setPointName={setPointName}
-          setPointAddress={setPointAddress}
-          pointAddress={pointAddress}
+          setCityInput={setCityInput}
+          cityInput={cityInput}
           errorMassage={errorMassage}
-          cityArr={cityArr}
-          city={city}
+          setErrorMassage={setErrorMassage}
         />
         {filterPoint?.length ? (
           <div className="list-block__column">

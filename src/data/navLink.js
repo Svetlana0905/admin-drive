@@ -41,5 +41,10 @@ export const NavLinkData = [
     imgpath: <Img7 className="nav-link__img" width="14px" height="14px" />,
     link: 'orders',
     title: 'Заказы'
+  },
+  {
+    imgpath: <Img7 className="nav-link__img" width="14px" height="14px" />,
+    link: 'category',
+    title: 'Категории'
   }
 ]

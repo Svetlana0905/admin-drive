@@ -1,46 +1,46 @@
 import { InputStandart } from '../../components/LoginInput/LoginInput'
 import { ListDropdown } from '../../components/ListDropdown/ListDropdown'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
 export const ModalPoint = ({
-  isVisibleModal,
-  closeModal,
-  actions,
-  text,
-  isDisabledModal,
-  errorMassage,
-  pointName,
-  setPointName,
-  setCityObj,
+  props,
+  setCityInput,
+  cityInput,
   cityArr,
-  item,
-  setPointAddress,
-  pointAddress,
-  city
+  errorMassage,
+  isDisabledModal,
+  setErrorMassage
 }) => {
-  const [textInput, setInputText] = useState('')
   useEffect(() => {
-    setInputText(item.cityId ? item.cityId.name : '')
-  }, [item])
-  const clearCityInput = () => {
-    setPointAddress('')
-    setPointName('')
-    setInputText('')
-  }
-  useEffect(() => {
-    if (textInput) {
-      setCityObj(
-        city.data.filter((item) => item.name && item.name === textInput)
-      )
+    setCityInput(props?.item?.cityId ? props.item.cityId.name : '')
+  }, [props.item, setCityInput])
+
+  const closeModal = () => {
+    if (props.text === 'Изменить') {
+      props.setIsVisibleModal(false)
+      props.setPointName('')
+      props.setPointAddress('')
+      setErrorMassage('')
     }
-  }, [textInput, setCityObj, city])
+    if (props.text === 'Добавить') {
+      props.setPointName('')
+      props.setPointAddress('')
+      props.setIsVisibleModal(false)
+      setErrorMassage('')
+    }
+  }
+  const clearCityInput = () => {
+    setCityInput('')
+  }
+
   return (
-    <section className={isVisibleModal ? 'modal-block' : 'modal-block__hidden'}>
+    <section
+      className={props.isVisibleModal ? 'modal-block' : 'modal-block__hidden'}>
       <div className="modal-block__column">
         <p className="modal-block__text-link text-link">
-          {text} точку <br />
+          {props.text} точку <br />
           <span className="text-green">
-            {item.cityId ? item.cityId.name : ''}
+            {props.item.cityId ? props.item.cityId.name : ''}
           </span>
         </p>
         <p
@@ -51,8 +51,8 @@ export const ModalPoint = ({
         </p>
         <div className="modal-block__listdd">
           <ListDropdown
-            setInputText={setInputText}
-            textInput={textInput}
+            setInputText={setCityInput}
+            textInput={cityInput}
             data={cityArr}
             textSpan="Город"
             placeholder="Выберите город"
@@ -63,28 +63,32 @@ export const ModalPoint = ({
 
         <InputStandart
           label="Название точки"
-          value={pointName}
-          onChange={setPointName}
+          value={props.pointName}
+          onChange={props.setPointName}
           type="text"
-          placeholder={item ? item.name : ''}
+          placeholder={
+            props.text === 'Изменить' && props.item ? props.item.name : ''
+          }
         />
         <InputStandart
           label="Адрес"
-          value={pointAddress}
-          onChange={setPointAddress}
+          value={props.pointAddress}
+          onChange={props.setPointAddress}
           type="text"
-          placeholder={item ? item.address : ''}
+          placeholder={
+            props.text === 'Изменить' && props.item ? props.item.address : ''
+          }
         />
         <div className="modal-block__btn-block">
           <button
-            onClick={actions}
+            onClick={props.actions}
             className={
               isDisabledModal
                 ? 'button button__small green-btn hidden'
                 : 'button button__small green-btn '
             }
             disabled={isDisabledModal}>
-            {text === 'Изменить' ? 'Изменить' : 'Добавить'}
+            {props.text === 'Изменить' ? 'Изменить' : 'Добавить'}
           </button>
           <button onClick={closeModal} className="button button__small">
             {isDisabledModal ? 'Закрыть' : 'Отменить'}

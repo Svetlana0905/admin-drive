@@ -87,3 +87,26 @@ export const ClearInputButton = ({ clearInput, name }) => {
     />
   )
 }
+export const ItemRender = (_, type, originalElement) => {
+  if (type === 'prev') {
+    return (
+      <button className="pagination-btn" type="button">
+        «
+      </button>
+    )
+  }
+  if (type === 'next') {
+    return (
+      <button className="pagination-btn" type="button">
+        »
+      </button>
+    )
+  }
+  return originalElement
+}
+// export const MyInput = ({ ...props }) => {
+//   return <input {...props} className="my-input" />
+// }
+// export const ClearBtn = ({ ...props }) => {
+//   return <button {...props} className="clear-btn"></button>
+// }

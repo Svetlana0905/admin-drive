@@ -1,12 +1,5 @@
 import { ListButton } from '../../components/Button/Button'
-export const TarifContent = ({
-  dataSource,
-  isVisibleDelete,
-  isVisibleModal,
-  changeTarif,
-  tarifDelete,
-  isVisibleModalAdd
-}) => {
+export const TarifContent = ({ dataSource, changeTarif, tarifDelete }) => {
   return (
     <div className="content">
       {dataSource?.length ? (

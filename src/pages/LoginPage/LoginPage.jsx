@@ -23,7 +23,7 @@ export const LoginPage = () => {
   const [passwordError, setPasswordError] = useState('')
   const [invalidErrorMail, setInvalidMail] = useState('')
   const [invalidErrorPassword, setInvalidPassword] = useState('')
-  const [login, { isError, data }] = useLoginMutation()
+  const [login, { isError, data, error }] = useLoginMutation()
 
   useEffect(() => {
     userRef.current.focus()
@@ -58,7 +58,11 @@ export const LoginPage = () => {
       dispatch(setCredentials(data))
       navigate('admin/point', { replace: true })
     }
-  }, [data])
+  }, [data, dispatch, navigate])
+
+  useEffect(() => {
+    if (error) navigate('error', { replace: true, state: error })
+  }, [error, navigate])
 
   return (
     <section className="login">

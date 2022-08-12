@@ -1,5 +1,5 @@
 import { Pagination, Image } from 'antd'
-import { ListButton } from '../../components/Button/Button'
+import { ListButton, ItemRender } from '../../components/Button/Button'
 import stub from '../../assets/stub.jpg'
 
 export const CarComponent = ({
@@ -16,23 +16,6 @@ export const CarComponent = ({
     return carNumber.replace(reg, ` $& `)
   }
 
-  function itemRender(_, type, originalElement) {
-    if (type === 'prev') {
-      return (
-        <button className="pagination-btn" type="button">
-          «
-        </button>
-      )
-    }
-    if (type === 'next') {
-      return (
-        <button className="pagination-btn" type="button">
-          »
-        </button>
-      )
-    }
-    return originalElement
-  }
   return (
     <>
       {car ? (
@@ -104,7 +87,7 @@ export const CarComponent = ({
             total={totalPage}
             pageSize={pageSise}
             onChange={(e) => setPage(e - 1)}
-            itemRender={itemRender}
+            itemRender={ItemRender}
           />
         </>
       ) : (

@@ -17,7 +17,7 @@ export const AddCarImage = ({
 
   const percentField = 12 // процент заполнения поля
   const [description, setDescription] = useState(
-    state?.description ? state.description : 'Добавьте описание'
+    state?.description ? state.description : ''
   )
   const dataState = useSelector((state) => state.carPage.data)
   const [path, setPath] = useState()
@@ -100,6 +100,7 @@ export const AddCarImage = ({
         <span className="car-block__caption">Описание</span>
         <textarea
           value={description}
+          placeholder="Добавьте описание"
           rows="5"
           cols="33"
           onChange={(e) => setDescription(e.target.value)}

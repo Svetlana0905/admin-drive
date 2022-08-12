@@ -33,21 +33,16 @@ export const City = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false)
   const [isVisibleModalAdd, setIsVisibleModalAdd] = useState(false)
   const [cityId, setCityId] = useState('')
-  const [errorMassage, setErrorMassage] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
   let dataSource = []
 
-  const closeModal = () => {
-    setIsVisibleModalAdd(false)
-    setIsVisibleModal(false)
-    setCityName('')
-  }
   const cityDelete = (item) => {
     setIsVisibleDelete(true)
     setCityId(item.id)
     setDeliteCityName(item.name)
   }
   const changeCity = (item) => {
-    setErrorMassage(false)
+    setErrorMessage(false)
     setCityId(item.id)
     setCityName(item.name)
     setIsDisabledModal(false)
@@ -72,7 +67,7 @@ export const City = () => {
         setIsDisabledModal(false)
       }, 2500)
     } else {
-      setErrorMassage(true)
+      setErrorMessage(true)
       setIsDisabledModal(false)
       setIsVisibleModalAdd(true)
     }
@@ -91,7 +86,7 @@ export const City = () => {
         setIsDisabledModal(false)
       }, 2500)
     } else {
-      setErrorMassage(true)
+      setErrorMessage(true)
       setIsDisabledModal(false)
       setIsVisibleModal(true)
     }
@@ -107,12 +102,25 @@ export const City = () => {
   useEffect(() => {
     dispatch(getCityData(data.data))
   }, [data, dispatch])
+
+  const changeProps = {
+    isVisibleModal: isVisibleModal,
+    setIsVisibleModal: setIsVisibleModal,
+    actions: changeItem,
+    text: 'Изменить'
+  }
+  const addProps = {
+    isVisibleModal: isVisibleModalAdd,
+    setIsVisibleModal: setIsVisibleModalAdd,
+    actions: addItem,
+    text: 'Добавить'
+  }
   if (isSuccess) {
     dataSource = data.data.map((item) => ({ ...item, key: item.id }))
   }
   return (
     <>
-      <h1 className="title">Список городов</h1>
+      <h2 className="title">Список городов</h2>
       <div
         className={
           isVisibleDelete || isVisibleModal || isVisibleModalAdd
@@ -141,24 +149,11 @@ export const City = () => {
           text={deliteCityName}
         />
         <ModalCity
-          isVisibleModal={isVisibleModal}
-          closeModal={closeModal}
-          actions={changeItem}
-          text="Изменить"
+          props={isVisibleModal ? changeProps : addProps}
+          setCityName={setCityName}
           cityName={cityName}
           isDisabledModal={isDisabledModal}
-          setCityName={setCityName}
-          errorMassage={errorMassage}
-        />
-        <ModalCity
-          isVisibleModal={isVisibleModalAdd}
-          closeModal={closeModal}
-          actions={addItem}
-          text="Добавить"
-          isDisabledModal={isDisabledModal}
-          cityName={cityName}
-          setCityName={setCityName}
-          errorMassage={errorMassage}
+          errorMessage={errorMessage}
         />
         <div className="list-block__inner-point">
           {dataSource?.length ? (

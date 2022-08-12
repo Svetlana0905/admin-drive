@@ -13,7 +13,8 @@ const getAuthToken = () => {
 }
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://api-factory.simbirsoft1.com/api',
+  // baseUrl: 'https://api-factory.simbirsoft1.com/api',
+  baseUrl: 'https://frontend-study.simbirsoft.dev/api',
   prepareHeaders: (headers) => {
     const token = `${process.env.REACT_APP_API_KEY}`
     if (token) {
@@ -55,7 +56,15 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const adminApi = createApi({
   reducerPath: 'adminApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Orders', 'City', 'Tarif', 'TarifType', 'Point', 'Car'],
+  tagTypes: [
+    'Orders',
+    'City',
+    'Tarif',
+    'TarifType',
+    'Point',
+    'Car',
+    'Category'
+  ],
   endpoints: (build) => ({
     login: build.mutation({
       query: (userData) => ({
@@ -338,7 +347,19 @@ export const adminApi = createApi({
         headers: {
           authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
-      })
+      }),
+      invalidatesTags: ['Category']
+    }),
+    addCategoryCar: build.mutation({
+      query: ({ data }) => ({
+        url: `/db/category`,
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: data
+      }),
+      invalidatesTags: ['Category']
     })
   })
 })
@@ -371,5 +392,6 @@ export const {
   useChangeTarifTypeMutation,
   useDeleteTarifTypeMutation,
   useGetTarifTypeQuery,
-  useGetCategoryQuery
+  useGetCategoryQuery,
+  useAddCategoryCarMutation
 } = adminApi

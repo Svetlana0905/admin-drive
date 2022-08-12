@@ -49,7 +49,7 @@ export const CarsList = () => {
   })
   useEffect(() => {
     if (isError || errorDeleteQuery) {
-      navigate('*')
+      navigate('/error')
     }
   }, [isError, errorDeleteQuery, navigate])
   const deleteCar = (item) => {
@@ -76,7 +76,7 @@ export const CarsList = () => {
   if (isLoading) return <Spin tip="Loading..." size="large" />
   return (
     <>
-      <h1 className="title">Список машин</h1>
+      <h2 className="title">Список машин</h2>
       <div className={isVisibleDelete ? 'content content__dark' : 'content'}>
         <div className="content-header">
           <CarHeader

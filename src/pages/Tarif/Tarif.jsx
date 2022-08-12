@@ -1,9 +1,11 @@
 import '../City/list-block.scss'
 import './tarif.scss'
+import { useNavigate } from 'react-router-dom'
 import {
   useGetTarifQuery,
-  useChangeTarifMutation,
   useDeleteTarifDataMutation,
+  useGetTarifTypeQuery,
+  useChangeTarifMutation,
   useAddTarifMutation
 } from '../../redux'
 import { Spin } from 'antd'
@@ -11,115 +13,44 @@ import { SmallButton } from '../../components/Button/Button'
 import { DeleteOrder } from '../../components/DeleteOrder/DeleteOrder'
 import { ModalTarif } from './ModalTarif'
 import { TarifContent } from './TarifContent'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { getStatusAlert } from '../../redux/alertSlice'
 
 export const Tarif = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const {
     data = [],
     isLoading,
     isSuccess
   } = useGetTarifQuery({ page: 0, limit: 0 })
+  const { data: tarifTypeData = [], isLoading: isLoadingTarifType } =
+    useGetTarifTypeQuery({ page: 0, limit: 0 })
   const [tarifDeleteRequest] = useDeleteTarifDataMutation()
   const [tarifChangeRequest] = useChangeTarifMutation()
   const [tarifTypeAddRequest] = useAddTarifMutation()
-
-  const [tarifPrice, setTarifPrice] = useState('')
   const [item, setItem] = useState({})
-  const [errorNumber, setErrorNumber] = useState(false)
-  const [tarifRate, setTarifRate] = useState({})
-  const [isDisabledModal, setIsDisabledModal] = useState(false)
+  const [tarifPriceNumber, setTarifPriceNumber] = useState(0)
+  const [inputTarifType, setInputTarifType] = useState('')
+  const [tarifNameArr, setTarifNameArr] = useState([])
+
   const [responseDelete, setResponseDelete] = useState(false)
   const [isVisibleDelete, setIsVisibleDelete] = useState(false)
+  const [isDisabledModal, setIsDisabledModal] = useState(false)
   const [isVisibleModal, setIsVisibleModal] = useState(false)
   const [isVisibleModalAdd, setIsVisibleModalAdd] = useState(false)
-  const [tarifId, setTarifId] = useState('')
-  const [errorMassage, setErrorMassage] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
   let dataSource = []
 
-  const closeModal = () => {
-    setIsVisibleModal(false)
-    setIsVisibleModalAdd(false)
-    setTarifRate({})
-    setItem({})
-    setErrorNumber(false)
-    setErrorMassage(false)
-    setTarifPrice('')
-  }
   const tarifDelete = (item) => {
     setIsVisibleDelete(true)
-    setTarifId(item.id)
     setItem(item)
-  }
-  const changeTarif = (item) => {
-    setErrorMassage(false)
-    setItem(item)
-    setTarifId(item.id)
-    setTarifPrice(item.price ? +item.price : 0)
-    setIsDisabledModal(false)
-    setIsVisibleModal(true)
-  }
-  const changeItem = async () => {
-    let { data } = item
-    if (tarifPrice && !isNaN(tarifPrice)) {
-      data = {
-        ...data,
-        price: tarifPrice
-      }
-      await tarifChangeRequest({ tarifId, data }).unwrap()
-      setIsDisabledModal(true)
-      setErrorNumber(false)
-      setErrorMassage(false)
-      setTimeout(() => {
-        dispatch(getStatusAlert('Тариф был успешно изменен!'))
-        setIsVisibleModal(false)
-      }, 2000)
-      setTimeout(() => {
-        setIsVisibleModal(false)
-        setIsDisabledModal(false)
-      }, 3000)
-    } else {
-      setErrorMassage(true)
-      setIsDisabledModal(false)
-      setIsVisibleModal(true)
-      setErrorNumber(true)
-    }
-  }
-  const addTarif = () => {
-    setIsVisibleModalAdd(true)
-  }
-  const addItem = async () => {
-    let { data } = item
-    data = {
-      ...data,
-      price: tarifPrice,
-      rateTypeId: tarifRate[0]
-    }
-    if (tarifPrice && !isNaN(tarifPrice) && data.rateTypeId) {
-      await tarifTypeAddRequest({ data }).unwrap()
-      setIsDisabledModal(true)
-      setTimeout(() => {
-        dispatch(getStatusAlert('Тариф был добавлен!'))
-      }, 2000)
-      setTimeout(() => {
-        setTarifPrice('')
-        setIsVisibleModalAdd(false)
-        setIsDisabledModal(false)
-        setErrorNumber(false)
-        setErrorMassage(false)
-      }, 3000)
-    } else {
-      setErrorMassage(true)
-      setIsDisabledModal(false)
-      setIsVisibleModalAdd(true)
-      setErrorNumber(true)
-    }
+    setErrorMessage(false)
   }
   const deleteItem = async (e) => {
     setResponseDelete(true)
-    await tarifDeleteRequest({ tarifId }).unwrap()
+    await tarifDeleteRequest({ tarifId: item.id }).unwrap()
     setTimeout(() => {
       setIsVisibleDelete(!isVisibleDelete)
     }, 2000)
@@ -127,14 +58,93 @@ export const Tarif = () => {
       setResponseDelete(false)
     }, 2500)
   }
-  if (isLoading) return <Spin tip="Loading..." size="large" />
+
+  const changeTarif = (item) => {
+    setItem(item)
+    setIsVisibleModal(true)
+    setErrorMessage(false)
+  }
+  const changeItem = async () => {
+    setIsDisabledModal(true)
+    let { data } = item
+    data = {
+      ...data,
+      price: tarifPriceNumber
+    }
+    if (data.price) {
+      await tarifChangeRequest({ tarifId: item.id, data }).unwrap()
+      setTimeout(() => {
+        dispatch(getStatusAlert('Тариф был успешно изменен!'))
+        setIsVisibleModal(false)
+        setTarifPriceNumber('')
+      }, 2000)
+    } else {
+      setErrorMessage(true)
+      setIsDisabledModal(false)
+      setIsVisibleModal(true)
+    }
+  }
+  useEffect(() => {
+    if (tarifTypeData) {
+      setTarifNameArr(tarifTypeData.data.map((item) => item.name))
+    }
+  }, [tarifTypeData])
+
+  const addTarif = () => {
+    setErrorMessage(false)
+    setIsVisibleModalAdd(true)
+    setTarifNameArr(tarifTypeData.data.map((item) => item.name))
+  }
+  const addItem = async () => {
+    setIsDisabledModal(true)
+    const rateType = tarifTypeData.data.filter(
+      (item) => item.name && item.name === inputTarifType
+    )
+    let { data } = item
+    data = {
+      ...data,
+      price: tarifPriceNumber,
+      rateTypeId: rateType[0]
+    }
+    if (tarifPriceNumber && data.rateTypeId) {
+      await tarifTypeAddRequest({ data }).unwrap()
+      setTimeout(() => {
+        dispatch(getStatusAlert('Тариф был добавлен!'))
+        setIsVisibleModalAdd(false)
+        setIsDisabledModal(false)
+        setTarifPriceNumber('')
+      }, 2000)
+    } else {
+      setErrorMessage(true)
+      setIsVisibleModalAdd(true)
+      setIsDisabledModal(false)
+      navigate('*')
+    }
+  }
+
+  const changeProps = {
+    isVisibleModal: isVisibleModal,
+    setIsVisibleModal: setIsVisibleModal,
+    actions: changeItem,
+    text: 'Изменить',
+    item: item
+  }
+  const addProps = {
+    isVisibleModal: isVisibleModalAdd,
+    setIsVisibleModal: setIsVisibleModalAdd,
+    actions: addItem,
+    text: 'Добавить',
+    tarifNameArr: tarifNameArr
+  }
+
+  if (isLoading || isLoadingTarifType)
+    return <Spin tip="Loading..." size="large" />
   if (isSuccess) {
     dataSource = data.data
   }
-
   return (
     <>
-      <h1 className="title">Тарифы</h1>
+      <h2 className="title">Тарифы</h2>
       <div
         className={
           isVisibleDelete || isVisibleModal || isVisibleModalAdd
@@ -156,7 +166,7 @@ export const Tarif = () => {
         </div>
         <DeleteOrder
           isVisibleDelete={isVisibleDelete}
-          itemId={tarifId}
+          itemId={item.id}
           setIsVisibleDelete={setIsVisibleDelete}
           itemDeleteRequest={deleteItem}
           responseDelete={responseDelete}
@@ -169,29 +179,13 @@ export const Tarif = () => {
           }
         />
         <ModalTarif
-          isVisibleModal={isVisibleModal}
-          closeModal={closeModal}
-          actions={changeItem}
-          text="Изменить"
-          item={item}
+          props={isVisibleModal ? changeProps : addProps}
           isDisabledModal={isDisabledModal}
-          tarifPrice={tarifPrice}
-          setTarifPrice={setTarifPrice}
-          errorMassage={errorMassage}
-          errorNumber={errorNumber}
-        />
-        <ModalTarif
-          isVisibleModal={isVisibleModalAdd}
-          closeModal={closeModal}
-          actions={addItem}
-          setTarifRate={setTarifRate}
-          text="Добавить"
-          item={item}
-          isDisabledModal={isDisabledModal}
-          tarifPrice={tarifPrice}
-          setTarifPrice={setTarifPrice}
-          errorMassage={errorMassage}
-          errorNumber={errorNumber}
+          tarifPriceNumber={tarifPriceNumber}
+          setTarifPriceNumber={setTarifPriceNumber}
+          errorMessage={errorMessage}
+          setInputTarifType={setInputTarifType}
+          inputTarifType={inputTarifType}
         />
         <TarifContent
           dataSource={dataSource}

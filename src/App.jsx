@@ -9,6 +9,7 @@ import { Tarif } from './pages/Tarif/Tarif'
 import { TarifType } from './pages/TarifType/TarifType'
 import { Orders } from './pages/Orders/Orders'
 import { LoginPage } from './pages/LoginPage/LoginPage'
+import { CategoryCar } from './pages/CategoryCar/CategoryCar'
 import { ErrorPage } from './pages/ErrorPage/ErrorPage'
 import { Routes, Route } from 'react-router-dom'
 
@@ -24,8 +25,9 @@ function App() {
         <Route path="tarif" element={<Tarif />} />
         <Route path="tarif-type" element={<TarifType />} />
         <Route path="orders" element={<Orders />} />
-        <Route path="*" element={<ErrorPage />} />
+        <Route path="category" element={<CategoryCar />} />
       </Route>
+      <Route path="error" element={<ErrorPage />} />
     </Routes>
   )
 }

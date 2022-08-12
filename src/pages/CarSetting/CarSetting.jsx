@@ -28,8 +28,8 @@ export const CarSetting = () => {
   const dispatch = useDispatch()
   const { state } = useLocation()
   const { data: category = [], isLoading, isSuccess } = useGetCategoryQuery()
-  const [carAddRequest, { isError }] = useAddCarMutation()
-  const [carChangeRequest, { isError: errorChange }] =
+  const [carAddRequest, { isError, error }] = useAddCarMutation()
+  const [carChangeRequest, { isError: isErrorChange, error: errorChange }] =
     useChangeCarDataMutation()
   const dataState = useSelector((state) => state.carPage.data)
   const [percent, setPercent] = useState(0)
@@ -99,10 +99,21 @@ export const CarSetting = () => {
     percent === 100 ? setIsDisabledBtn(false) : setIsDisabledBtn(true)
   }, [percent])
   useEffect(() => {
-    if (isError || errorChange) {
-      navigate('*')
+    if (isError) {
+      navigate('/error', {
+        replace: false,
+        state: { error: error.data.statusCode }
+      })
     }
-  }, [isError, errorChange, navigate])
+  }, [isError, error, errorChange, navigate, isErrorChange])
+  useEffect(() => {
+    if (isErrorChange) {
+      navigate('/error', {
+        replace: false,
+        state: { error: errorChange.data.status }
+      })
+    }
+  }, [isError, error, errorChange, navigate, isErrorChange])
 
   const addItem = async () => {
     const data = dataState
@@ -117,7 +128,7 @@ export const CarSetting = () => {
   const changeCar = async () => {
     const { ...data } = dataState
     data.id = state.id
-    await carChangeRequest({ data, id: state.id }).unwrap
+    await carChangeRequest({ data, id: state.id }).unwrap()
     setIsDisabledBtn(true)
     setTimeout(() => {
       dispatch(getStatusAlert('Машина была успешно изменена!'))

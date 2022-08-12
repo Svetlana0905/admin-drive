@@ -17,7 +17,10 @@ export const carPageSlice = createSlice({
       state.data.number = data.payload
     },
     getDescriptionCar: (state, data) => {
-      state.data.description = data.payload
+      data.payload
+        ? (state.data.description = data.payload)
+        : (state.data.description = '')
+      console.log(state.data.description)
     },
     getTankCar: (state, data) => {
       state.data.tank = +data.payload
