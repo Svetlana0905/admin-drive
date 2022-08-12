@@ -1,8 +1,9 @@
 @import '../../style//app.scss';
 .login {
   width: 100%;
-  padding-top: 14%;
+  height: 100vh;
   margin: 0 auto;
+  padding-top: 14%;
   &__column {
     margin: 0 auto;
     display: flex;
@@ -34,6 +35,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 15px;
+    @media (min-width: 425px) {
+      padding-top: 0px;
+    }
   }
   &__text {
     color: $blue;

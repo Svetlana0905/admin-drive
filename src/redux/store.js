@@ -1,10 +1,26 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authReduser from './authSlice'
+import { adminApi } from './adminApi'
+import authReducer from './adminSlice'
+import pointsReducer from './PointsSlice'
+import citiesReducer from './CitySlice'
+import ordersRedducer from './OrdersSlice'
+import statusRedducer from './StatusSlice'
+import carRedducer from './CarSlise'
+import alertRedducer from './alertSlice'
+import carPageRedducer from './CarPageSlice'
 
 export const store = configureStore({
   reducer: {
-    authSlice: authReduser
-  }
-  // middleware: (getDefaultMiddlware) =>
-  //   getDefaultMiddlware().concat(authSlice.middleware)
+    [adminApi.reducerPath]: adminApi.reducer,
+    auth: authReducer,
+    points: pointsReducer,
+    cities: citiesReducer,
+    orders: ordersRedducer,
+    status: statusRedducer,
+    car: carRedducer,
+    alert: alertRedducer,
+    carPage: carPageRedducer
+  },
+  middleware: (getDefaultMiddlware) =>
+    getDefaultMiddlware().concat(adminApi.middleware)
 })

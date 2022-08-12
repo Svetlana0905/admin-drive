@@ -3,39 +3,33 @@ import 'antd/dist/antd.css'
 import { Button } from 'antd'
 import logoIcon from '../../assets/icons/logo_icon.svg'
 import {
-  InputLogin,
+  InputStandart,
   InputPassword
 } from '../../components/LoginInput/LoginInput'
 import { BigButton } from '../../components/Button/Button'
-import { useNavigate } from 'react-router-dom'
 import { useState, useRef, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { postAuth } from '../../redux/authSlice'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useLoginMutation } from '../../redux'
+import { setCredentials } from '../../redux/adminSlice'
 
 export const LoginPage = () => {
   const dispatch = useDispatch()
-  const statusAuth = useSelector((state) => state.authSlice.status)
-  const tok = useSelector((state) => state.authSlice.res)
-  const navigate = useNavigate()
   const userRef = useRef()
+  const navigate = useNavigate()
   const [mail, setMail] = useState('')
   const [password, setPassword] = useState('')
   const [mailError, setMailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [invalidErrorMail, setInvalidMail] = useState('')
   const [invalidErrorPassword, setInvalidPassword] = useState('')
-
-  useEffect(() => {
-    console.log(tok)
-    console.log(statusAuth)
-    if (statusAuth === 'resolved') navigate('admin', { replace: true })
-  }, [statusAuth, navigate, tok])
+  const [login, { isError, data, error }] = useLoginMutation()
 
   useEffect(() => {
     userRef.current.focus()
   }, [])
 
-  const logInHandler = (e) => {
+  const handleAddProduct = async (e) => {
     e.preventDefault()
     if (!mail) {
       setMailError('Введите почту')
@@ -46,11 +40,30 @@ export const LoginPage = () => {
       setInvalidPassword('error')
     }
     if (password && mail) {
-      setInvalidPassword('')
-      setInvalidMail('')
-      dispatch(postAuth({ mail, password }))
+      await login({ username: mail, password: password }).unwrap()
+      setMail('')
+      setPassword('')
+    }
+    if (isError) {
+      setInvalidMail('error')
+      setInvalidPassword('error')
     }
   }
+
+  useEffect(() => {
+    if (data) {
+      localStorage.setItem('accessToken', data.access_token)
+      localStorage.setItem('refreshToken', data.refresh_token)
+      localStorage.setItem('tokenExpires', data.expires_in.toString())
+      dispatch(setCredentials(data))
+      navigate('admin/point', { replace: true })
+    }
+  }, [data, dispatch, navigate])
+
+  useEffect(() => {
+    if (error) navigate('error', { replace: true, state: error })
+  }, [error, navigate])
+
   return (
     <section className="login">
       <div className="login__column">
@@ -60,7 +73,7 @@ export const LoginPage = () => {
         </div>
         <form className="form">
           <p className="form__subtitle subtitle">Вход</p>
-          <InputLogin
+          <InputStandart
             value={mail}
             onChange={setMail}
             label="Почта"
@@ -82,8 +95,7 @@ export const LoginPage = () => {
             <div className="form__button-link">
               <Button type="link">Запросить доступ</Button>
             </div>
-
-            <BigButton text={'Войти'} onClick={logInHandler} />
+            <BigButton text={'Войти'} onClick={handleAddProduct} />
           </div>
         </form>
       </div>

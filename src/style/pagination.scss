@@ -1,0 +1,68 @@
+.ant-pagination {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 16px;
+  padding: 10px 0 20px;
+  @media (min-width: 768px) {
+    font-size: 14px;
+  }
+}
+.pagination-btn {
+  border: none;
+  background: transparent;
+  padding-top: 9px;
+}
+.ant-pagination-item {
+  border: none;
+  height: 18px;
+  min-width: 18px;
+  line-height: 0px;
+  border-radius: 50%;
+  margin: 0;
+}
+.ant-pagination-item + .ant-pagination-item {
+  margin-left: 5px;
+}
+.ant-pagination-prev button,
+.ant-pagination-next button {
+  text-align: center;
+  color: $blue;
+}
+.ant-pagination-prev,
+.ant-pagination-next {
+  height: 18px;
+  min-width: 18px;
+  line-height: 0px;
+  margin-right: 0;
+}
+.ant-pagination-jump-next,
+.ant-pagination-jump-prev,
+.ant-pagination-item-link,
+.ant-pagination-item-ellipsis,
+.ant-pagination-item-container {
+  height: 18px;
+  min-width: 18px;
+}
+
+.ant-pagination-item a {
+  color: $blue;
+  padding: 9px 2px;
+  font-size: 18px;
+  @media (min-width: 768px) {
+    font-size: 14px;
+    padding: 9px 0px;
+  }
+}
+.ant-pagination-item-active {
+  background: $blue;
+  padding: 0 2px;
+}
+.ant-pagination-item-active a {
+  color: $white;
+  height: 18px;
+  text-align: center;
+}
+.ant-pagination-item-ellipsis {
+  color: $blue;
+}
